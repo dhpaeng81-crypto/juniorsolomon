@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>커뮤니티 게시판</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ══ DESIGN TOKENS ══ */
+    :root {
+      /* Color */
+      --bg:           oklch(1.000 0.000   0);
+      --surface:      oklch(0.974 0.007 120);
+      --surface-2:    oklch(0.948 0.011 120);
+      --primary:      oklch(0.420 0.160 128);
+      --primary-hov:  oklch(0.370 0.160 128);
+      --primary-sub:  oklch(0.955 0.030 128);
+      --accent:       oklch(0.870 0.120  75);
+      --accent-fg:    oklch(0.290 0.070  60);
+      --success:      oklch(0.500 0.170 145);
+      --error:        oklch(0.520 0.200  25);
+      --ink:          oklch(0.175 0.018 120);
+      --ink-2:        oklch(0.370 0.015 120);
+      --muted:        oklch(0.560 0.010 120);
+      --border:       oklch(0.900 0.008 120);
+      --border-str:   oklch(0.820 0.013 120);
+      /* Shadow */
+      --sh-xs: 0 1px 2px oklch(0.2 0 0 / .06);
+      --sh-sm: 0 1px 3px oklch(0.2 0 0 / .07), 0 1px 2px oklch(0.2 0 0 / .05);
+      --sh-md: 0 4px 14px oklch(0.2 0 0 / .08), 0 2px 4px oklch(0.2 0 0 / .04);
+      --sh-lg: 0 8px 28px oklch(0.2 0 0 / .10), 0 4px 8px oklch(0.2 0 0 / .05);
+      /* Radius */
+      --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px;
+      /* Motion */
+      --ease: cubic-bezier(.25,.46,.45,.94);
+      --dur: .18s;
+    }
+
+    /* ══ RESET & BASE ══ */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { color-scheme: light; }
+    body {
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 15px; line-height: 1.6;
+      background: var(--bg); color: var(--ink);
+      min-height: 100vh; -webkit-font-smoothing: antialiased;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+
+    /* ══ HEADER ══ */
+    .site-header {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: var(--sh-xs);
+    }
+    .hdr-top {
+      max-width: 1000px; margin: 0 auto; padding: 0 20px;
+      height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .logo {
+      font-weight: 800; font-size: 1.1rem; color: var(--primary);
+      cursor: pointer; display: flex; align-items: center; gap: 8px;
+      user-select: none; flex-shrink: 0;
+      letter-spacing: -0.02em;
+    }
+    .logo-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+    .hdr-nav { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+    /* Board tabs */
+    .board-tabs {
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .tabs-inner {
+      max-width: 1000px; margin: 0 auto; padding: 0 20px;
+      display: flex; gap: 0; overflow-x: auto; scrollbar-width: none;
+    }
+    .tabs-inner::-webkit-scrollbar { display: none; }
+    .btab {
+      padding: 11px 20px; border: none; background: transparent;
+      cursor: pointer; font-size: .875rem; font-weight: 600;
+      font-family: inherit;
+      color: var(--muted); border-bottom: 2px solid transparent;
+      transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+      white-space: nowrap; display: flex; align-items: center; gap: 6px;
+      min-height: 44px;
+    }
+    .btab:hover:not(.on) { color: var(--ink-2); background: var(--surface); }
+    .btab.on { color: var(--primary); border-bottom-color: var(--primary); }
+
+    /* ══ BUTTONS ══ */
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 18px; border-radius: var(--r-md);
+      font-size: .875rem; font-weight: 600; font-family: inherit;
+      cursor: pointer; border: none; transition: all var(--dur) var(--ease);
+      white-space: nowrap; min-height: 40px;
+      letter-spacing: -0.01em;
+    }
+    .btn-primary { background: var(--primary); color: var(--bg); }
+    .btn-primary:hover { background: var(--primary-hov); box-shadow: var(--sh-sm); }
+    .btn-outline {
+      background: transparent; color: var(--primary);
+      border: 1.5px solid var(--primary);
+    }
+    .btn-outline:hover { background: var(--primary-sub); }
+    .btn-ghost {
+      background: transparent; color: var(--ink-2);
+      border: 1px solid transparent;
+    }
+    .btn-ghost:hover { background: var(--surface); color: var(--ink); }
+    .btn-danger { background: var(--error); color: var(--bg); }
+    .btn-danger:hover { filter: brightness(.92); }
+    .btn-success { background: var(--success); color: var(--bg); }
+    .btn-success:hover { filter: brightness(.92); }
+    .btn-sm { padding: 6px 12px; font-size: .8rem; min-height: 34px; border-radius: var(--r-sm); }
+    .btn-xs { padding: 4px 9px; font-size: .75rem; min-height: 28px; border-radius: var(--r-sm); }
+    .btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+    /* ══ LAYOUT ══ */
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 28px 20px; }
+    .page { display: none; }
+    .page.on { display: block; }
+    .card {
+      background: var(--bg); border-radius: var(--r-lg);
+      border: 1px solid var(--border); box-shadow: var(--sh-sm);
+    }
+
+    /* ══ AUTH ══ */
+    .auth-shell {
+      min-height: calc(100vh - 97px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 32px 20px; background: var(--surface);
+    }
+    .auth-card {
+      width: 100%; max-width: 420px;
+      background: var(--bg); border-radius: var(--r-xl);
+      padding: 36px 32px; box-shadow: var(--sh-lg);
+      border: 1px solid var(--border);
+    }
+    .auth-title { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 6px; }
+    .auth-sub { color: var(--muted); margin-bottom: 28px; font-size: .875rem; }
+    .auth-footer { text-align: center; margin-top: 18px; font-size: .875rem; color: var(--muted); }
+    .link { color: var(--primary); cursor: pointer; font-weight: 600; }
+    .link:hover { text-decoration: underline; }
+
+    /* ══ FORM ══ */
+    .fg { margin-bottom: 16px; }
+    .fl { display: block; font-size: .82rem; font-weight: 600; margin-bottom: 5px; color: var(--ink-2); }
+    .fi {
+      width: 100%; padding: 10px 14px;
+      border: 1.5px solid var(--border); border-radius: var(--r-md);
+      font-size: .9rem; font-family: inherit;
+      background: var(--bg); color: var(--ink);
+      transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+    }
+    .fi::placeholder { color: var(--muted); }
+    .fi:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px oklch(0.42 0.16 128 / .12); }
+    textarea.fi { resize: vertical; min-height: 190px; line-height: 1.65; }
+    .fi-group { position: relative; }
+
+    /* Alert */
+    .alert { padding: 12px 15px; border-radius: var(--r-md); font-size: .82rem; margin-bottom: 14px; line-height: 1.55; }
+    .alert-info { background: var(--primary-sub); color: var(--primary-hov); border: 1px solid oklch(0.42 0.16 128 / .20); }
+    .alert-warn { background: oklch(0.98 0.05 75); color: var(--accent-fg); border: 1px solid oklch(0.87 0.12 75 / .35); }
+    .divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+    /* ══ BADGES ══ */
+    .badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      padding: 2px 8px; border-radius: 20px;
+      font-size: .72rem; font-weight: 700; white-space: nowrap;
+    }
+    .b-img { background: oklch(0.93 0.04 228); color: oklch(0.35 0.12 228); }
+    .b-vid { background: oklch(0.94 0.04 320); color: oklch(0.38 0.14 320); }
+    .b-pend { background: var(--accent); color: var(--accent-fg); }
+    .b-ok   { background: oklch(0.92 0.06 145); color: oklch(0.32 0.14 145); }
+    .b-rej  { background: oklch(0.94 0.05 25);  color: oklch(0.38 0.18 25); }
+    .b-board { background: var(--surface-2); color: var(--ink-2); }
+
+    /* ══ BOARD: LIST ══ */
+    .brd-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px; gap: 12px; flex-wrap: wrap;
+    }
+    .brd-title { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.03em; display: flex; align-items: center; gap: 8px; }
+    .brd-tools { display: flex; gap: 8px; align-items: center; }
+    .search-fi {
+      padding: 8px 14px; border: 1.5px solid var(--border); border-radius: var(--r-md);
+      font-size: .85rem; font-family: inherit; background: var(--bg); color: var(--ink);
+      width: 160px; transition: border-color var(--dur) var(--ease), width var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+    }
+    .search-fi::placeholder { color: var(--muted); }
+    .search-fi:focus { outline: none; border-color: var(--primary); width: 200px; box-shadow: 0 0 0 3px oklch(0.42 0.16 128 / .10); }
+
+    .post-list { display: flex; flex-direction: column; gap: 8px; }
+    .post-card {
+      background: var(--bg); border-radius: var(--r-lg);
+      padding: 20px 22px; border: 1px solid var(--border);
+      cursor: pointer; box-shadow: var(--sh-xs);
+      transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
+    }
+    .post-card:hover {
+      border-color: var(--primary); box-shadow: var(--sh-md);
+      transform: translateY(-1px);
+    }
+    .pc-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
+    .pc-title { font-size: .97rem; font-weight: 700; flex: 1; line-height: 1.45; color: var(--ink); letter-spacing: -0.02em; }
+    .pc-badges { display: flex; gap: 4px; flex-wrap: wrap; flex-shrink: 0; }
+    .pc-preview { font-size: .825rem; color: var(--muted); margin-bottom: 10px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.55; }
+    .pc-meta { font-size: .77rem; color: var(--muted); display: flex; gap: 12px; flex-wrap: wrap; }
+    .pc-meta span { display: flex; align-items: center; gap: 4px; }
+
+    /* ══ BOARD: GALLERY ══ */
+    .gcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+    .gcard {
+      background: var(--bg); border-radius: var(--r-lg);
+      overflow: hidden; cursor: pointer;
+      box-shadow: var(--sh-sm); border: 1px solid var(--border);
+      transition: box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+    .gcard:hover { transform: translateY(-3px); box-shadow: var(--sh-lg); border-color: var(--primary); }
+    .gcard-thumb {
+      aspect-ratio: 4/3; background: var(--surface-2);
+      overflow: hidden; position: relative;
+    }
+    .gcard-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s var(--ease); display: block; }
+    .gcard:hover .gcard-thumb img { transform: scale(1.05); }
+    .gcard-thumb video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gcard-placeholder {
+      width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+      font-size: 2.6rem; color: var(--muted);
+      background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+    }
+    .gcard-play {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: oklch(0.1 0 0 / .32); font-size: 2.2rem; pointer-events: none;
+    }
+    .gcard-overlay {
+      position: absolute; inset: 0; background: oklch(0.42 0.16 128 / 0);
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--dur) var(--ease), opacity var(--dur) var(--ease);
+      opacity: 0;
+    }
+    .gcard-overlay-ico { font-size: 1.8rem; transform: scale(.8); transition: transform .22s var(--ease); }
+    .gcard:hover .gcard-overlay { background: oklch(0.42 0.16 128 / .22); opacity: 1; }
+    .gcard:hover .gcard-overlay-ico { transform: scale(1); }
+    .gcard-badge {
+      position: absolute; top: 8px; right: 8px;
+      background: oklch(0.1 0 0 / .70); color: var(--bg);
+      font-size: .7rem; font-weight: 700; padding: 3px 8px; border-radius: 20px;
+    }
+    .gcard-info { padding: 14px 16px 16px; }
+    .gcard-title { font-size: .9rem; font-weight: 700; margin-bottom: 6px; line-height: 1.4; color: var(--ink); letter-spacing: -0.02em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .gcard-meta { font-size: .74rem; color: var(--muted); margin-bottom: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .gcard-foot { display: flex; gap: 5px; align-items: center; }
+    .media-cnt { font-size: .73rem; font-weight: 600; color: var(--muted); display: flex; align-items: center; gap: 3px; }
+
+    /* Gallery skeleton */
+    .skeleton { background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: var(--r-md); }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+    /* ══ DETAIL ══ */
+    .board-crumb { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 20px; font-size: .76rem; font-weight: 700; margin-bottom: 14px; background: var(--primary-sub); color: var(--primary); }
+    .dt-title { font-size: 1.35rem; font-weight: 800; margin-bottom: 14px; line-height: 1.38; letter-spacing: -0.03em; }
+    .dt-meta { display: flex; gap: 14px; flex-wrap: wrap; font-size: .8rem; color: var(--muted); padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 22px; }
+    .dt-meta span { display: flex; align-items: center; gap: 4px; }
+    .dt-body { font-size: .95rem; line-height: 1.85; white-space: pre-wrap; word-break: break-word; color: var(--ink-2); }
+    .media-section-title { font-size: .88rem; font-weight: 700; margin: 26px 0 10px; color: var(--ink); display: flex; align-items: center; gap: 6px; }
+    .media-section-title span { color: var(--muted); font-weight: 500; }
+
+    /* Detail media gallery */
+    .dt-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 10px; }
+    .dt-gallery.solo { grid-template-columns: 1fr; }
+    .dt-gitem {
+      border-radius: var(--r-md); overflow: hidden;
+      background: var(--surface); cursor: pointer;
+      border: 1px solid var(--border);
+      transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
+    }
+    .dt-gitem:hover { border-color: var(--primary); box-shadow: var(--sh-md); transform: translateY(-2px); }
+    .dt-gitem img { width: 100%; height: auto; display: block; max-height: 520px; object-fit: contain; background: var(--surface); }
+    .dt-gitem video { width: 100%; height: 270px; object-fit: cover; display: block; background: var(--ink); }
+    .dt-gallery.solo .dt-gitem video { height: 420px; }
+    .dt-gitem-inner { position: relative; }
+    .dt-zoom { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; font-size: 2rem; background: oklch(0 0 0 / 0); transition: opacity var(--dur) var(--ease), background var(--dur) var(--ease); }
+    .dt-gitem:hover .dt-zoom { opacity: 1; background: oklch(0 0 0 / .28); }
+    .vid-play-ico { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: oklch(0 0 0 / .30); font-size: 2.4rem; pointer-events: none; }
+    .dt-actions { display: flex; gap: 8px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
+
+    /* ══ WRITE ══ */
+    .write-board-tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: .78rem; font-weight: 700; background: var(--primary-sub); color: var(--primary); margin-bottom: 18px; }
+    .upload-zone {
+      border: 2px dashed var(--border); border-radius: var(--r-lg);
+      padding: 30px; text-align: center; cursor: pointer;
+      transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+    }
+    .upload-zone:hover, .upload-zone.drag { border-color: var(--primary); background: var(--primary-sub); }
+    .upload-ico { font-size: 2rem; margin-bottom: 6px; }
+    .upload-hint { font-size: .8rem; color: var(--muted); line-height: 1.6; }
+    .prev-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 8px; margin-top: 10px; }
+    .pitem { position: relative; aspect-ratio: 1; border-radius: var(--r-sm); overflow: hidden; background: var(--surface-2); }
+    .pitem img, .pitem video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .pitem-rm {
+      position: absolute; top: 4px; right: 4px;
+      background: oklch(0.1 0 0 / .72); color: var(--bg);
+      border: none; width: 22px; height: 22px; border-radius: 50%;
+      cursor: pointer; font-size: .7rem; display: flex; align-items: center; justify-content: center;
+      transition: background var(--dur) var(--ease);
+    }
+    .pitem-rm:hover { background: oklch(0.1 0 0 / .9); }
+    .form-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 22px; }
+
+    /* ══ ADMIN ══ */
+    .atabs { display: flex; gap: 4px; background: var(--surface); border-radius: var(--r-lg); padding: 4px; margin-bottom: 18px; }
+    .atab { flex: 1; padding: 9px; border: none; background: transparent; border-radius: var(--r-md); cursor: pointer; font-size: .875rem; font-weight: 600; font-family: inherit; color: var(--muted); transition: all var(--dur) var(--ease); }
+    .atab.on { background: var(--bg); color: var(--primary); box-shadow: var(--sh-sm); }
+    .atab:hover:not(.on) { color: var(--ink-2); }
+    .urow { display: flex; align-items: center; padding: 15px 18px; border-bottom: 1px solid var(--border); gap: 12px; flex-wrap: wrap; }
+    .urow:last-child { border-bottom: none; }
+    .uinfo { flex: 1; min-width: 140px; }
+    .uname { font-weight: 700; font-size: .9rem; letter-spacing: -0.02em; }
+    .uemail { font-size: .78rem; color: var(--muted); margin-top: 2px; }
+    .uactions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    /* ══ EMPTY STATE ══ */
+    .empty { text-align: center; padding: 64px 20px; color: var(--muted); }
+    .empty-ico { font-size: 3rem; margin-bottom: 12px; opacity: .7; }
+    .empty-title { font-size: 1rem; font-weight: 700; color: var(--ink-2); margin-bottom: 6px; }
+    .empty-sub { font-size: .85rem; }
+
+    /* ══ PAGINATION ══ */
+    .pagi { display: flex; justify-content: center; gap: 4px; margin-top: 28px; }
+    .pbtn {
+      width: 36px; height: 36px; border: 1.5px solid var(--border);
+      background: var(--bg); border-radius: var(--r-sm);
+      cursor: pointer; font-size: .85rem; font-family: inherit;
+      display: flex; align-items: center; justify-content: center;
+      transition: all var(--dur) var(--ease); color: var(--ink-2); font-weight: 500;
+    }
+    .pbtn.on { background: var(--primary); border-color: var(--primary); color: var(--bg); font-weight: 700; }
+    .pbtn:hover:not(.on) { border-color: var(--primary); color: var(--primary); background: var(--primary-sub); }
+
+    /* ══ TOAST ══ */
+    #toast {
+      position: fixed; bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      background: var(--ink); color: var(--bg);
+      padding: 11px 22px; border-radius: 30px; font-size: .85rem; font-weight: 500;
+      z-index: 999; transition: transform .25s var(--ease);
+      box-shadow: var(--sh-lg); white-space: nowrap; pointer-events: none;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast.ok  { background: var(--success); }
+    #toast.err { background: var(--error); }
+
+    /* ══ LIGHTBOX ══ */
+    #lbx {
+      position: fixed; inset: 0;
+      background: oklch(0.06 0 0 / .94); z-index: 500;
+      display: none; align-items: center; justify-content: center; padding: 16px;
+    }
+    #lbx.on { display: flex; }
+    #lbx img, #lbx video { max-width: 96vw; max-height: 92vh; object-fit: contain; border-radius: var(--r-md); }
+    .lbx-close {
+      position: absolute; top: 16px; right: 16px;
+      background: oklch(1 0 0 / .15); color: var(--bg);
+      border: 1px solid oklch(1 0 0 / .2); width: 40px; height: 40px;
+      border-radius: 50%; font-size: 1.1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--dur) var(--ease);
+    }
+    .lbx-close:hover { background: oklch(1 0 0 / .25); }
+
+    /* ══ USER MENU ══ */
+    .umenu { position: relative; }
+    .avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--primary); color: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: .85rem; cursor: pointer;
+      user-select: none; transition: box-shadow var(--dur) var(--ease);
+    }
+    .avatar:hover { box-shadow: 0 0 0 3px var(--primary-sub); }
+    .drop {
+      position: absolute; top: calc(100% + 10px); right: 0;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--r-lg); box-shadow: var(--sh-lg);
+      min-width: 175px; z-index: 150; display: none; overflow: hidden;
+    }
+    .drop.on { display: block; }
+    .ditem { padding: 11px 16px; font-size: .86rem; cursor: pointer; display: flex; align-items: center; gap: 9px; transition: background var(--dur); color: var(--ink); }
+    .ditem:hover { background: var(--surface); }
+    .ditem.danger { color: var(--error); }
+    .ddiv { height: 1px; background: var(--border); }
+    .ditem-meta { font-size: .73rem; color: var(--muted); margin-top: 1px; }
+
+    /* ══ MOBILE ══ */
+    @media (max-width: 640px) {
+      .auth-card { padding: 28px 20px; }
+      .wrap { padding: 20px 16px; }
+      .hdr-top { padding: 0 16px; }
+      .tabs-inner { padding: 0 12px; }
+      .btab { padding: 10px 14px; font-size: .82rem; }
+      .dt-gallery { grid-template-columns: 1fr; }
+      .dt-gallery.solo .dt-gitem video { height: 260px; }
+      .gcards { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .gcard-info { padding: 10px 12px 12px; }
+      .gcard-title { font-size: .84rem; }
+      .dt-title { font-size: 1.15rem; }
+      .search-fi { width: 130px; }
+      .search-fi:focus { width: 150px; }
+      .post-card { padding: 16px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header class="site-header">
+  <div class="hdr-top">
+    <div class="logo" onclick="selectBoard(curBoard);go('board')">
+      <div class="logo-dot"></div>
+      커뮤니티
+    </div>
+    <div class="hdr-nav" id="nav"></div>
+  </div>
+  <div class="board-tabs">
+    <div class="tabs-inner">
+      <button class="btab on" data-board="notice"  onclick="selectBoard('notice')">📢 공지사항</button>
+      <button class="btab"    data-board="gallery" onclick="selectBoard('gallery')">🖼️ 갤러리</button>
+      <button class="btab"    data-board="review"  onclick="selectBoard('review')">✏️ 수업후기</button>
+    </div>
+  </div>
+</header>
+
+<!-- ══ LOGIN ══ -->
+<div id="page-login" class="page">
+  <div class="auth-shell">
+    <div class="auth-card">
+      <div class="auth-title">로그인</div>
+      <div class="auth-sub">계정에 로그인하여 게시판을 이용하세요</div>
+      <div class="fg"><label class="fl">이메일</label><input id="lin-email" class="fi" type="email" placeholder="이메일 입력" autocomplete="email"></div>
+      <div class="fg"><label class="fl">비밀번호</label><input id="lin-pw" class="fi" type="password" placeholder="비밀번호 입력" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="login()">로그인</button>
+      <div class="auth-footer">계정이 없으신가요? <span class="link" onclick="go('register')">회원가입</span></div>
+      <div class="divider"></div>
+      <div class="alert alert-info"><strong>기본 관리자</strong> — admin@board.com / admin123</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ REGISTER ══ -->
+<div id="page-register" class="page">
+  <div class="auth-shell">
+    <div class="auth-card">
+      <div class="auth-title">회원가입</div>
+      <div class="auth-sub">가입 후 관리자 승인을 받으면 글을 작성할 수 있습니다</div>
+      <div class="alert alert-warn">⚠️ 가입 신청 후 <strong>관리자 승인</strong>이 필요합니다.</div>
+      <div class="fg"><label class="fl">이름</label><input id="reg-name" class="fi" type="text" placeholder="이름 입력" autocomplete="name"></div>
+      <div class="fg"><label class="fl">이메일</label><input id="reg-email" class="fi" type="email" placeholder="이메일 입력" autocomplete="email"></div>
+      <div class="fg"><label class="fl">비밀번호 <span style="color:var(--muted);font-weight:400">(6자 이상)</span></label><input id="reg-pw" class="fi" type="password" placeholder="비밀번호 입력" autocomplete="new-password"></div>
+      <div class="fg"><label class="fl">비밀번호 확인</label><input id="reg-pw2" class="fi" type="password" placeholder="비밀번호 재입력" autocomplete="new-password" onkeydown="if(event.key==='Enter')register()"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="register()">가입 신청</button>
+      <div class="auth-footer">이미 계정이 있으신가요? <span class="link" onclick="go('login')">로그인</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BOARD ══ -->
+<div id="page-board" class="page">
+  <div class="wrap">
+    <div class="brd-hdr">
+      <div class="brd-title" id="brd-title-text">📢 공지사항</div>
+      <div class="brd-tools">
+        <input id="search" class="search-fi" placeholder="검색…" oninput="boardPg=1;renderBoard()">
+        <button class="btn btn-primary btn-sm" id="write-btn" style="display:none" onclick="go('write')">✏️ 글쓰기</button>
+      </div>
+    </div>
+    <div id="post-list"></div>
+    <div id="pagi" class="pagi"></div>
+  </div>
+</div>
+
+<!-- ══ DETAIL ══ -->
+<div id="page-detail" class="page">
+  <div class="wrap">
+    <button class="btn btn-ghost btn-sm" onclick="go('board')" style="margin-bottom:18px">← 목록으로</button>
+    <div class="card" style="padding:28px" id="detail-body"></div>
+  </div>
+</div>
+
+<!-- ══ WRITE ══ -->
+<div id="page-write" class="page">
+  <div class="wrap">
+    <button class="btn btn-ghost btn-sm" onclick="go('board')" style="margin-bottom:18px">← 취소</button>
+    <div class="card" style="padding:28px">
+      <h2 id="write-hdr" style="font-size:1.15rem;font-weight:800;letter-spacing:-.03em;margin-bottom:8px">새 글 작성</h2>
+      <div class="write-board-tag" id="write-board-tag"></div>
+      <input type="hidden" id="edit-id">
+      <div class="fg"><label class="fl">제목</label><input id="w-title" class="fi" placeholder="제목을 입력하세요"></div>
+      <div class="fg"><label class="fl">내용</label><textarea id="w-body" class="fi" placeholder="내용을 입력하세요…"></textarea></div>
+      <div class="fg">
+        <label class="fl">이미지 / 동영상 첨부</label>
+        <div class="upload-zone" id="dropzone"
+          onclick="document.getElementById('fupload').click()"
+          ondragover="ondov(event)" ondragleave="ondol(event)" ondrop="ondod(event)">
+          <div class="upload-ico">📎</div>
+          <div class="upload-hint">클릭하거나 파일을 드래그하여 첨부<br>이미지(JPG · PNG · GIF · WebP) · 동영상(MP4 · WebM) — 각 100 MB 이하</div>
+        </div>
+        <input type="file" id="fupload" accept="image/*,video/*" multiple style="display:none" onchange="onFileSelect(event)">
+        <div class="prev-grid" id="prev-grid"></div>
+      </div>
+      <div class="form-footer">
+        <button class="btn btn-ghost" onclick="go('board')">취소</button>
+        <button class="btn btn-primary" onclick="submitPost()">게시하기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADMIN ══ -->
+<div id="page-admin" class="page">
+  <div class="wrap">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+      <h2 style="font-size:1.2rem;font-weight:800;letter-spacing:-.03em">⚙️ 관리자 패널</h2>
+      <button class="btn btn-ghost btn-sm" onclick="go('board')">← 게시판으로</button>
+    </div>
+    <div class="atabs">
+      <button class="atab on" id="atab-users" onclick="adminTab('users')">회원 관리</button>
+      <button class="atab" id="atab-posts" onclick="adminTab('posts')">게시글 관리</button>
+    </div>
+    <div class="card">
+      <div id="admin-users"></div>
+      <div id="admin-posts" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<div id="lbx" onclick="closeLbx()">
+  <button class="lbx-close" onclick="closeLbx()">✕</button>
+  <div id="lbx-inner"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  BOARD CONFIG
+// ═══════════════════════════════════════════
+const BOARDS = {
+  notice:  { label: '공지사항', icon: '📢' },
+  gallery: { label: '갤러리',   icon: '🖼️' },
+  review:  { label: '수업후기', icon: '✏️' },
+};
+
+// ═══════════════════════════════════════════
+//  IndexedDB – media
+// ═══════════════════════════════════════════
+let mdb = null;
+const DB_NAME = 'BBoard_Media', DB_VER = 1, STORE = 'media';
+
+function openMDB() {
+  return new Promise(res => {
+    const r = indexedDB.open(DB_NAME, DB_VER);
+    r.onupgradeneeded = e => e.target.result.createObjectStore(STORE, {keyPath:'id'});
+    r.onsuccess = e => { mdb = e.target.result; res(); };
+    r.onerror = () => res();
+  });
+}
+function putMedia(id, blob) {
+  if (!mdb) return Promise.resolve();
+  return new Promise(res => {
+    const tx = mdb.transaction(STORE,'readwrite');
+    tx.objectStore(STORE).put({id, blob});
+    tx.oncomplete = res; tx.onerror = res;
+  });
+}
+function getMedia(id) {
+  if (!mdb) return Promise.resolve(null);
+  return new Promise(res => {
+    const r = mdb.transaction(STORE,'readonly').objectStore(STORE).get(id);
+    r.onsuccess = () => res(r.result?.blob || null);
+    r.onerror   = () => res(null);
+  });
+}
+function delMedia(ids) {
+  if (!mdb || !ids?.length) return;
+  const tx = mdb.transaction(STORE,'readwrite');
+  ids.forEach(id => tx.objectStore(STORE).delete(id));
+}
+
+// ═══════════════════════════════════════════
+//  localStorage
+// ═══════════════════════════════════════════
+const LS = {
+  users:   () => JSON.parse(localStorage.getItem('bb_users')  || '[]'),
+  sUsers:  v  => localStorage.setItem('bb_users',  JSON.stringify(v)),
+  posts:   () => JSON.parse(localStorage.getItem('bb_posts')  || '[]'),
+  sPosts:  v  => localStorage.setItem('bb_posts',  JSON.stringify(v)),
+  sess:    () => JSON.parse(localStorage.getItem('bb_sess')   || 'null'),
+  setSess: v  => localStorage.setItem('bb_sess',   JSON.stringify(v)),
+  clrSess: () => localStorage.removeItem('bb_sess'),
+};
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
+
+function initDB() {
+  const us = LS.users();
+  if (!us.find(u => u.role === 'admin'))
+    us.push({ id:'adm0', username:'관리자', email:'admin@board.com', password:'admin123', role:'admin', status:'verified', createdAt: new Date().toISOString() });
+  LS.sUsers(us);
+  const posts = LS.posts();
+  let ch = false;
+  posts.forEach(p => { if (!p.board) { p.board = 'notice'; ch = true; } });
+  if (ch) LS.sPosts(posts);
+}
+
+// ═══════════════════════════════════════════
+//  Auth
+// ═══════════════════════════════════════════
+function sess()     { return LS.sess(); }
+function canWrite() { const s = sess(); return s && (s.status === 'verified' || s.role === 'admin'); }
+
+function login() {
+  const email = $v('lin-email'), pw = $v('lin-pw');
+  if (!email || !pw) { toast('이메일과 비밀번호를 입력하세요', 'err'); return; }
+  const u = LS.users().find(u => u.email === email && u.password === pw);
+  if (!u)                  { toast('이메일 또는 비밀번호가 올바르지 않습니다', 'err'); return; }
+  if (u.status==='rejected'){ toast('가입이 거절된 계정입니다', 'err'); return; }
+  LS.setSess({ id:u.id, username:u.username, role:u.role, status:u.status });
+  toast(`${u.username}님, 환영합니다!`, 'ok');
+  go('board');
+}
+
+function register() {
+  const name=$v('reg-name'), email=$v('reg-email'), pw=$v('reg-pw'), pw2=$v('reg-pw2');
+  if (!name||!email||!pw) { toast('모든 항목을 입력하세요', 'err'); return; }
+  if (pw.length<6)         { toast('비밀번호는 6자 이상이어야 합니다', 'err'); return; }
+  if (pw!==pw2)            { toast('비밀번호가 일치하지 않습니다', 'err'); return; }
+  const us = LS.users();
+  if (us.find(u => u.email===email)) { toast('이미 사용 중인 이메일입니다', 'err'); return; }
+  us.push({ id:uid(), username:name, email, password:pw, role:'user', status:'pending', createdAt:new Date().toISOString() });
+  LS.sUsers(us);
+  toast('가입 신청 완료! 관리자 승인 후 이용 가능합니다', 'ok');
+  go('login');
+}
+
+function logout() { LS.clrSess(); toast('로그아웃되었습니다'); go('board'); closeDropdown(); }
+
+// ═══════════════════════════════════════════
+//  Navigation
+// ═══════════════════════════════════════════
+let curBoard = 'notice';
+let curPage = 'board', curPostId = null, editId = null;
+let pendMedia = [], objURLs = [], boardPg = 1;
+const PER_PG = 12;
+
+function selectBoard(board) {
+  curBoard = board; boardPg = 1;
+  document.querySelectorAll('.btab').forEach(t => t.classList.toggle('on', t.dataset.board === board));
+  const b = BOARDS[board];
+  const el = $('brd-title-text');
+  if (el) el.innerHTML = `${b.icon} ${b.label}`;
+  if (curPage === 'board') renderBoard(); else go('board');
+}
+
+function go(page, postId=null) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.getElementById('page-' + page).classList.add('on');
+  curPage = page; window.scrollTo(0, 0);
+  updateNav();
+  if      (page === 'board')              renderBoard();
+  else if (page === 'detail' && postId)   { curPostId = postId; renderDetail(postId); }
+  else if (page === 'write')              setupWrite(postId);
+  else if (page === 'admin')              renderAdmin();
+}
+
+function updateNav() {
+  const s = sess(), nav = $('nav');
+  if (s) {
+    const adminBtn = s.role === 'admin'
+      ? `<button class="btn btn-ghost btn-sm" onclick="go('admin')" style="font-size:.8rem">⚙️ 관리</button>`
+      : '';
+    const statusLabel = s.role==='admin' ? '관리자' : s.status==='verified' ? '승인된 회원' : '승인 대기 중';
+    nav.innerHTML = `${adminBtn}
+      <div class="umenu" id="umenu">
+        <div class="avatar" onclick="toggleDrop()">${s.username[0].toUpperCase()}</div>
+        <div class="drop" id="drop">
+          <div class="ditem" style="cursor:default;gap:10px">
+            <div style="width:32px;height:32px;border-radius:50%;background:var(--primary);color:var(--bg);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82rem;flex-shrink:0">${s.username[0].toUpperCase()}</div>
+            <div>
+              <div style="font-weight:700;font-size:.88rem">${esc(s.username)}</div>
+              <div class="ditem-meta">${statusLabel}</div>
+            </div>
+          </div>
+          <div class="ddiv"></div>
+          <div class="ditem danger" onclick="logout()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            로그아웃
+          </div>
+        </div>
+      </div>`;
+  } else {
+    nav.innerHTML = `
+      <button class="btn btn-ghost btn-sm" onclick="go('login')">로그인</button>
+      <button class="btn btn-primary btn-sm" onclick="go('register')">회원가입</button>`;
+  }
+  const wb = $('write-btn');
+  if (wb) wb.style.display = canWrite() ? '' : 'none';
+}
+
+function toggleDrop()    { $('drop')?.classList.toggle('on'); }
+function closeDropdown() { $('drop')?.classList.remove('on'); }
+document.addEventListener('click', e => { if (!e.target.closest('#umenu')) closeDropdown(); });
+
+// ═══════════════════════════════════════════
+//  Board render
+// ═══════════════════════════════════════════
+function renderBoard() {
+  const b = BOARDS[curBoard];
+  const el = $('brd-title-text');
+  if (el) el.innerHTML = `${b.icon} ${b.label}`;
+  const wb = $('write-btn');
+  if (wb) wb.style.display = canWrite() ? '' : 'none';
+  if (curBoard === 'gallery') renderGallery(); else renderList();
+}
+
+function renderList() {
+  const q = ($('search')?.value || '').toLowerCase();
+  let posts = LS.posts()
+    .filter(p => (p.board || 'notice') === curBoard)
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  if (q) posts = posts.filter(p => p.title.toLowerCase().includes(q) || p.content.toLowerCase().includes(q));
+
+  const total = Math.ceil(posts.length / PER_PG);
+  if (boardPg > total && total > 0) boardPg = total;
+  const slice = posts.slice((boardPg-1)*PER_PG, boardPg*PER_PG);
+  const con = $('post-list');
+
+  if (!posts.length) {
+    con.innerHTML = `<div class="empty">
+      <div class="empty-ico">${BOARDS[curBoard].icon}</div>
+      <div class="empty-title">${q ? '검색 결과가 없습니다' : '아직 게시글이 없습니다'}</div>
+      <div class="empty-sub">${q ? '다른 검색어를 입력해보세요' : canWrite() ? '첫 번째 글을 작성해보세요' : ''}</div>
+    </div>`;
+    $('pagi').innerHTML = ''; return;
+  }
+
+  con.innerHTML = slice.map(p => {
+    const bs = [];
+    if (p.images?.length) bs.push(`<span class="badge b-img">🖼 ${p.images.length}</span>`);
+    if (p.videos?.length) bs.push(`<span class="badge b-vid">🎬 ${p.videos.length}</span>`);
+    return `<div class="post-card" onclick="go('detail','${p.id}')">
+      <div class="pc-top">
+        <div class="pc-title">${esc(p.title)}</div>
+        <div class="pc-badges">${bs.join('')}</div>
+      </div>
+      <div class="pc-preview">${esc(p.content)}</div>
+      <div class="pc-meta">
+        <span>✍️ ${esc(p.authorName)}</span>
+        <span>📅 ${fmtDate(p.createdAt)}</span>
+        <span>👁 ${p.views || 0}</span>
+      </div>
+    </div>`;
+  }).join('');
+  renderPagi(total);
+}
+
+async function renderGallery() {
+  const q = ($('search')?.value || '').toLowerCase();
+  let posts = LS.posts()
+    .filter(p => (p.board || 'notice') === 'gallery')
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  if (q) posts = posts.filter(p => p.title.toLowerCase().includes(q) || p.content.toLowerCase().includes(q));
+
+  const total = Math.ceil(posts.length / PER_PG);
+  if (boardPg > total && total > 0) boardPg = total;
+  const slice = posts.slice((boardPg-1)*PER_PG, boardPg*PER_PG);
+  const con = $('post-list');
+
+  if (!posts.length) {
+    con.innerHTML = `<div class="empty">
+      <div class="empty-ico">🖼️</div>
+      <div class="empty-title">${q ? '검색 결과가 없습니다' : '아직 갤러리 게시글이 없습니다'}</div>
+      <div class="empty-sub">${q ? '다른 검색어를 입력해보세요' : canWrite() ? '첫 번째 사진을 올려보세요' : ''}</div>
+    </div>`;
+    $('pagi').innerHTML = ''; return;
+  }
+
+  // Skeleton first
+  con.innerHTML = `<div class="gcards">${slice.map(() =>
+    `<div class="gcard">
+      <div class="gcard-thumb skeleton"></div>
+      <div class="gcard-info">
+        <div class="skeleton" style="height:14px;margin-bottom:8px;border-radius:4px"></div>
+        <div class="skeleton" style="height:11px;width:60%;border-radius:4px"></div>
+      </div>
+    </div>`).join('')}</div>`;
+
+  const cards = await Promise.all(slice.map(async p => {
+    let thumbHtml = '';
+    const firstImg = p.images?.[0], firstVid = p.videos?.[0];
+    const firstId = firstImg || firstVid;
+
+    if (firstId) {
+      const blob = await getMedia(firstId);
+      if (blob) {
+        const url = URL.createObjectURL(blob); objURLs.push(url);
+        if (firstImg) {
+          thumbHtml = `<img src="${url}" loading="lazy" alt="${esc(p.title)}">`;
+        } else {
+          thumbHtml = `<video src="${url}" preload="metadata"></video><div class="gcard-play">▶</div>`;
+        }
+      }
+    }
+
+    const nImg = p.images?.length || 0, nVid = p.videos?.length || 0;
+    const totalMedia = nImg + nVid;
+
+    return `<div class="gcard" onclick="go('detail','${p.id}')">
+      <div class="gcard-thumb">
+        ${thumbHtml || `<div class="gcard-placeholder">📝</div>`}
+        ${totalMedia > 1 ? `<div class="gcard-badge">+${totalMedia - 1}</div>` : ''}
+        <div class="gcard-overlay"><div class="gcard-overlay-ico">🔍</div></div>
+      </div>
+      <div class="gcard-info">
+        <div class="gcard-title">${esc(p.title)}</div>
+        <div class="gcard-meta">
+          <span>✍️ ${esc(p.authorName)}</span>
+          <span>📅 ${fmtDate(p.createdAt)}</span>
+          <span>👁 ${p.views || 0}</span>
+        </div>
+        <div class="gcard-foot">
+          ${nImg ? `<span class="media-cnt">🖼 ${nImg}</span>` : ''}
+          ${nVid ? `<span class="media-cnt">🎬 ${nVid}</span>` : ''}
+          ${!nImg && !nVid ? `<span class="media-cnt">📝 텍스트</span>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }));
+
+  con.innerHTML = `<div class="gcards">${cards.join('')}</div>`;
+  renderPagi(total);
+}
+
+function renderPagi(total) {
+  const pgi = $('pagi');
+  if (total <= 1) { pgi.innerHTML = ''; return; }
+  let html = '';
+  if (boardPg > 1) html += `<button class="pbtn" onclick="boardPg=${boardPg-1};renderBoard()">‹</button>`;
+  for (let i = 1; i <= total; i++)
+    html += `<button class="pbtn${i === boardPg ? ' on' : ''}" onclick="boardPg=${i};renderBoard()">${i}</button>`;
+  if (boardPg < total) html += `<button class="pbtn" onclick="boardPg=${boardPg+1};renderBoard()">›</button>`;
+  pgi.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════
+//  Detail
+// ═══════════════════════════════════════════
+async function renderDetail(postId) {
+  const posts = LS.posts(), post = posts.find(p => p.id === postId);
+  if (!post) { go('board'); return; }
+  post.views = (post.views || 0) + 1; LS.sPosts(posts);
+
+  const s = sess(), canEdit = s && (s.id === post.authorId || s.role === 'admin');
+  const b = BOARDS[post.board || 'notice'];
+
+  let imgHtml = '', vidHtml = '';
+  if (post.images?.length) {
+    const items = await Promise.all(post.images.map(async id => {
+      const blob = await getMedia(id); if (!blob) return '';
+      const url = URL.createObjectURL(blob); objURLs.push(url);
+      return `<div class="dt-gitem" onclick="openLbx('image','${url}')">
+        <div class="dt-gitem-inner"><img src="${url}" loading="lazy"><div class="dt-zoom">🔍</div></div>
+      </div>`;
+    }));
+    const f = items.filter(Boolean);
+    if (f.length) imgHtml = `<div class="media-section-title">📸 이미지 <span>(${f.length})</span></div><div class="dt-gallery${f.length === 1 ? ' solo' : ''}">${f.join('')}</div>`;
+  }
+  if (post.videos?.length) {
+    const items = await Promise.all(post.videos.map(async id => {
+      const blob = await getMedia(id); if (!blob) return '';
+      const url = URL.createObjectURL(blob); objURLs.push(url);
+      return `<div class="dt-gitem" onclick="openLbx('video','${url}')">
+        <div class="dt-gitem-inner"><video src="${url}" preload="metadata"></video><div class="vid-play-ico">▶</div><div class="dt-zoom" style="font-size:1.5rem">⛶</div></div>
+      </div>`;
+    }));
+    const f = items.filter(Boolean);
+    if (f.length) vidHtml = `<div class="media-section-title">🎬 동영상 <span>(${f.length})</span></div><div class="dt-gallery${f.length === 1 ? ' solo' : ''}">${f.join('')}</div>`;
+  }
+
+  const editBtns = canEdit ? `<div class="dt-actions">
+    <button class="btn btn-outline btn-sm" onclick="go('write','${post.id}')">✏️ 수정</button>
+    <button class="btn btn-danger btn-sm" onclick="delPost('${post.id}')">🗑️ 삭제</button>
+  </div>` : '';
+
+  $('detail-body').innerHTML = `
+    <div class="board-crumb">${b.icon} ${b.label}</div>
+    <h1 class="dt-title">${esc(post.title)}</h1>
+    <div class="dt-meta">
+      <span>✍️ ${esc(post.authorName)}</span>
+      <span>📅 ${fmtDate(post.createdAt)}</span>
+      ${post.updatedAt && post.updatedAt !== post.createdAt ? `<span style="color:var(--accent-fg)">✏️ 수정됨 ${fmtDate(post.updatedAt)}</span>` : ''}
+      <span>👁 ${post.views}</span>
+    </div>
+    <div class="dt-body">${esc(post.content)}</div>
+    ${imgHtml}${vidHtml}
+    ${editBtns}`;
+}
+
+async function delPost(postId) {
+  if (!confirm('이 게시글을 삭제하시겠습니까?')) return;
+  let posts = LS.posts(), post = posts.find(p => p.id === postId);
+  if (post) delMedia([...(post.images || []), ...(post.videos || [])]);
+  LS.sPosts(posts.filter(p => p.id !== postId));
+  toast('삭제되었습니다', 'ok'); go('board');
+}
+
+// ═══════════════════════════════════════════
+//  Write / Edit
+// ═══════════════════════════════════════════
+async function setupWrite(postId=null) {
+  editId = postId; pendMedia = []; $('prev-grid').innerHTML = '';
+  $('edit-id').value = postId || '';
+  if (postId) {
+    $('write-hdr').textContent = '게시글 수정';
+    const p = LS.posts().find(p => p.id === postId);
+    if (p) {
+      const b = BOARDS[p.board || 'notice'];
+      $('write-board-tag').innerHTML = `${b.icon} ${b.label}`;
+      $('w-title').value = p.title; $('w-body').value = p.content;
+      await loadExistingMedia(p);
+    }
+  } else {
+    $('write-hdr').textContent = '새 글 작성';
+    const b = BOARDS[curBoard];
+    $('write-board-tag').innerHTML = `${b.icon} ${b.label}`;
+    $('w-title').value = ''; $('w-body').value = '';
+  }
+}
+
+async function loadExistingMedia(post) {
+  for (const id of (post.images || [])) {
+    const blob = await getMedia(id); if (!blob) continue;
+    const url = URL.createObjectURL(blob); objURLs.push(url);
+    pendMedia.push({ file:null, type:'image', url, mediaId:id, existing:true });
+  }
+  for (const id of (post.videos || [])) {
+    const blob = await getMedia(id); if (!blob) continue;
+    const url = URL.createObjectURL(blob); objURLs.push(url);
+    pendMedia.push({ file:null, type:'video', url, mediaId:id, existing:true });
+  }
+  renderPrev();
+}
+
+function ondov(e) { e.preventDefault(); $('dropzone').classList.add('drag'); }
+function ondol(e) { $('dropzone').classList.remove('drag'); }
+function ondod(e) { e.preventDefault(); $('dropzone').classList.remove('drag'); addFiles([...e.dataTransfer.files]); }
+function onFileSelect(e) { addFiles([...e.target.files]); e.target.value = ''; }
+
+function addFiles(files) {
+  for (const f of files) {
+    const isImg = f.type.startsWith('image/'), isVid = f.type.startsWith('video/');
+    if (!isImg && !isVid) { toast(`${f.name}: 이미지나 동영상만 첨부 가능합니다`, 'err'); continue; }
+    if (f.size > 100*1024*1024) { toast(`${f.name}: 100 MB 이하 파일만 첨부 가능합니다`, 'err'); continue; }
+    const url = URL.createObjectURL(f); objURLs.push(url);
+    pendMedia.push({ file:f, type:isImg?'image':'video', url, mediaId:uid(), existing:false });
+  }
+  renderPrev();
+}
+
+function renderPrev() {
+  $('prev-grid').innerHTML = pendMedia.map((m,i) => `
+    <div class="pitem">
+      ${m.type==='image' ? `<img src="${m.url}" onclick="openLbx('image','${m.url}')">` : `<video src="${m.url}" preload="metadata"></video>`}
+      <button class="pitem-rm" onclick="removePrev(${i})">✕</button>
+    </div>`).join('');
+}
+function removePrev(i) { pendMedia.splice(i,1); renderPrev(); }
+
+async function submitPost() {
+  if (!canWrite()) { toast('권한이 없습니다', 'err'); return; }
+  const title = $v('w-title'), content = $v('w-body');
+  if (!title)   { toast('제목을 입력하세요', 'err'); return; }
+  if (!content) { toast('내용을 입력하세요', 'err'); return; }
+
+  const imgIds = [], vidIds = [];
+  for (const m of pendMedia) {
+    if (!m.existing && m.file) await putMedia(m.mediaId, m.file);
+    if (m.type === 'image') imgIds.push(m.mediaId); else vidIds.push(m.mediaId);
+  }
+
+  const posts = LS.posts(), s = sess(), now = new Date().toISOString();
+  if (editId) {
+    const idx = posts.findIndex(p => p.id === editId);
+    if (idx > -1) {
+      const old = posts[idx];
+      const keepIds = pendMedia.map(m => m.mediaId);
+      delMedia([...(old.images||[]),...(old.videos||[])].filter(id => !keepIds.includes(id)));
+      posts[idx] = { ...old, title, content, images:imgIds, videos:vidIds, updatedAt:now };
+    }
+  } else {
+    posts.unshift({ id:uid(), title, content, authorId:s.id, authorName:s.username,
+      board:curBoard, images:imgIds, videos:vidIds, views:0, createdAt:now, updatedAt:now });
+  }
+  LS.sPosts(posts);
+  toast(editId ? '수정되었습니다' : '게시글이 등록되었습니다', 'ok');
+  editId = null; go('board');
+}
+
+// ═══════════════════════════════════════════
+//  Admin
+// ═══════════════════════════════════════════
+let curAdminTab = 'users';
+function adminTab(t) {
+  curAdminTab = t;
+  ['users','posts'].forEach(x => {
+    $(`atab-${x}`).classList.toggle('on', x === t);
+    $(`admin-${x}`).style.display = x === t ? '' : 'none';
+  });
+  renderAdmin();
+}
+function renderAdmin() { curAdminTab === 'users' ? renderAdminUsers() : renderAdminPosts(); }
+
+function renderAdminUsers() {
+  const us = LS.users().filter(u => u.role !== 'admin');
+  const el = $('admin-users');
+  if (!us.length) { el.innerHTML = `<div class="empty"><div class="empty-ico">👤</div><div class="empty-title">가입 신청자가 없습니다</div></div>`; return; }
+  const smap  = { pending:'b-pend', verified:'b-ok', rejected:'b-rej' };
+  const slbl  = { pending:'대기 중', verified:'승인됨', rejected:'거절됨' };
+  el.innerHTML = us.map(u => `
+    <div class="urow">
+      <div class="uinfo">
+        <div class="uname">${esc(u.username)}</div>
+        <div class="uemail">${esc(u.email)}</div>
+        <div style="font-size:.72rem;color:var(--muted);margin-top:3px">가입: ${fmtDate(u.createdAt)}</div>
+      </div>
+      <span class="badge ${smap[u.status]}">${slbl[u.status]}</span>
+      <div class="uactions">
+        ${u.status!=='verified' ? `<button class="btn btn-success btn-xs" onclick="setUserStatus('${u.id}','verified')">✅ 승인</button>` : ''}
+        ${u.status!=='rejected' ? `<button class="btn btn-danger  btn-xs" onclick="setUserStatus('${u.id}','rejected')">❌ 거절</button>` : ''}
+        <button class="btn btn-ghost btn-xs" onclick="deleteUser('${u.id}')">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderAdminPosts() {
+  const posts = LS.posts().sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+  const el = $('admin-posts');
+  if (!posts.length) { el.innerHTML = `<div class="empty"><div class="empty-ico">📭</div><div class="empty-title">게시글이 없습니다</div></div>`; return; }
+  el.innerHTML = posts.map(p => {
+    const b = BOARDS[p.board || 'notice'];
+    return `<div class="urow">
+      <div class="uinfo">
+        <div class="uname" style="cursor:pointer;display:flex;align-items:center;gap:7px" onclick="curBoard='${p.board||'notice'}';go('detail','${p.id}')">
+          <span class="badge b-board">${b.icon} ${b.label}</span>${esc(p.title)}
+        </div>
+        <div class="uemail">${esc(p.authorName)} · ${fmtDate(p.createdAt)} · 👁 ${p.views||0}</div>
+      </div>
+      <div class="uactions">
+        <button class="btn btn-outline btn-xs" onclick="curBoard='${p.board||'notice'}';go('write','${p.id}')">✏️ 수정</button>
+        <button class="btn btn-danger  btn-xs" onclick="delPost('${p.id}')">🗑️ 삭제</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function setUserStatus(userId, status) {
+  const us = LS.users(), u = us.find(x => x.id === userId); if (!u) return;
+  u.status = status; LS.sUsers(us);
+  const s = sess(); if (s && s.id === userId) { s.status = status; LS.setSess(s); }
+  toast(status==='verified' ? '승인되었습니다' : '거절되었습니다', status==='verified' ? 'ok' : 'err');
+  renderAdminUsers();
+}
+function deleteUser(userId) {
+  if (!confirm('사용자를 삭제하시겠습니까?')) return;
+  LS.sUsers(LS.users().filter(u => u.id !== userId));
+  toast('삭제되었습니다'); renderAdminUsers();
+}
+
+// ═══════════════════════════════════════════
+//  Lightbox
+// ═══════════════════════════════════════════
+function openLbx(type, url) {
+  $('lbx-inner').innerHTML = type === 'image'
+    ? `<img src="${url}" onclick="event.stopPropagation()" alt="">`
+    : `<video src="${url}" controls autoplay onclick="event.stopPropagation()" style="max-width:96vw;max-height:88vh">`;
+  $('lbx').classList.add('on');
+}
+function closeLbx() { $('lbx').classList.remove('on'); $('lbx-inner').innerHTML = ''; }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLbx(); });
+
+// ═══════════════════════════════════════════
+//  Utils
+// ═══════════════════════════════════════════
+function $(id)   { return document.getElementById(id); }
+function $v(id)  { return ($(id)?.value || '').trim(); }
+function esc(s)  { if (!s) return ''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmtDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+}
+
+let toastT;
+function toast(msg, type='') {
+  const el = $('toast'); el.textContent = msg;
+  el.className = 'toast' + (type==='ok' ? ' ok' : type==='err' ? ' err' : '');
+  void el.offsetWidth; el.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ═══════════════════════════════════════════
+//  Boot
+// ═══════════════════════════════════════════
+window.addEventListener('beforeunload', () => objURLs.forEach(u => URL.revokeObjectURL(u)));
+(async () => { await openMDB(); initDB(); go('board'); })();
+</script>
+</body>
+</html>

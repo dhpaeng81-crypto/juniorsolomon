@@ -1,0 +1,109 @@
+# 학원 커뮤니티 게시판 — Project Context
+
+## What this is
+
+A single-file HTML SPA bulletin board for a Korean cram school (학원). Mobile-first, no backend — all data in `localStorage` + `IndexedDB`. Deployed to Vercel as a static site.
+
+**Live URL**: https://notice-board-one-jet.vercel.app  
+**Vercel project**: `notice-board` (team: `dhpaeng81-3292s-projects`)
+
+## Tech stack
+
+- Single file: `index.html` (HTML + CSS + vanilla JS, no build step)
+- Media storage: IndexedDB `BBoard_Media` store `media` (image/video blobs)
+- User/post data: `localStorage` keys `bb_users`, `bb_posts`, `bb_sess`
+- Deployment: `vercel --prod --yes --scope dhpaeng81-3292s-projects`
+- Auth token: `$env:VERCEL_TOKEN` (Windows user environment variable)
+
+## App structure
+
+### Boards
+```javascript
+const BOARDS = {
+  notice:  { label: '공지사항', icon: '📢' },
+  gallery: { label: '갤러리',   icon: '🖼️' },
+  review:  { label: '수업후기', icon: '✏️' },
+};
+```
+
+### Default admin account
+- Email: `admin@board.com`
+- Password: `admin123`
+
+### Auth flow
+- Users sign up → pending approval
+- Admin approves at `/admin`
+- Only approved users can post
+- Admin can write to any board; regular users write to review/gallery
+
+### Data model
+```javascript
+// bb_users: [{ id, email, name, password(hashed), role:'admin'|'user', status:'pending'|'approved', createdAt }]
+// bb_posts: [{ id, board:'notice'|'gallery'|'review', title, content, author, authorId, createdAt, mediaIds:[] }]
+// bb_sess:  { userId, email, name, role }
+// IndexedDB BBoard_Media: { id(uuid), blob, type, name }
+```
+
+## Design system
+
+Follows impeccable `product` register. Design tokens:
+
+```css
+:root {
+  --bg:           oklch(1.000 0.000   0);
+  --surface:      oklch(0.974 0.007 120);
+  --surface-2:    oklch(0.948 0.011 120);
+  --primary:      oklch(0.420 0.160 128);   /* forest green */
+  --primary-hov:  oklch(0.370 0.160 128);
+  --primary-sub:  oklch(0.955 0.030 128);
+  --accent:       oklch(0.870 0.120  75);   /* warm amber */
+  --accent-fg:    oklch(0.290 0.070  60);
+  --success:      oklch(0.500 0.170 145);
+  --error:        oklch(0.520 0.200  25);
+  --ink:          oklch(0.175 0.018 120);
+  --ink-2:        oklch(0.370 0.015 120);
+  --muted:        oklch(0.560 0.010 120);
+  --border:       oklch(0.900 0.008 120);
+  --ease: cubic-bezier(.25,.46,.45,.94);
+  --dur: .18s;
+}
+```
+
+- Font: Noto Sans KR (Google Fonts)
+- Min font size: 14px (accessibility for older parents)
+- Min touch target: 44px
+- WCAG AA contrast (4.5:1 body, 3:1 large)
+- `prefers-reduced-motion` supported
+
+## Key files
+
+| File | Purpose |
+|------|---------|
+| `index.html` | Entire app — HTML, CSS, JS in one file |
+| `PRODUCT.md` | Strategic design context (impeccable) |
+| `.vercel/project.json` | Vercel project/org IDs |
+| `.claude/skills/impeccable/` | impeccable design skill (installed via npx) |
+
+## Deployment
+
+```powershell
+# Deploy (VERCEL_TOKEN must be set)
+vercel --prod --yes --scope dhpaeng81-3292s-projects
+```
+
+## Design context (from PRODUCT.md)
+
+- **Register**: product
+- **Users**: 학원 수강생, 학부모, 강사 — varied tech literacy, some elderly
+- **Brand**: 따뜻한, 친근한, 신뢰감 있는
+- **Anti-references**: 네이버/다음 카페 style, excessive gradients/glassmorphism, cold corporate intranet
+- **Principles**: 한눈에 파악, 따뜻한 명확함, 모바일 먼저, 군더더기 없는 접근, 신뢰를 주는 구조
+
+## impeccable skill
+
+Installed at `.claude/skills/impeccable/`. Use for design work:
+- Read `PRODUCT.md` + `DESIGN.md` (if it exists) before editing
+- Run `node .claude/skills/impeccable/scripts/palette.mjs --seed "oklch(0.300 0.071 120.0)" --name "원" --primary 128 --accent 75` to regenerate palette
+- Reference files in `.claude/skills/impeccable/reference/` for design rules
+
+DESIGN.md has not been generated yet (`/impeccable document` pending).
