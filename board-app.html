@@ -3,29 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>커뮤니티 게시판</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>커뮤니티 | 주니어솔로몬</title>
+  <meta name="description" content="주니어솔로몬 공지사항, 갤러리, Q&A, 수강후기 게시판">
+  <meta name="theme-color" content="#0d1b3e">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="style.css">
   <style>
-    /* ══ DESIGN TOKENS ══ */
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
+    /* ══ DESIGN TOKENS — 주니어솔로몬 CI (인디고 + 옐로) ══ */
     :root {
-      /* Color */
-      --bg:           oklch(1.000 0.000   0);
-      --surface:      oklch(0.974 0.007 120);
-      --surface-2:    oklch(0.948 0.011 120);
-      --primary:      oklch(0.420 0.160 128);
-      --primary-hov:  oklch(0.370 0.160 128);
-      --primary-sub:  oklch(0.955 0.030 128);
-      --accent:       oklch(0.870 0.120  75);
-      --accent-fg:    oklch(0.290 0.070  60);
-      --success:      oklch(0.500 0.170 145);
-      --error:        oklch(0.520 0.200  25);
-      --ink:          oklch(0.175 0.018 120);
-      --ink-2:        oklch(0.370 0.015 120);
-      --muted:        oklch(0.560 0.010 120);
-      --border:       oklch(0.900 0.008 120);
-      --border-str:   oklch(0.820 0.013 120);
+      /* Color — site palette (hue 292) */
+      --bg:           oklch(99% 0.004 292);
+      --surface:      oklch(96% 0.008 292);
+      --surface-2:    oklch(92% 0.012 292);
+      --primary:      oklch(68% 0.11  292);
+      --primary-hov:  oklch(55% 0.13  285);
+      --primary-sub:  oklch(97% 0.025 292);
+      --accent:       oklch(88% 0.13   97);
+      --accent-fg:    oklch(40% 0.10   75);
+      --success:      oklch(50% 0.17  145);
+      --error:        oklch(52% 0.20   25);
+      --ink:          oklch(20% 0.015 292);
+      --ink-2:        oklch(48% 0.010 292);
+      --muted:        oklch(62% 0.008 292);
+      --border:       oklch(88% 0.010 292);
+      --border-str:   oklch(78% 0.015 292);
       /* Shadow */
       --sh-xs: 0 1px 2px oklch(0.2 0 0 / .06);
       --sh-sm: 0 1px 3px oklch(0.2 0 0 / .07), 0 1px 2px oklch(0.2 0 0 / .05);
@@ -36,13 +38,15 @@
       /* Motion */
       --ease: cubic-bezier(.25,.46,.45,.94);
       --dur: .18s;
+      /* Font */
+      --font: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
 
     /* ══ RESET & BASE ══ */
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     html { color-scheme: light; }
     body {
-      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: var(--font);
       font-size: 15px; line-height: 1.6;
       background: var(--bg); color: var(--ink);
       min-height: 100vh; -webkit-font-smoothing: antialiased;
@@ -160,14 +164,14 @@
       transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
     }
     .fi::placeholder { color: var(--muted); }
-    .fi:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px oklch(0.42 0.16 128 / .12); }
+    .fi:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px oklch(0.68 0.11 292 / .15); }
     textarea.fi { resize: vertical; min-height: 190px; line-height: 1.65; }
     .fi-group { position: relative; }
 
     /* Alert */
     .alert { padding: 12px 15px; border-radius: var(--r-md); font-size: .82rem; margin-bottom: 14px; line-height: 1.55; }
-    .alert-info { background: var(--primary-sub); color: var(--primary-hov); border: 1px solid oklch(0.42 0.16 128 / .20); }
-    .alert-warn { background: oklch(0.98 0.05 75); color: var(--accent-fg); border: 1px solid oklch(0.87 0.12 75 / .35); }
+    .alert-info { background: var(--primary-sub); color: var(--primary-hov); border: 1px solid oklch(0.68 0.11 292 / .20); }
+    .alert-warn { background: oklch(0.98 0.05 75); color: var(--accent-fg); border: 1px solid oklch(0.88 0.13 97 / .35); }
     .divider { height: 1px; background: var(--border); margin: 20px 0; }
 
     /* ══ BADGES ══ */
@@ -196,7 +200,7 @@
       width: 160px; transition: border-color var(--dur) var(--ease), width var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
     }
     .search-fi::placeholder { color: var(--muted); }
-    .search-fi:focus { outline: none; border-color: var(--primary); width: 200px; box-shadow: 0 0 0 3px oklch(0.42 0.16 128 / .10); }
+    .search-fi:focus { outline: none; border-color: var(--primary); width: 200px; box-shadow: 0 0 0 3px oklch(0.68 0.11 292 / .12); }
 
     .post-list { display: flex; flex-direction: column; gap: 8px; }
     .post-card {
@@ -242,13 +246,13 @@
       background: oklch(0.1 0 0 / .32); font-size: 2.2rem; pointer-events: none;
     }
     .gcard-overlay {
-      position: absolute; inset: 0; background: oklch(0.42 0.16 128 / 0);
+      position: absolute; inset: 0; background: oklch(0.68 0.11 292 / 0);
       display: flex; align-items: center; justify-content: center;
       transition: background var(--dur) var(--ease), opacity var(--dur) var(--ease);
       opacity: 0;
     }
     .gcard-overlay-ico { font-size: 1.8rem; transform: scale(.8); transition: transform .22s var(--ease); }
-    .gcard:hover .gcard-overlay { background: oklch(0.42 0.16 128 / .22); opacity: 1; }
+    .gcard:hover .gcard-overlay { background: oklch(0.68 0.11 292 / .22); opacity: 1; }
     .gcard:hover .gcard-overlay-ico { transform: scale(1); }
     .gcard-badge {
       position: absolute; top: 8px; right: 8px;
@@ -421,23 +425,66 @@
 </head>
 <body>
 
-<!-- ══ HEADER ══ -->
-<header class="site-header">
-  <div class="hdr-top">
-    <div class="logo" onclick="selectBoard(curBoard);go('board')">
-      <div class="logo-dot"></div>
-      커뮤니티
+<a href="#main" class="skip-link">본문 바로가기</a>
+
+<!-- ══ 사이트 헤더 ══ -->
+<header class="header" id="header" role="banner">
+  <div class="header-inner">
+    <a href="index.html" class="logo" aria-label="주니어솔로몬 홈으로">
+      <img src="logo.svg" class="logo-img" alt="" aria-hidden="true" width="46" height="46">
+      <div><div class="logo-text">주니어솔로몬</div><div class="logo-sub">Jr. Solomon Academy</div></div>
+    </a>
+    <nav class="nav" role="navigation" aria-label="주메뉴">
+      <div class="nav-item">
+        <button class="nav-link" aria-haspopup="true" aria-expanded="false">학원소개 <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"/></svg></button>
+        <div class="dropdown" role="menu">
+          <a href="vision.html" role="menuitem">비전 &amp; 교육철학</a>
+          <a href="mission.html" role="menuitem">교육방향</a>
+          <a href="introduction.html" role="menuitem">선생님 소개</a>
+          <a href="facility.html" role="menuitem">시설 안내</a>
+        </div>
+      </div>
+      <a href="curriculum.html" class="nav-link">커리큘럼</a>
+      <a href="fee.html" class="nav-link">교습비</a>
+      <a href="board-app.html" class="nav-link active">커뮤니티</a>
+      <a href="contact.html" class="nav-link">오시는길</a>
+    </nav>
+    <div class="header-cta-stack">
+      <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="header-btn header-btn-naver">💬 네이버 톡톡</a>
+      <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" class="header-btn header-btn-kakao">🟡 카카오톡 채널</a>
     </div>
-    <div class="hdr-nav" id="nav"></div>
-  </div>
-  <div class="board-tabs">
-    <div class="tabs-inner">
-      <button class="btab on" data-board="notice"  onclick="selectBoard('notice')">📢 공지사항</button>
-      <button class="btab"    data-board="gallery" onclick="selectBoard('gallery')">🖼️ 갤러리</button>
-      <button class="btab"    data-board="review"  onclick="selectBoard('review')">✏️ 수업후기</button>
-    </div>
+    <button class="menu-toggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileNav" id="menuToggle"><span></span><span></span><span></span></button>
   </div>
 </header>
+<nav class="mobile-nav" id="mobileNav" aria-label="모바일 메뉴">
+  <a href="vision.html">비전 &amp; 교육철학</a>
+  <a href="mission.html">교육방향</a>
+  <a href="curriculum.html">커리큘럼</a>
+  <a href="introduction.html">선생님 소개</a>
+  <a href="facility.html">시설안내</a>
+  <a href="fee.html">교습비 안내</a>
+  <a href="edu-1.html">소포스에듀</a>
+  <a href="board-app.html#notice" class="active">공지사항</a>
+  <a href="board-app.html#gallery">갤러리</a>
+  <a href="board-app.html#qna">Q&amp;A</a>
+  <a href="board-app.html#review">수강후기</a>
+  <a href="contact.html">오시는길</a>
+  <a href="tel:027948123" class="m-tel">☎ 02-794-8123 전화상담</a>
+  <div class="m-cta-row">
+    <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="m-cta-naver">💬 네이버 톡톡</a>
+    <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" class="m-cta-kakao">🟡 카카오채널</a>
+  </div>
+</nav>
+
+<!-- ══ 게시판 탭 ══ -->
+<div class="board-tabs" id="boardTabsBar">
+  <div class="tabs-inner">
+    <button class="btab on" data-board="notice"  onclick="selectBoard('notice')">📢 공지사항</button>
+    <button class="btab"    data-board="gallery" onclick="selectBoard('gallery')">🖼️ 갤러리</button>
+    <button class="btab"    data-board="qna"     onclick="selectBoard('qna')">💬 Q&amp;A</button>
+    <button class="btab"    data-board="review"  onclick="selectBoard('review')">✏️ 수강후기</button>
+  </div>
+</div>
 
 <!-- ══ LOGIN ══ -->
 <div id="page-login" class="page">
@@ -544,6 +591,20 @@
 
 <div id="toast"></div>
 
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo"><img src="logo.svg" class="logo-img" alt="" aria-hidden="true" width="46" height="46"><div><div class="logo-text">주니어솔로몬</div><div class="logo-sub">Jr. Solomon Academy</div></div></div>
+      <p>서울시 용산구 이촌로 200 LG프라자 4층 403호<br>대표전화: 02-794-8123 | 상담: 010-3212-8123<br>이메일: juniorsolomon@naver.com<br>중부교육지원청 제3336호</p>
+    </div>
+    <div class="footer-col"><h4>학원소개</h4><ul><li><a href="vision.html">비전 &amp; 교육철학</a></li><li><a href="mission.html">교육방향</a></li><li><a href="introduction.html">선생님 소개</a></li><li><a href="facility.html">시설안내</a></li></ul></div>
+    <div class="footer-col"><h4>프로그램</h4><ul><li><a href="curriculum.html">커리큘럼</a></li><li><a href="edu-1.html">소포스에듀</a></li><li><a href="fee.html">교습비 안내</a></li></ul></div>
+    <div class="footer-col"><h4>커뮤니티</h4><ul><li><a href="board-app.html#notice">공지사항</a></li><li><a href="board-app.html#gallery">갤러리</a></li><li><a href="board-app.html#qna">Q&amp;A</a></li><li><a href="board-app.html#review">수강후기</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2017–2026 주니어솔로몬. All rights reserved.</span><span>2022 한국브랜드소비자평가 대상</span></div>
+</footer>
+<button class="scroll-top" id="scrollTop" aria-label="맨 위로"><svg viewBox="0 0 20 20" fill="currentColor" width="20" height="20"><path fill-rule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04L10.75 5.612V16.25A.75.75 0 0 1 10 17Z"/></svg></button>
+
 <div id="lbx" onclick="closeLbx()">
   <button class="lbx-close" onclick="closeLbx()">✕</button>
   <div id="lbx-inner"></div>
@@ -556,7 +617,8 @@
 const BOARDS = {
   notice:  { label: '공지사항', icon: '📢' },
   gallery: { label: '갤러리',   icon: '🖼️' },
-  review:  { label: '수업후기', icon: '✏️' },
+  qna:     { label: 'Q&A',      icon: '💬' },
+  review:  { label: '수강후기', icon: '✏️' },
 };
 
 // ═══════════════════════════════════════════
@@ -609,14 +671,25 @@ const LS = {
 };
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
 
+const SEED_POSTS = [
+  { id:'seed4', board:'notice', title:'♦ 중고등 생기부 전략 설명회 ♦', content:'학교생활기록부(생기부)는 대입에서 가장 중요한 서류 중 하나입니다.\n중학교 때부터 전략적으로 준비하는 방법을 안내합니다.\n\n• 생기부 세부능력 특기사항(세특) 작성 전략\n• 독서 활동과 생기부 연계 방법\n• 중학교 → 고등학교 → 대입까지의 장기 로드맵\n• 학종(학생부 종합전형) 준비 방향\n\n문의: 02-794-8123 | 010-3212-8123', authorId:'adm0', authorName:'관리자', views:0, images:[], videos:[], createdAt:'2025-08-18T09:00:00.000Z', updatedAt:'2025-08-18T09:00:00.000Z' },
+  { id:'seed3', board:'notice', title:'주니어솔로몬 정치·종교 중립 선언문', content:'주니어솔로몬은 모든 교육 과정에서 정치적·종교적 중립을 지킵니다.\n\n하브루타 교육은 다양한 관점을 탐구하는 열린 대화를 추구하며, 특정 정치적 이념이나 종교적 교리를 전파하지 않습니다.\n\n학부모님과 학생 모두가 안심하고 학습에 집중할 수 있는 환경을 만들어 나가겠습니다.', authorId:'adm0', authorName:'관리자', views:0, images:[], videos:[], createdAt:'2025-10-29T09:00:00.000Z', updatedAt:'2025-10-29T09:00:00.000Z' },
+  { id:'seed2', board:'notice', title:'중등 국어 1등급 로드맵 전략 설명회', content:'중학교 국어 1등급 달성을 위한 체계적인 로드맵을 안내하는 설명회입니다.\n\n• 중등 내신 국어 1등급을 위한 단계별 전략\n• 수능 국어와 연계된 장기 플랜 설계\n• 소포스에듀 이대건T와 주니어솔로몬 박효정T 합동 진행\n\n자세한 내용은 02-794-8123으로 문의하세요.', authorId:'adm0', authorName:'관리자', views:0, images:[], videos:[], createdAt:'2025-12-09T09:00:00.000Z', updatedAt:'2025-12-09T09:00:00.000Z' },
+  { id:'seed1', board:'notice', title:'[3/30 개강] 용강중 국어 중간고사 전략적 내신 대비반', content:'소포스에듀 — 이대건 선생님이 진행하는 용강중 중간고사 내신 대비 집중반입니다.\n\n개강일: 2026년 3월 30일 (월)\n대상: 용강중 재학생 (중1~3)\n수업 일정: 매주 월요일 16:30 – 19:30 (3시간)\n\n내용:\n• 용강중 중간고사 기출 분석 및 출제 경향 파악\n• 교과서 지문 심화 분석과 어법 정리\n• 내신 1등급 전략 설계\n\n문의: 02-794-8123', authorId:'adm0', authorName:'관리자', views:0, images:[], videos:[], createdAt:'2026-03-18T09:00:00.000Z', updatedAt:'2026-03-18T09:00:00.000Z' },
+];
+
 function initDB() {
   const us = LS.users();
   if (!us.find(u => u.role === 'admin'))
-    us.push({ id:'adm0', username:'관리자', email:'admin@board.com', password:'admin123', role:'admin', status:'verified', createdAt: new Date().toISOString() });
+    us.push({ id:'adm0', username:'관리자', email:'admin@board.com', password:'admin123', role:'admin', status:'verified', createdAt:'2024-01-01T00:00:00.000Z' });
   LS.sUsers(us);
-  const posts = LS.posts();
+  let posts = LS.posts();
   let ch = false;
   posts.forEach(p => { if (!p.board) { p.board = 'notice'; ch = true; } });
+  // 초기 공지사항 시드 데이터 (없을 때만)
+  SEED_POSTS.forEach(seed => {
+    if (!posts.find(p => p.id === seed.id)) { posts.unshift(seed); ch = true; }
+  });
   if (ch) LS.sPosts(posts);
 }
 
@@ -1119,7 +1192,40 @@ function toast(msg, type='') {
 //  Boot
 // ═══════════════════════════════════════════
 window.addEventListener('beforeunload', () => objURLs.forEach(u => URL.revokeObjectURL(u)));
-(async () => { await openMDB(); initDB(); go('board'); })();
+
+// ── 사이트 헤더 공통 JS ──
+(function(){
+  var h = document.getElementById('header');
+  if (h) window.addEventListener('scroll', function(){ h.classList.toggle('scrolled', window.scrollY > 40); }, { passive: true });
+  var st = document.getElementById('scrollTop');
+  if (st) {
+    window.addEventListener('scroll', function(){ st.classList.toggle('visible', window.scrollY > 400); }, { passive: true });
+    st.addEventListener('click', function(){ window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  }
+  var t = document.getElementById('menuToggle'), m = document.getElementById('mobileNav');
+  if (t && m) {
+    t.addEventListener('click', function(){ var o = m.classList.toggle('open'); t.setAttribute('aria-expanded', o); document.body.style.overflow = o ? 'hidden' : ''; });
+    m.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ m.classList.remove('open'); t.setAttribute('aria-expanded','false'); document.body.style.overflow = ''; }); });
+  }
+  // dropdown
+  document.querySelectorAll('.nav-item').forEach(function(item){
+    var btn = item.querySelector('.nav-link[aria-haspopup]');
+    var drop = item.querySelector('.dropdown');
+    if (!btn || !drop) return;
+    btn.addEventListener('click', function(e){ e.stopPropagation(); var open = drop.classList.toggle('open'); btn.setAttribute('aria-expanded', open); });
+    document.addEventListener('click', function(){ drop.classList.remove('open'); btn.setAttribute('aria-expanded','false'); });
+  });
+})();
+
+// ── 해시 기반 보드 선택 ──
+(async () => {
+  await openMDB();
+  initDB();
+  const hash = location.hash.replace('#','');
+  const initial = BOARDS[hash] ? hash : 'notice';
+  go('board');
+  selectBoard(initial);
+})();
 </script>
 </body>
 </html>
