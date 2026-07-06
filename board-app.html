@@ -40,6 +40,32 @@
       --dur: .18s;
       /* Font */
       --font: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      /* style.css 별칭 (헤더/푸터 컴포넌트가 이 이름들로 참조) */
+      --purple:        oklch(68% 0.11 292);
+      --purple-deep:   oklch(32% 0.13 285);
+      --purple-mid:    oklch(76% 0.09 292);
+      --purple-light:  oklch(93% 0.05 292);
+      --purple-xlight: oklch(97% 0.025 292);
+      --yellow:        oklch(88% 0.13 97);
+      --yellow-deep:   oklch(72% 0.14 78);
+      --yellow-light:  oklch(96% 0.07 99);
+      --ink-muted:     oklch(48% 0.010 292);
+      --ink-subtle:    oklch(62% 0.008 292);
+      --canvas:        oklch(99% 0.004 292);
+      --surf-0:        oklch(99% 0.004 292);
+      --surf-1:        oklch(96% 0.008 292);
+      --surf-2:        oklch(92% 0.012 292);
+      --hero-dark:     oklch(14% 0.025 292);
+      --shadow-sm:     0 1px 3px oklch(0.2 0 0 / .07), 0 1px 2px oklch(0.2 0 0 / .05);
+      --shadow-md:     0 4px 14px oklch(0.2 0 0 / .08), 0 2px 4px oklch(0.2 0 0 / .04);
+      --shadow-lg:     0 8px 28px oklch(0.2 0 0 / .10), 0 4px 8px oklch(0.2 0 0 / .05);
+      --shadow-btn:    0 4px 14px oklch(68% 0.11 292 / 0.35);
+      --shadow-btnH:   0 8px 20px oklch(68% 0.11 292 / 0.45);
+      --r-pill:        9999px;
+      --t-fast:        120ms;
+      --t-base:        220ms;
+      --t-slow:        350ms;
+      --header-h:      64px;
     }
 
     /* ══ RESET & BASE ══ */
@@ -55,30 +81,16 @@
       *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
     }
 
-    /* ══ HEADER ══ */
-    .site-header {
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      position: sticky; top: 0; z-index: 100;
-      box-shadow: var(--sh-xs);
+    /* ══ 게시판 인증 버튼 영역 ══ */
+    .board-auth-nav {
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
     }
-    .hdr-top {
-      max-width: 1000px; margin: 0 auto; padding: 0 20px;
-      height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    }
-    .logo {
-      font-weight: 800; font-size: 1.1rem; color: var(--primary);
-      cursor: pointer; display: flex; align-items: center; gap: 8px;
-      user-select: none; flex-shrink: 0;
-      letter-spacing: -0.02em;
-    }
-    .logo-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
-    .hdr-nav { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
-    /* Board tabs */
+    /* ══ Board tabs ══ */
     .board-tabs {
       border-top: 1px solid var(--border);
       background: var(--bg);
+      margin-top: var(--header-h); /* fixed 헤더 오프셋 */
     }
     .tabs-inner {
       max-width: 1000px; margin: 0 auto; padding: 0 20px;
@@ -404,6 +416,12 @@
     .ddiv { height: 1px; background: var(--border); }
     .ditem-meta { font-size: .73rem; color: var(--muted); margin-top: 1px; }
 
+    /* ══ 모바일: 헤더 CTA 스택 숨김 ══ */
+    @media (max-width: 768px) {
+      .header-cta-stack { display: none; }
+      .board-auth-nav   { display: none; }
+    }
+
     /* ══ MOBILE ══ */
     @media (max-width: 640px) {
       .auth-card { padding: 28px 20px; }
@@ -449,6 +467,7 @@
       <a href="board-app.html" class="nav-link active">커뮤니티</a>
       <a href="contact.html" class="nav-link">오시는길</a>
     </nav>
+    <div id="nav" class="board-auth-nav"></div>
     <div class="header-cta-stack">
       <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="header-btn header-btn-naver">💬 네이버 톡톡</a>
       <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" class="header-btn header-btn-kakao">🟡 카카오톡 채널</a>
