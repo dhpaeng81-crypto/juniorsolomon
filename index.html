@@ -20,9 +20,9 @@
       --yellow:        oklch(88% 0.13 97);
       --yellow-deep:   oklch(72% 0.14 78);
       --yellow-light:  oklch(96% 0.07 99);
-      --ink:           oklch(20% 0.015 292);
-      --ink-muted:     oklch(48% 0.010 292);
-      --ink-subtle:    oklch(62% 0.008 292);
+      --ink:           oklch(18% 0.015 292);
+      --ink-muted:     oklch(38% 0.010 292);
+      --ink-subtle:    oklch(52% 0.008 292);
       --canvas:        oklch(99% 0.004 292);
       --surf-1:        oklch(96% 0.008 292);
       --surf-2:        oklch(92% 0.012 292);
@@ -138,36 +138,36 @@
     .principal-sig span { font-size: 13px; font-weight: 400; color: var(--ink-muted); margin-left: 8px; }
 
     /* ── 교육 철학 ── */
-    .philosophy { background: var(--hero-dark); padding: clamp(80px,11vw,140px) 0; }
+    .philosophy { background: var(--surf-1); padding: clamp(80px,11vw,140px) 0; }
     .philosophy .container { max-width: 1100px; }
     .phil-grid {
       display: grid; grid-template-columns: 1fr;
       gap: 48px; margin-top: 48px;
     }
-    .phil-principles { display: flex; flex-direction: column; gap: 16px; }
+    .phil-principles { display: flex; flex-direction: column; gap: 12px; }
     .principle-item {
       display: flex; align-items: flex-start; gap: 20px;
       padding: 24px 20px; border-radius: var(--r-lg);
-      background: oklch(17% 0.05 285 / 0.7);
-      border: 1px solid oklch(40% 0.07 292 / 0.25);
-      transition: border-color var(--t-base);
+      background: var(--canvas);
+      border: 1px solid var(--border);
+      transition: border-color var(--t-base), box-shadow var(--t-base);
     }
-    .principle-item:hover { border-color: oklch(68% 0.11 292 / 0.4); }
+    .principle-item:hover { border-color: var(--purple-light); box-shadow: var(--shadow-sm); }
     .principle-num {
       width: 40px; height: 40px; border-radius: var(--r-md); flex-shrink: 0;
       background: var(--purple); color: #fff;
       font-size: 15px; font-weight: 900;
       display: flex; align-items: center; justify-content: center;
     }
-    .principle-name { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 6px; }
-    .principle-desc { font-size: 14px; color: oklch(65% 0.05 292); line-height: 1.65; }
+    .principle-name { font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+    .principle-desc { font-size: 14px; color: var(--ink-muted); line-height: 1.65; }
     .process-flow {
       display: flex; flex-direction: column; gap: 0;
     }
     .process-step {
       position: relative; padding: 22px 20px 22px 68px;
-      background: oklch(17% 0.05 285 / 0.7);
-      border: 1px solid oklch(40% 0.07 292 / 0.25);
+      background: var(--canvas);
+      border: 1px solid var(--border);
       border-radius: var(--r-lg);
       margin-bottom: 4px;
     }
@@ -179,15 +179,15 @@
       font-size: 14px; font-weight: 900;
       display: flex; align-items: center; justify-content: center;
     }
-    .process-label { font-size: 16px; font-weight: 700; color: #fff; }
-    .process-desc  { font-size: 13px; color: oklch(60% 0.05 292); margin-top: 4px; line-height: 1.6; }
+    .process-label { font-size: 16px; font-weight: 700; color: var(--ink); }
+    .process-desc  { font-size: 14px; color: var(--ink-muted); margin-top: 4px; line-height: 1.6; }
     .process-arrow {
-      text-align: center; color: oklch(55% 0.07 292); font-size: 16px;
+      text-align: center; color: var(--border); font-size: 16px;
       height: 14px; line-height: 14px; margin: -2px 0;
     }
     .phil-section-title {
-      font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--yellow); margin-bottom: 16px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--purple); margin-bottom: 16px;
     }
 
     /* ── 6대 인재상 ── */
@@ -544,10 +544,22 @@
     /* ── SCROLL MARGIN ── */
     section[id] { scroll-margin-top: var(--header-h); }
 
+    /* ── FOCUS VISIBLE ── */
+    :focus-visible {
+      outline: 2px solid var(--purple);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    .notice-btn:focus-visible,
+    .nav-link:focus-visible,
+    .level-item:focus-visible,
+    .header-btn:focus-visible { outline-offset: 2px; }
+
     /* ── REDUCED MOTION ── */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
       .anim { opacity: 1; transform: none; }
+      .scroll-hint { animation: none; }
       html { scroll-behavior: auto; }
     }
   </style>
@@ -703,8 +715,8 @@
 <!-- ══════════════════ 3. 교육 철학 ══════════════════ -->
 <section class="philosophy" id="philosophy" aria-labelledby="phil-heading">
   <div class="container">
-    <p style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--yellow);margin-bottom:10px;" class="anim">교육 철학</p>
-    <h2 id="phil-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:#fff;letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
+    <p style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--purple);margin-bottom:10px;" class="anim">교육 철학</p>
+    <h2 id="phil-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
       3대 원칙<br>× 4단계 프로세스
     </h2>
     <div class="phil-grid">
