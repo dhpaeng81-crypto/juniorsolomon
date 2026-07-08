@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#1a0d30">
+  <meta name="theme-color" content="#1C2B4A">
   <title>선생님 소개 | 주니어솔로몬</title>
   <meta name="description" content="장화연 원장을 비롯한 주니어솔로몬 교사진 소개. 하브루타·독서·논술·수능국어 전문 선생님 5명이 소수정예로 아이의 성장을 이끕니다.">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
@@ -19,26 +19,26 @@
     /* ── PAGE HERO ── */
     .page-hero {
       padding: calc(var(--header-h) + 56px) 0 56px;
-      background: linear-gradient(150deg, oklch(10% 0.03 292) 0%, oklch(18% 0.07 292) 60%, oklch(24% 0.10 285) 100%);
+      background: linear-gradient(150deg, oklch(18% 0.05 258) 0%, oklch(22% 0.07 258) 60%, oklch(28% 0.09 258) 100%);
       position: relative; overflow: hidden;
     }
     .page-hero::before {
       content: ''; position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(ellipse 60% 70% at 80% 40%, oklch(68% 0.11 292 / 0.14), transparent);
+      background: radial-gradient(ellipse 60% 70% at 80% 40%, oklch(60% 0.12 72 / 0.14), transparent);
     }
     .breadcrumb {
       display: flex; align-items: center; gap: 6px;
-      font-size: 13px; color: oklch(55% 0.04 292); margin-bottom: 20px; flex-wrap: wrap;
+      font-size: 13px; color: oklch(62% 0.02 78); margin-bottom: 20px; flex-wrap: wrap;
     }
-    .breadcrumb a { color: oklch(55% 0.04 292); text-decoration: none; transition: color var(--t-fast); }
-    .breadcrumb a:hover { color: oklch(80% 0.05 292); }
-    .breadcrumb span { color: oklch(40% 0.04 292); }
+    .breadcrumb a { color: oklch(62% 0.02 78); text-decoration: none; transition: color var(--t-fast); }
+    .breadcrumb a:hover { color: oklch(85% 0.025 80); }
+    .breadcrumb span { color: oklch(50% 0.015 78); }
     .page-hero h1 {
       font-size: clamp(28px, 5vw, 52px); font-weight: 800;
       color: #fff; letter-spacing: -0.03em; line-height: 1.1; text-wrap: balance;
     }
     .page-hero p {
-      font-size: clamp(15px, 1.8vw, 17px); color: oklch(70% 0.04 292);
+      font-size: clamp(15px, 1.8vw, 17px); color: oklch(76% 0.015 80);
       margin-top: 14px; line-height: 1.75; max-width: 520px; text-wrap: balance;
     }
 
@@ -56,13 +56,13 @@
       gap: 0;
     }
     .principal-photo {
-      background: linear-gradient(145deg, oklch(80% 0.08 292), oklch(68% 0.11 292));
+      background: linear-gradient(145deg, oklch(75% 0.12 72), oklch(60% 0.12 72));
       min-height: 200px; display: flex; align-items: center; justify-content: center;
       font-size: 64px; position: relative; overflow: hidden;
     }
     .principal-photo::after {
       content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to bottom, transparent 60%, oklch(68% 0.11 292 / 0.3));
+      background: linear-gradient(to bottom, transparent 60%, oklch(60% 0.12 72 / 0.3));
     }
     .principal-content { padding: 36px 32px; }
     .principal-role {
@@ -135,7 +135,7 @@
     /* ── SOPHOS SECTION ── */
     .sophos-section {
       padding: 80px 0;
-      background: linear-gradient(150deg, oklch(10% 0.03 292), oklch(18% 0.07 292));
+      background: linear-gradient(150deg, oklch(18% 0.05 258), oklch(22% 0.07 258));
     }
     .sophos-header { margin-bottom: 40px; }
     .sophos-badge {
@@ -149,38 +149,38 @@
       font-size: clamp(22px, 3.5vw, 36px); font-weight: 800;
       color: #fff; letter-spacing: -0.025em; text-wrap: balance; margin-bottom: 8px;
     }
-    .sophos-sub { font-size: 15px; color: oklch(65% 0.04 292); line-height: 1.7; }
+    .sophos-sub { font-size: 15px; color: oklch(65% 0.015 80); line-height: 1.7; }
     .sophos-card {
-      background: oklch(16% 0.05 292 / 0.8);
-      border: 1px solid oklch(35% 0.06 292 / 0.4);
+      background: oklch(20% 0.07 258 / 0.8);
+      border: 1px solid oklch(35% 0.07 258 / 0.4);
       border-radius: var(--r-xl); padding: 32px;
     }
     .sophos-teacher-name { font-size: 26px; font-weight: 900; color: #fff; margin-bottom: 4px; }
     .sophos-teacher-spec { font-size: 14px; color: var(--yellow); margin-bottom: 20px; }
-    .sophos-teacher-desc { font-size: 14px; color: oklch(65% 0.04 292); line-height: 1.8; margin-bottom: 24px; }
+    .sophos-teacher-desc { font-size: 14px; color: oklch(65% 0.015 80); line-height: 1.8; margin-bottom: 24px; }
     .sophos-career {
       display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;
     }
     .sophos-career-tag {
       font-size: 12px; font-weight: 600; padding: 5px 12px;
       border-radius: var(--r-pill);
-      background: oklch(24% 0.06 292 / 0.8);
-      border: 1px solid oklch(40% 0.06 292 / 0.4);
-      color: oklch(75% 0.04 292);
+      background: oklch(24% 0.07 258 / 0.8);
+      border: 1px solid oklch(40% 0.07 258 / 0.4);
+      color: oklch(76% 0.015 80);
     }
     .sophos-table-title {
-      font-size: 13px; font-weight: 700; color: oklch(60% 0.05 292);
+      font-size: 13px; font-weight: 700; color: oklch(62% 0.015 80);
       letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px;
     }
     .class-table { width: 100%; border-collapse: collapse; }
     .class-table th {
-      background: oklch(22% 0.06 292); color: oklch(70% 0.04 292);
+      background: oklch(22% 0.07 258); color: oklch(76% 0.015 80);
       font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
       padding: 10px 14px; text-align: left;
     }
     .class-table td {
-      padding: 12px 14px; font-size: 13px; color: oklch(75% 0.03 292);
-      border-bottom: 1px solid oklch(24% 0.04 292 / 0.6);
+      padding: 12px 14px; font-size: 13px; color: oklch(76% 0.015 80);
+      border-bottom: 1px solid oklch(24% 0.05 258 / 0.6);
     }
     .class-table tr:last-child td { border-bottom: none; }
     .class-table .prog-name { font-weight: 700; color: #fff; }
@@ -193,10 +193,10 @@
     /* ── CONSULT CTA ── */
     .consult { background: var(--purple-deep); padding: 72px 0; text-align: center; }
     .consult-title { font-size: clamp(22px, 3.5vw, 36px); font-weight: 800; color: #fff; letter-spacing: -0.025em; text-wrap: balance; }
-    .consult-sub { font-size: 15px; color: oklch(72% 0.05 292); margin-top: 12px; }
+    .consult-sub { font-size: 15px; color: oklch(65% 0.015 80); margin-top: 12px; }
     .consult-cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 32px; }
     .btn-naver {
-      background: oklch(76% 0.09 292); color: #fff;
+      background: oklch(60% 0.12 72); color: #fff;
       padding: 15px 30px; border-radius: var(--r-pill);
       font-size: 15px; font-weight: 800; text-decoration: none;
       display: inline-flex; align-items: center; gap: 8px;
@@ -571,10 +571,10 @@
           <img src="logo.svg" class="logo-img" alt="" aria-hidden="true" width="40" height="40">
           <div style="margin-left:10px;">
             <div class="logo-text" style="color:#fff;font-size:17px;">주니어솔로몬</div>
-            <div class="logo-sub" style="color:oklch(45% 0.04 292);">Jr. Solomon Academy</div>
+            <div class="logo-sub" style="color:oklch(62% 0.015 80);">Jr. Solomon Academy</div>
           </div>
         </a>
-        <p style="font-size:13px;color:oklch(40% 0.04 292);line-height:1.7;margin-top:12px;">
+        <p style="font-size:13px;color:oklch(50% 0.015 78);line-height:1.7;margin-top:12px;">
           "모든 아이는 솔로몬의 지혜를 품을 수 있습니다"<br>
           서울 용산구 이촌로 200, LG프라자 4층 403호<br>
           ☎ 02-794-8123 · 월~금 14:00~21:00 / 토 09:00~18:00
@@ -582,22 +582,22 @@
       </div>
       <nav aria-label="푸터 메뉴" style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;">
         <div>
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(40% 0.04 292);margin-bottom:10px;">학원소개</div>
-          <a href="vision.html" style="display:block;font-size:13px;color:oklch(52% 0.04 292);text-decoration:none;margin-bottom:7px;">비전 &amp; 교육철학</a>
-          <a href="mission.html" style="display:block;font-size:13px;color:oklch(52% 0.04 292);text-decoration:none;margin-bottom:7px;">교육방향</a>
-          <a href="introduction.html" style="display:block;font-size:13px;color:oklch(80% 0.05 292);text-decoration:none;font-weight:700;margin-bottom:7px;">선생님 소개</a>
-          <a href="facility.html" style="display:block;font-size:13px;color:oklch(52% 0.04 292);text-decoration:none;">시설 안내</a>
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(50% 0.015 78);margin-bottom:10px;">학원소개</div>
+          <a href="vision.html" style="display:block;font-size:13px;color:oklch(68% 0.015 80);text-decoration:none;margin-bottom:7px;">비전 &amp; 교육철학</a>
+          <a href="mission.html" style="display:block;font-size:13px;color:oklch(68% 0.015 80);text-decoration:none;margin-bottom:7px;">교육방향</a>
+          <a href="introduction.html" style="display:block;font-size:13px;color:oklch(85% 0.025 80);text-decoration:none;font-weight:700;margin-bottom:7px;">선생님 소개</a>
+          <a href="facility.html" style="display:block;font-size:13px;color:oklch(68% 0.015 80);text-decoration:none;">시설 안내</a>
         </div>
         <div>
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(40% 0.04 292);margin-bottom:10px;">프로그램</div>
-          <a href="curriculum.html" style="display:block;font-size:13px;color:oklch(52% 0.04 292);text-decoration:none;margin-bottom:7px;">커리큘럼</a>
-          <a href="edu-1.html" style="display:block;font-size:13px;color:oklch(52% 0.04 292);text-decoration:none;margin-bottom:7px;">소포스에듀</a>
-          <a href="fee.html" style="display:block;font-size:13px;color:oklch(52% 0.04 292);text-decoration:none;margin-bottom:7px;">교습비 안내</a>
-          <a href="contact.html" style="display:block;font-size:13px;color:oklch(52% 0.04 292);text-decoration:none;">오시는길</a>
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(50% 0.015 78);margin-bottom:10px;">프로그램</div>
+          <a href="curriculum.html" style="display:block;font-size:13px;color:oklch(68% 0.015 80);text-decoration:none;margin-bottom:7px;">커리큘럼</a>
+          <a href="edu-1.html" style="display:block;font-size:13px;color:oklch(68% 0.015 80);text-decoration:none;margin-bottom:7px;">소포스에듀</a>
+          <a href="fee.html" style="display:block;font-size:13px;color:oklch(68% 0.015 80);text-decoration:none;margin-bottom:7px;">교습비 안내</a>
+          <a href="contact.html" style="display:block;font-size:13px;color:oklch(68% 0.015 80);text-decoration:none;">오시는길</a>
         </div>
       </nav>
     </div>
-    <div style="border-top:1px solid oklch(18% 0.03 292);padding-top:20px;font-size:12px;color:oklch(35% 0.04 292);line-height:1.8;">
+    <div style="border-top:1px solid oklch(28% 0.06 258);padding-top:20px;font-size:12px;color:oklch(52% 0.015 80);line-height:1.8;">
       대표: 장화연 · 사업자 511-96-33718 · 중부교육지원청 제3336호<br>
       © 2017–2026 주니어솔로몬. All rights reserved.
     </div>

@@ -98,7 +98,7 @@
       color: var(--navy); text-wrap: balance;
       margin-bottom: 24px;
     }
-    .hero-title em { font-style: italic; color: var(--amber); }
+    .hero-title em { font-style: normal; color: var(--amber); }
     .hero-sub {
       font-size: 18px; color: var(--ink-muted);
       line-height: 1.78; margin-top: 0; margin-bottom: 40px; max-width: 500px;
@@ -368,14 +368,14 @@
     }
     .summer-card {
       border-radius: var(--r-lg); padding: 20px 18px;
-      border: 1px solid oklch(45% 0.07 280 / 0.5);
-      background: oklch(25% 0.07 275 / 0.7);
+      border: 1px solid oklch(40% 0.07 258 / 0.5);
+      background: oklch(25% 0.07 258 / 0.7);
       display: flex; flex-direction: column; gap: 5px;
       transition: border-color var(--t-base), background var(--t-base);
     }
     .summer-card:hover {
-      border-color: oklch(68% 0.11 292 / 0.7);
-      background: oklch(28% 0.08 275 / 0.9);
+      border-color: oklch(60% 0.12 72 / 0.7);
+      background: oklch(28% 0.08 258 / 0.9);
     }
     .summer-card.highlight {
       border-color: oklch(88% 0.13 97 / 0.4);
@@ -750,7 +750,7 @@
     <div class="anim">
       <p class="principal-kicker">원장 인사말</p>
       <h2 id="principal-heading" class="principal-quote">
-        "지혜도<br><em>연습</em>할 수 있습니다"
+        "지혜도<br><em style="font-style:normal;color:var(--amber)">연습</em>할 수 있습니다"
       </h2>
     </div>
     <div class="principal-right anim anim-d1">

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>커뮤니티 | 주니어솔로몬</title>
   <meta name="description" content="주니어솔로몬 공지사항, 갤러리, Q&A, 수강후기 게시판">
-  <meta name="theme-color" content="#0d1b3e">
+  <meta name="theme-color" content="#1C2B4A">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet" href="style.css">
   <style>
@@ -13,21 +13,21 @@
     /* ══ DESIGN TOKENS — 주니어솔로몬 CI (인디고 + 옐로) ══ */
     :root {
       /* Color — site palette (hue 292) */
-      --bg:           oklch(99% 0.004 292);
-      --surface:      oklch(96% 0.008 292);
-      --surface-2:    oklch(92% 0.012 292);
-      --primary:      oklch(68% 0.11  292);
-      --primary-hov:  oklch(55% 0.13  285);
-      --primary-sub:  oklch(97% 0.025 292);
+      --bg:           oklch(96% 0.014 80);
+      --surface:      oklch(93% 0.018 80);
+      --surface-2:    oklch(87% 0.022 78);
+      --primary:      oklch(60% 0.12 72);
+      --primary-hov:  oklch(52% 0.14 72);
+      --primary-sub:  oklch(93% 0.05 78);
       --accent:       oklch(88% 0.13   97);
       --accent-fg:    oklch(40% 0.10   75);
       --success:      oklch(50% 0.17  145);
       --error:        oklch(52% 0.20   25);
-      --ink:          oklch(20% 0.015 292);
-      --ink-2:        oklch(48% 0.010 292);
-      --muted:        oklch(62% 0.008 292);
-      --border:       oklch(88% 0.010 292);
-      --border-str:   oklch(78% 0.015 292);
+      --ink:          oklch(22% 0.07 258);
+      --ink-2:        oklch(40% 0.020 62);
+      --muted:        oklch(62% 0.012 58);
+      --border:       oklch(84% 0.020 78);
+      --border-str:   oklch(78% 0.018 78);
       /* Shadow */
       --sh-xs: 0 1px 2px oklch(0.2 0 0 / .06);
       --sh-sm: 0 1px 3px oklch(0.2 0 0 / .07), 0 1px 2px oklch(0.2 0 0 / .05);
@@ -41,26 +41,26 @@
       /* Font */
       --font: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       /* style.css 별칭 (헤더/푸터 컴포넌트가 이 이름들로 참조) */
-      --purple:        oklch(68% 0.11 292);
-      --purple-deep:   oklch(32% 0.13 285);
-      --purple-mid:    oklch(76% 0.09 292);
-      --purple-light:  oklch(93% 0.05 292);
-      --purple-xlight: oklch(97% 0.025 292);
+      --purple:        oklch(60% 0.12 72);
+      --purple-deep:   oklch(22% 0.07 258);
+      --purple-mid:    oklch(60% 0.12 72);
+      --purple-light:  oklch(93% 0.05 78);
+      --purple-xlight: oklch(96% 0.014 80);
       --yellow:        oklch(88% 0.13 97);
       --yellow-deep:   oklch(72% 0.14 78);
       --yellow-light:  oklch(96% 0.07 99);
-      --ink-muted:     oklch(48% 0.010 292);
-      --ink-subtle:    oklch(62% 0.008 292);
-      --canvas:        oklch(99% 0.004 292);
-      --surf-0:        oklch(99% 0.004 292);
-      --surf-1:        oklch(96% 0.008 292);
-      --surf-2:        oklch(92% 0.012 292);
-      --hero-dark:     oklch(14% 0.025 292);
+      --ink-muted:     oklch(40% 0.020 62);
+      --ink-subtle:    oklch(62% 0.012 58);
+      --canvas:        oklch(96% 0.014 80);
+      --surf-0:        oklch(96% 0.014 80);
+      --surf-1:        oklch(93% 0.018 80);
+      --surf-2:        oklch(87% 0.022 78);
+      --hero-dark:     oklch(22% 0.07 258);
       --shadow-sm:     0 1px 3px oklch(0.2 0 0 / .07), 0 1px 2px oklch(0.2 0 0 / .05);
       --shadow-md:     0 4px 14px oklch(0.2 0 0 / .08), 0 2px 4px oklch(0.2 0 0 / .04);
       --shadow-lg:     0 8px 28px oklch(0.2 0 0 / .10), 0 4px 8px oklch(0.2 0 0 / .05);
-      --shadow-btn:    0 4px 14px oklch(68% 0.11 292 / 0.35);
-      --shadow-btnH:   0 8px 20px oklch(68% 0.11 292 / 0.45);
+      --shadow-btn:    0 4px 14px oklch(60% 0.12 72 / 0.35);
+      --shadow-btnH:   0 8px 20px oklch(60% 0.12 72 / 0.45);
       --r-pill:        9999px;
       --t-fast:        120ms;
       --t-base:        220ms;
@@ -176,13 +176,13 @@
       transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
     }
     .fi::placeholder { color: var(--muted); }
-    .fi:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px oklch(0.68 0.11 292 / .15); }
+    .fi:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px oklch(0.60 0.12 72 / .15); }
     textarea.fi { resize: vertical; min-height: 190px; line-height: 1.65; }
     .fi-group { position: relative; }
 
     /* Alert */
     .alert { padding: 12px 15px; border-radius: var(--r-md); font-size: .82rem; margin-bottom: 14px; line-height: 1.55; }
-    .alert-info { background: var(--primary-sub); color: var(--primary-hov); border: 1px solid oklch(0.68 0.11 292 / .20); }
+    .alert-info { background: var(--primary-sub); color: var(--primary-hov); border: 1px solid oklch(0.60 0.12 72 / .20); }
     .alert-warn { background: oklch(0.98 0.05 75); color: var(--accent-fg); border: 1px solid oklch(0.88 0.13 97 / .35); }
     .divider { height: 1px; background: var(--border); margin: 20px 0; }
 
@@ -212,7 +212,7 @@
       width: 160px; transition: border-color var(--dur) var(--ease), width var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
     }
     .search-fi::placeholder { color: var(--muted); }
-    .search-fi:focus { outline: none; border-color: var(--primary); width: 200px; box-shadow: 0 0 0 3px oklch(0.68 0.11 292 / .12); }
+    .search-fi:focus { outline: none; border-color: var(--primary); width: 200px; box-shadow: 0 0 0 3px oklch(0.60 0.12 72 / .12); }
 
     .post-list { display: flex; flex-direction: column; gap: 8px; }
     .post-card {
@@ -258,13 +258,13 @@
       background: oklch(0.1 0 0 / .32); font-size: 2.2rem; pointer-events: none;
     }
     .gcard-overlay {
-      position: absolute; inset: 0; background: oklch(0.68 0.11 292 / 0);
+      position: absolute; inset: 0; background: oklch(0.60 0.12 72 / 0);
       display: flex; align-items: center; justify-content: center;
       transition: background var(--dur) var(--ease), opacity var(--dur) var(--ease);
       opacity: 0;
     }
     .gcard-overlay-ico { font-size: 1.8rem; transform: scale(.8); transition: transform .22s var(--ease); }
-    .gcard:hover .gcard-overlay { background: oklch(0.68 0.11 292 / .22); opacity: 1; }
+    .gcard:hover .gcard-overlay { background: oklch(0.60 0.12 72 / .22); opacity: 1; }
     .gcard:hover .gcard-overlay-ico { transform: scale(1); }
     .gcard-badge {
       position: absolute; top: 8px; right: 8px;
