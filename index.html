@@ -3,36 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#1a0d30">
+  <meta name="theme-color" content="#F7F3EC">
   <title>주니어솔로몬 | 질문으로 시작되는 독서·철학·논술 전문 학원</title>
   <meta name="description" content="2022 한국브랜드소비자평가 논술교육 대상. 하브루타 질문 중심 독서·철학·논술 전문 학원. 서울 용산구 이촌동. ☎ 02-794-8123">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet" href="style.css">
 
   <style>
-    /* ── INDEX-SPECIFIC TOKENS & OVERRIDES ── */
+    /* ── INDEX-SPECIFIC TOKENS — Direction A: 따뜻한 격조 ── */
     :root {
-      --purple:        oklch(68% 0.11 292);
-      --purple-deep:   oklch(32% 0.13 285);
-      --purple-mid:    oklch(76% 0.09 292);
-      --purple-light:  oklch(93% 0.05 292);
-      --purple-xlight: oklch(97% 0.025 292);
-      --yellow:        oklch(88% 0.13 97);
-      --yellow-deep:   oklch(72% 0.14 78);
-      --yellow-light:  oklch(96% 0.07 99);
-      --ink:           oklch(18% 0.015 292);
-      --ink-muted:     oklch(38% 0.010 292);
-      --ink-subtle:    oklch(52% 0.008 292);
-      --canvas:        oklch(99% 0.004 292);
-      --surf-1:        oklch(96% 0.008 292);
-      --surf-2:        oklch(92% 0.012 292);
-      --border:        oklch(88% 0.010 292);
-      --hero-dark:     oklch(12% 0.025 292);
-      --shadow-sm:     0 1px 4px oklch(20% 0.015 292 / 0.07);
-      --shadow-md:     0 4px 16px oklch(20% 0.015 292 / 0.10);
-      --shadow-lg:     0 8px 32px oklch(20% 0.015 292 / 0.14);
-      --shadow-btn:    0 4px 14px oklch(68% 0.11 292 / 0.35);
-      --shadow-btnH:   0 8px 20px oklch(68% 0.11 292 / 0.45);
+      /* Core palette */
+      --cream:         oklch(96% 0.014 80);
+      --cream-2:       oklch(93% 0.018 80);
+      --cream-3:       oklch(87% 0.022 78);
+      --navy:          oklch(22% 0.07 258);
+      --navy-mid:      oklch(30% 0.09 260);
+      --amber:         oklch(60% 0.12 72);
+      --amber-light:   oklch(70% 0.13 76);
+      --amber-xlight:  oklch(93% 0.05 80);
+      /* Ink */
+      --ink:           oklch(22% 0.07 258);
+      --ink-muted:     oklch(40% 0.020 62);
+      --ink-subtle:    oklch(62% 0.012 58);
+      /* Surfaces */
+      --canvas:        oklch(96% 0.014 80);
+      --surf-1:        oklch(93% 0.018 80);
+      --surf-2:        oklch(87% 0.022 78);
+      --border:        oklch(84% 0.020 78);
+      /* Legacy aliases → new system */
+      --purple:        oklch(60% 0.12 72);
+      --purple-deep:   oklch(22% 0.07 258);
+      --purple-mid:    oklch(30% 0.09 260);
+      --purple-light:  oklch(93% 0.05 80);
+      --purple-xlight: oklch(97% 0.025 80);
+      --yellow:        oklch(60% 0.12 72);
+      --yellow-deep:   oklch(18% 0.05 65);
+      --yellow-light:  oklch(93% 0.05 80);
+      --hero-dark:     oklch(22% 0.07 258);
+      /* Typography */
+      --serif: 'Gowun Batang', 'Apple SD Myungjo Neo', 'Nanum Myeongjo', Batang, Georgia, serif;
+      /* Shadows */
+      --shadow-sm:     0 1px 4px oklch(22% 0.07 258 / 0.06);
+      --shadow-md:     0 4px 16px oklch(22% 0.07 258 / 0.09);
+      --shadow-lg:     0 8px 32px oklch(22% 0.07 258 / 0.12);
+      --shadow-btn:    0 4px 14px oklch(60% 0.12 72 / 0.28);
+      --shadow-btnH:   0 8px 20px oklch(60% 0.12 72 / 0.38);
       --r-sm: 6px; --r-md: 12px; --r-lg: 20px; --r-xl: 28px; --r-pill: 9999px;
       --ease: cubic-bezier(0.16, 1, 0.3, 1);
       --t-fast: 120ms; --t-base: 220ms; --t-slow: 350ms;
@@ -48,59 +66,81 @@
     .anim-d3  { transition-delay: 0.24s; }
     .anim-d4  { transition-delay: 0.32s; }
 
-    /* ── HERO ── */
+    /* ── HERO — Direction A: 크림 배경, 좌정렬 ── */
     .hero {
       min-height: 100dvh;
-      background: linear-gradient(150deg, oklch(10% 0.03 292) 0%, oklch(16% 0.06 292) 50%, oklch(22% 0.09 285) 100%);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; padding: calc(var(--header-h) + 60px) 20px 80px;
+      background: var(--cream);
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
+      padding: calc(var(--header-h) + 72px) clamp(24px, 5vw, 80px) 80px;
       position: relative; overflow: hidden;
     }
     .hero::before {
       content: ''; position: absolute; inset: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 70% 55% at 20% 30%, oklch(68% 0.11 292 / 0.18), transparent),
-        radial-gradient(ellipse 50% 60% at 80% 70%, oklch(88% 0.13 97 / 0.10), transparent);
+        radial-gradient(ellipse 55% 70% at 92% 50%, oklch(60% 0.12 72 / 0.07), transparent),
+        radial-gradient(ellipse 35% 50% at 5% 90%, oklch(22% 0.07 258 / 0.04), transparent);
     }
-    .hero-star {
-      width: clamp(52px, 8vw, 80px); height: clamp(52px, 8vw, 80px);
-      margin: 0 auto 28px; opacity: 0.9;
-    }
+    .hero-star { display: none; }
+    .hero-left { position: relative; z-index: 1; max-width: 620px; }
     .hero-label {
-      font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--yellow); margin-bottom: 20px;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 24px;
+      display: flex; align-items: center; justify-content: flex-start; gap: 10px;
     }
-    .hero-label::before, .hero-label::after {
-      content: ''; display: block; width: 28px; height: 1px; background: var(--yellow); opacity: 0.5;
-    }
+    .hero-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--amber); }
+    .hero-label::after  { display: none; }
     .hero-title {
-      font-size: clamp(28px, 5.5vw, 58px);
-      font-weight: 800; line-height: 1.1; letter-spacing: -0.03em;
-      color: #fff; text-wrap: balance; max-width: 760px;
+      font-family: var(--serif);
+      font-size: clamp(40px, 5.5vw, 68px);
+      font-weight: 700; line-height: 1.12; letter-spacing: -0.02em;
+      color: var(--navy); text-wrap: balance;
+      margin-bottom: 24px;
     }
-    .hero-title em { font-style: normal; color: var(--yellow); }
+    .hero-title em { font-style: italic; color: var(--amber); }
     .hero-sub {
-      font-size: clamp(15px, 1.8vw, 18px); color: oklch(82% 0.03 292);
-      line-height: 1.75; margin-top: 20px; max-width: 540px; text-wrap: balance;
+      font-size: 18px; color: var(--ink-muted);
+      line-height: 1.78; margin-top: 0; margin-bottom: 40px; max-width: 500px;
     }
     .hero-cta {
-      display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 40px;
+      display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-start; margin-top: 0;
     }
+    .hero-cta .btn-kakao {
+      background: var(--cream-2); color: var(--navy);
+      border: 1.5px solid var(--cream-3);
+    }
+    .hero-cta .btn-kakao:hover { background: var(--cream-3); opacity: 1; }
     .hero-badge {
-      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
-      display: flex; gap: 24px; align-items: center;
-      font-size: 12px; color: oklch(65% 0.04 292); white-space: nowrap;
+      position: static; transform: none;
+      display: flex; gap: 20px; align-items: center;
+      font-size: 12px; color: var(--ink-subtle); white-space: nowrap;
+      flex-wrap: wrap; margin-top: 36px;
     }
     .hero-badge span { display: flex; align-items: center; gap: 5px; }
-    .hero-badge .dot { width: 4px; height: 4px; border-radius: 50%; background: oklch(55% 0.06 292); }
-    .scroll-hint {
-      position: absolute; bottom: 70px; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 6px;
-      font-size: 11px; color: oklch(55% 0.04 292); letter-spacing: 0.06em;
-      animation: bob 2.2s ease-in-out infinite;
+    .hero-badge .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--cream-3); }
+    .hero-right {
+      display: none;
+      flex-shrink: 0; width: 272px; position: relative; z-index: 1;
     }
-    .scroll-hint svg { width: 18px; height: 18px; opacity: 0.5; }
+    .hero-stats-card {
+      background: var(--cream-2); border: 1px solid var(--cream-3);
+      border-radius: var(--r-xl); padding: 32px 28px; position: relative;
+    }
+    .hero-stats-card::before {
+      content: '';
+      position: absolute; top: 0; left: 36px; right: 36px; height: 3px;
+      background: var(--amber); border-radius: 3px 3px 0 0;
+    }
+    .hero-stat { padding: 18px 0; border-bottom: 1px solid var(--cream-3); }
+    .hero-stat:last-child { border-bottom: none; padding-bottom: 0; }
+    .hero-stat:first-child { padding-top: 0; }
+    .hero-stat-num {
+      font-size: 34px; font-weight: 900; color: var(--amber);
+      letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums;
+    }
+    .hero-stat-label { font-size: 12px; color: var(--ink-subtle); margin-top: 4px; font-weight: 500; }
+    .scroll-hint { display: none; }
     @keyframes bob { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
 
     /* ── 원장 인사말 ── */
@@ -114,8 +154,9 @@
       color: var(--purple); margin-bottom: 20px;
     }
     .principal-quote {
-      font-size: clamp(36px, 5.5vw, 68px); font-weight: 800;
-      line-height: 1.1; letter-spacing: -0.04em; color: var(--ink);
+      font-family: var(--serif);
+      font-size: clamp(36px, 5.5vw, 68px); font-weight: 700;
+      line-height: 1.12; letter-spacing: -0.025em; color: var(--ink);
       text-wrap: balance; position: relative; padding-left: 0;
     }
     .principal-quote::before {
@@ -175,7 +216,7 @@
       content: attr(data-step);
       position: absolute; left: 18px; top: 22px;
       width: 34px; height: 34px; border-radius: var(--r-md);
-      background: var(--yellow); color: oklch(18% 0.06 78);
+      background: var(--amber); color: #fff;
       font-size: 14px; font-weight: 900;
       display: flex; align-items: center; justify-content: center;
     }
@@ -235,11 +276,11 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 10px; font-weight: 900; color: #fff; flex-shrink: 0;
     }
-    .level-badge.l1 { background: var(--purple-mid); }
-    .level-badge.l2 { background: var(--purple); }
-    .level-badge.l3 { background: oklch(62% 0.11 292); }
-    .level-badge.l4 { background: oklch(56% 0.12 292); }
-    .level-badge.l5 { background: var(--purple-deep); }
+    .level-badge.l1 { background: oklch(48% 0.07 258); }
+    .level-badge.l2 { background: oklch(38% 0.08 258); }
+    .level-badge.l3 { background: oklch(32% 0.08 260); }
+    .level-badge.l4 { background: oklch(28% 0.08 260); }
+    .level-badge.l5 { background: var(--navy); }
     .level-label { font-size: 16px; font-weight: 700; color: var(--ink); }
     .level-desc  { font-size: 14px; color: var(--ink-muted); margin-top: 4px; line-height: 1.5; }
     .level-age   { font-size: 13px; font-weight: 700; color: var(--purple); white-space: nowrap; }
@@ -272,40 +313,40 @@
     .teacher-divider { height: 1px; background: var(--border); }
 
     /* ── 신뢰 지표 ── */
-    .trust { background: var(--purple-deep); padding: clamp(64px,9vw,110px) 0; }
+    .trust { background: var(--navy); padding: clamp(64px,9vw,110px) 0; }
     .trust-grid {
       display: grid; grid-template-columns: repeat(2, 1fr);
       gap: 1px; margin-top: 48px;
-      background: oklch(40% 0.08 285 / 0.3);
+      background: oklch(30% 0.07 260 / 0.5);
       border-radius: var(--r-xl); overflow: hidden;
-      border: 1px solid oklch(40% 0.08 285 / 0.3);
+      border: 1px solid oklch(30% 0.07 260 / 0.5);
     }
     .trust-item {
-      background: oklch(26% 0.10 285);
+      background: oklch(28% 0.08 260);
       padding: 36px 28px; text-align: center;
     }
-    .trust-num  { font-size: clamp(40px, 6vw, 60px); font-weight: 900; color: var(--yellow); line-height: 1; letter-spacing: -0.03em; }
-    .trust-unit { font-size: 15px; color: oklch(85% 0.04 285); font-weight: 600; margin-top: 6px; }
-    .trust-label{ font-size: 13px; color: oklch(65% 0.05 292); margin-top: 6px; }
+    .trust-num  { font-size: clamp(40px, 6vw, 60px); font-weight: 900; color: var(--amber-light); line-height: 1; letter-spacing: -0.03em; }
+    .trust-unit { font-size: 15px; color: rgba(255,255,255,0.65); font-weight: 600; margin-top: 6px; }
+    .trust-label{ font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 6px; }
     .trust-badge {
       grid-column: 1 / -1;
-      background: oklch(22% 0.09 285);
+      background: oklch(22% 0.07 258);
       padding: 28px 24px; text-align: center;
     }
-    .trust-badge-text { font-size: 16px; font-weight: 700; color: var(--yellow); }
-    .trust-badge-sub  { font-size: 13px; color: oklch(65% 0.05 292); margin-top: 6px; }
+    .trust-badge-text { font-size: 16px; font-weight: 700; color: var(--amber-light); }
+    .trust-badge-sub  { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 6px; }
 
     /* ── 여름방학 ── */
     .summer {
-      background: linear-gradient(160deg, oklch(22% 0.08 260) 0%, oklch(16% 0.06 285) 50%, oklch(20% 0.07 270) 100%);
+      background: linear-gradient(160deg, var(--navy) 0%, oklch(18% 0.08 260) 50%, oklch(22% 0.09 258) 100%);
       padding: clamp(80px,12vw,160px) 0;
       position: relative; overflow: hidden;
     }
     .summer::before {
       content: ''; position: absolute; inset: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 60% 50% at 85% 20%, oklch(88% 0.13 97 / 0.12), transparent),
-        radial-gradient(ellipse 40% 60% at 10% 80%, oklch(68% 0.11 292 / 0.14), transparent);
+        radial-gradient(ellipse 60% 50% at 85% 20%, oklch(60% 0.12 72 / 0.10), transparent),
+        radial-gradient(ellipse 40% 60% at 10% 80%, oklch(30% 0.09 260 / 0.20), transparent);
     }
     .summer-eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
@@ -387,19 +428,19 @@
     .notice-item.open .notice-body-inner { padding: 0 20px 18px; }
 
     /* ── 상담 CTA ── */
-    .consult { background: linear-gradient(150deg, oklch(10% 0.03 292), oklch(20% 0.09 285)); padding: clamp(80px,11vw,140px) 0; text-align: center; }
+    .consult { background: linear-gradient(150deg, var(--navy), oklch(28% 0.09 260)); padding: clamp(80px,11vw,140px) 0; text-align: center; }
     .consult-title { font-size: clamp(24px, 4vw, 42px); font-weight: 800; color: #fff; line-height: 1.2; letter-spacing: -0.025em; text-wrap: balance; }
-    .consult-sub   { font-size: 16px; color: oklch(72% 0.04 292); margin-top: 14px; }
+    .consult-sub   { font-size: 16px; color: rgba(255,255,255,0.6); margin-top: 14px; }
     .consult-cta   { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 36px; }
     .btn-naver {
-      background: var(--purple); color: #fff;
+      background: var(--navy); color: #fff;
       padding: 16px 32px; border-radius: var(--r-pill);
       font-size: 16px; font-weight: 800; text-decoration: none;
       display: inline-flex; align-items: center; gap: 8px;
       box-shadow: var(--shadow-btn);
       transition: box-shadow var(--t-fast), transform var(--t-base) var(--ease), background var(--t-fast);
     }
-    .btn-naver:hover { background: var(--purple-deep); box-shadow: var(--shadow-btnH); transform: translateY(-2px); }
+    .btn-naver:hover { background: oklch(28% 0.08 260); box-shadow: var(--shadow-btnH); transform: translateY(-2px); }
     .btn-kakao {
       background: #FEE500; color: #3B1B1B;
       padding: 16px 32px; border-radius: var(--r-pill);
@@ -408,64 +449,64 @@
       transition: opacity var(--t-fast), transform var(--t-base) var(--ease);
     }
     .btn-kakao:hover { opacity: 0.9; transform: translateY(-2px); }
-    .consult-info { font-size: 14px; color: oklch(55% 0.04 292); margin-top: 24px; }
+    .consult-info { font-size: 14px; color: rgba(255,255,255,0.4); margin-top: 24px; }
 
     /* ── FOOTER ── */
-    .footer { background: oklch(10% 0.02 292); padding: 56px 0 32px; }
+    .footer { background: var(--navy); padding: 56px 0 32px; }
     .footer-inner {
       max-width: 1200px; margin: 0 auto; padding: 0 20px;
       display: grid; grid-template-columns: 1fr; gap: 40px;
     }
     .footer-brand .logo-text { color: #fff; font-size: 20px; }
-    .footer-brand .logo-sub  { color: oklch(50% 0.04 292); }
-    .footer-tagline { font-size: 13px; color: oklch(45% 0.04 292); margin-top: 12px; line-height: 1.6; }
+    .footer-brand .logo-sub  { color: rgba(255,255,255,0.4); }
+    .footer-tagline { font-size: 13px; color: rgba(255,255,255,0.38); margin-top: 12px; line-height: 1.6; }
     .footer-social { display: flex; gap: 12px; margin-top: 16px; }
     .footer-social a {
       width: 36px; height: 36px; border-radius: 50%;
-      border: 1px solid oklch(28% 0.04 292);
+      border: 1px solid rgba(255,255,255,0.15);
       display: flex; align-items: center; justify-content: center;
-      color: oklch(55% 0.04 292); text-decoration: none; font-size: 14px;
+      color: rgba(255,255,255,0.4); text-decoration: none; font-size: 14px;
       transition: border-color var(--t-fast), color var(--t-fast);
     }
-    .footer-social a:hover { border-color: var(--purple); color: var(--purple-mid); }
+    .footer-social a:hover { border-color: var(--amber); color: var(--amber-light); }
     .footer-nav { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
-    .footer-col-title { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: oklch(45% 0.04 292); margin-bottom: 12px; }
-    .footer-col a { display: block; font-size: 13px; color: oklch(55% 0.04 292); text-decoration: none; margin-bottom: 8px; transition: color var(--t-fast); }
-    .footer-col a:hover { color: oklch(80% 0.05 292); }
+    .footer-col-title { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.38); margin-bottom: 12px; }
+    .footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.45); text-decoration: none; margin-bottom: 8px; transition: color var(--t-fast); }
+    .footer-col a:hover { color: rgba(255,255,255,0.8); }
     .footer-bottom {
-      border-top: 1px solid oklch(18% 0.03 292);
+      border-top: 1px solid rgba(255,255,255,0.1);
       margin-top: 40px; padding-top: 24px;
-      font-size: 12px; color: oklch(38% 0.04 292); line-height: 1.8;
+      font-size: 12px; color: rgba(255,255,255,0.28); line-height: 1.8;
     }
 
-    /* ── HEADER (index-specific overrides) ── */
+    /* ── HEADER (index-specific overrides) — 크림 라이트 헤더 ── */
     .header { position: fixed; inset: 0 0 auto; height: var(--header-h); z-index: 100;
-      background: rgba(12, 6, 24, 0.85); backdrop-filter: blur(12px) saturate(180%);
-      border-bottom: 1px solid oklch(28% 0.04 292 / 0.4);
+      background: oklch(96% 0.014 80 / 0.92); backdrop-filter: blur(12px) saturate(180%);
+      border-bottom: 1px solid var(--cream-3);
       transition: background var(--t-slow); }
-    .header.scrolled { background: rgba(12, 6, 24, 0.97); }
+    .header.scrolled { background: oklch(96% 0.014 80 / 0.98); }
     .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; height: 100%;
       display: flex; align-items: center; justify-content: space-between; gap: 24px; }
     .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
-    .logo-img { width: 46px; height: 46px; flex-shrink: 0; filter: drop-shadow(0 2px 6px oklch(32% 0.13 285 / 0.30)); transition: transform var(--t-base) var(--ease); }
+    .logo-img { width: 46px; height: 46px; flex-shrink: 0; filter: none; transition: transform var(--t-base) var(--ease); }
     .logo:hover .logo-img { transform: scale(1.05); }
-    .logo-text { font-size: 18px; font-weight: 900; letter-spacing: -0.04em; color: #fff; line-height: 1; }
-    .logo-sub  { font-size: 10px; font-weight: 600; color: oklch(60% 0.04 292); margin-top: 2px; }
+    .logo-text { font-size: 18px; font-weight: 900; letter-spacing: -0.04em; color: var(--navy); line-height: 1; }
+    .logo-sub  { font-size: 10px; font-weight: 600; color: var(--ink-subtle); margin-top: 2px; }
     .nav { display: none; align-items: center; gap: 4px; }
     .nav-item { position: relative; }
     .nav-link {
       display: flex; align-items: center; gap: 4px; padding: 8px 12px; border-radius: var(--r-md);
-      font-size: 14px; font-weight: 600; color: oklch(78% 0.03 292);
+      font-size: 14px; font-weight: 600; color: var(--ink-muted);
       text-decoration: none; cursor: pointer; border: none; background: transparent;
       font-family: var(--font); white-space: nowrap;
       transition: color var(--t-fast), background var(--t-fast);
     }
-    .nav-link:hover { color: #fff; background: oklch(100% 0 0 / 0.07); }
+    .nav-link:hover { color: var(--navy); background: var(--cream-2); }
     .nav-link svg { width: 14px; height: 14px; opacity: 0.5; transition: transform var(--t-base) var(--ease); }
     .nav-item:hover .nav-link svg { transform: rotate(180deg); }
     .dropdown {
       position: absolute; top: calc(100% + 6px); left: 0; min-width: 158px;
-      background: oklch(98% 0.004 292); border: 1px solid var(--border);
+      background: var(--canvas); border: 1px solid var(--border);
       border-radius: var(--r-md); box-shadow: var(--shadow-lg);
       opacity: 0; visibility: hidden; transform: translateY(-6px) scale(0.97);
       transition: opacity var(--t-base) var(--ease), visibility var(--t-base), transform var(--t-base) var(--ease);
@@ -473,7 +514,7 @@
     }
     .nav-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
     .dropdown a { display: block; padding: 10px 16px; font-size: 13px; color: var(--ink-muted); text-decoration: none; transition: background var(--t-fast), color var(--t-fast); }
-    .dropdown a:hover { background: var(--surf-1); color: var(--purple); }
+    .dropdown a:hover { background: var(--surf-1); color: var(--amber); }
 
     /* CTA stack */
     .header-cta-stack { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
@@ -482,13 +523,13 @@
       text-decoration: none; line-height: 1; white-space: nowrap;
       transition: opacity var(--t-fast), transform var(--t-fast); }
     .header-btn:hover { opacity: 0.88; transform: scale(1.03); }
-    .header-btn-naver { background: var(--purple); color: #fff; }
+    .header-btn-naver { background: var(--navy); color: #fff; }
     .header-btn-kakao { background: #FEE500; color: #3B1B1B; }
 
     /* Mobile toggle */
     .menu-toggle { display: flex; flex-direction: column; gap: 5px; padding: 8px;
       border: none; background: none; border-radius: var(--r-md); cursor: pointer; }
-    .menu-toggle span { display: block; width: 20px; height: 2px; background: oklch(78% 0.03 292); border-radius: 2px;
+    .menu-toggle span { display: block; width: 20px; height: 2px; background: var(--ink-muted); border-radius: 2px;
       transition: transform var(--t-base) var(--ease), opacity var(--t-base); }
     .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
     .menu-toggle.open span:nth-child(2) { opacity: 0; }
@@ -497,24 +538,24 @@
     /* Mobile nav */
     .mobile-nav {
       display: none; position: fixed; inset: var(--header-h) 0 0;
-      background: rgba(12, 6, 24, 0.98); z-index: 99;
+      background: oklch(18% 0.07 258 / 0.98); z-index: 99;
       overflow-y: auto; padding: 24px 20px;
       flex-direction: column; gap: 4px;
     }
     .mobile-nav.open { display: flex; }
     .mobile-nav a { display: block; padding: 14px 16px; font-size: 16px; font-weight: 600;
-      color: oklch(75% 0.03 292); text-decoration: none; border-radius: var(--r-md);
-      border-bottom: 1px solid oklch(20% 0.03 292 / 0.5);
+      color: oklch(80% 0.04 260); text-decoration: none; border-radius: var(--r-md);
+      border-bottom: 1px solid oklch(30% 0.06 260 / 0.5);
       transition: background var(--t-fast), color var(--t-fast); }
     .mobile-nav a:hover { background: oklch(100% 0 0 / 0.05); color: #fff; }
-    .mobile-nav .m-tel { margin-top: 20px; padding: 16px; background: var(--purple);
-      border-radius: var(--r-lg); font-size: 17px; font-weight: 800; color: #fff;
+    .mobile-nav .m-tel { margin-top: 20px; padding: 16px; background: var(--amber);
+      border-radius: var(--r-lg); font-size: 17px; font-weight: 800; color: var(--navy);
       text-align: center; text-decoration: none; display: block; }
     .mobile-nav .m-cta-row { display: flex; gap: 10px; margin-top: 10px; }
     .mobile-nav .m-cta-row a { flex: 1; text-align: center; padding: 14px 8px;
       border-radius: var(--r-lg); font-size: 14px; font-weight: 800;
       text-decoration: none; border-bottom: none; }
-    .mobile-nav .m-cta-naver { background: var(--purple); color: #fff; }
+    .mobile-nav .m-cta-naver { background: var(--navy); color: #fff; }
     .mobile-nav .m-cta-kakao  { background: #FEE500; color: #3B1B1B; }
 
     /* ── RESPONSIVE ── */
@@ -531,6 +572,10 @@
       .talent-card { gap: 40px; }
       .talent-num { width: 72px; font-size: 56px; }
     }
+    @media (min-width: 900px) {
+      .hero { grid-template-columns: 1fr 280px; gap: 48px; }
+      .hero-right { display: flex; }
+    }
     @media (min-width: 1024px) {
       .nav { display: flex; }
       .menu-toggle { display: none; }
@@ -539,6 +584,8 @@
       .summer-grid { grid-template-columns: repeat(4, 1fr); }
       .talent-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 64px; }
       .talent-card { border-top: 1px solid var(--border); }
+      .hero { grid-template-columns: 1fr 320px; gap: 64px; }
+      .hero-right { display: flex; }
     }
 
     /* ── SCROLL MARGIN ── */
@@ -653,39 +700,47 @@
 
 <!-- ══════════════════ 1. HERO ══════════════════ -->
 <section class="hero" aria-label="메인 히어로">
-  <div class="hero-star" aria-hidden="true">
-    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="40" cy="40" r="39" fill="oklch(68% 0.11 292 / 0.15)" stroke="oklch(68% 0.11 292 / 0.4)" stroke-width="1"/>
-      <path fill-rule="evenodd" fill="oklch(88% 0.13 97)" d="M40 12L52.5 34H27.5ZM40 68L27.5 46H52.5Z"/>
-    </svg>
+  <div class="hero-left">
+    <p class="hero-label anim">지혜가 샘솟는 독서·철학·논술 전문 학원</p>
+    <h1 class="hero-title anim anim-d1">
+      아이의 생각이<br>
+      <em>깊어지는</em> 시간
+    </h1>
+    <p class="hero-sub anim anim-d2">
+      단순한 독서를 넘어, 스스로 사고하고 표현하는 힘을 키웁니다.
+      주니어솔로몬의 검증된 커리큘럼이 아이의 가능성을 열어줍니다.
+    </p>
+    <div class="hero-cta anim anim-d3">
+      <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="btn-naver">
+        💬 네이버 톡톡 상담
+      </a>
+      <a href="curriculum.html" class="btn-kakao">
+        커리큘럼 보기 →
+      </a>
+    </div>
+    <div class="hero-badge anim anim-d4" aria-label="주요 인증 및 수상">
+      <span>📅 설립 2017</span>
+      <span class="dot"></span>
+      <span>🏆 2022 논술교육 대상</span>
+      <span class="dot"></span>
+      <span>📰 중앙일보 특집</span>
+    </div>
   </div>
-  <p class="hero-label anim">지혜가 샘솟는 독서·철학·논술 전문 학원</p>
-  <h1 class="hero-title anim anim-d1">
-    모든 아이는<br>
-    <em>솔로몬의 지혜</em>를<br>
-    품을 수 있습니다
-  </h1>
-  <p class="hero-sub anim anim-d2">
-    질문으로 시작해 하브루타로 깊어지고, 논술로 완성되는<br>
-    주니어솔로몬만의 독자적 교육 철학
-  </p>
-  <div class="hero-cta anim anim-d3">
-    <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="btn-naver">
-      💬 네이버 톡톡 상담
-    </a>
-    <a href="curriculum.html" class="btn-kakao">
-      커리큘럼 보기 →
-    </a>
-  </div>
-  <div class="scroll-hint" aria-hidden="true">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10l5 5 5-5"/></svg>
-  </div>
-  <div class="hero-badge" aria-label="주요 인증 및 수상">
-    <span>📅 설립 2017</span>
-    <span class="dot"></span>
-    <span>🏆 2022 논술교육 대상</span>
-    <span class="dot"></span>
-    <span>📰 중앙일보 특집</span>
+  <div class="hero-right" aria-hidden="true">
+    <div class="hero-stats-card">
+      <div class="hero-stat">
+        <div class="hero-stat-num">2,100+</div>
+        <div class="hero-stat-label">누적 수강생</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">9+년</div>
+        <div class="hero-stat-label">교육 경력</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">98%</div>
+        <div class="hero-stat-label">학부모 만족도</div>
+      </div>
+    </div>
   </div>
 </section>
 
