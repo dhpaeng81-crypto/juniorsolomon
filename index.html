@@ -336,59 +336,6 @@
     .trust-badge-text { font-size: 16px; font-weight: 700; color: var(--amber-light); }
     .trust-badge-sub  { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 6px; }
 
-    /* ── 여름방학 ── */
-    .summer {
-      background: linear-gradient(160deg, var(--navy) 0%, oklch(18% 0.08 260) 50%, oklch(22% 0.09 258) 100%);
-      padding: clamp(80px,12vw,160px) 0;
-      position: relative; overflow: hidden;
-    }
-    .summer::before {
-      content: ''; position: absolute; inset: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 60% 50% at 85% 20%, oklch(60% 0.12 72 / 0.10), transparent),
-        radial-gradient(ellipse 40% 60% at 10% 80%, oklch(30% 0.09 260 / 0.20), transparent);
-    }
-    .summer-eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--yellow); margin-bottom: 16px;
-    }
-    .summer-eyebrow::after { content: ''; display: block; width: 32px; height: 1px; background: var(--yellow); opacity: 0.5; }
-    .summer-heading { font-size: clamp(26px,4vw,46px); font-weight: 800; color: #fff; letter-spacing: -0.03em; text-wrap: balance; }
-    .summer-heading em { font-style: normal; color: var(--yellow); }
-    .summer-header-note {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 13px; font-weight: 700; color: oklch(20% 0.05 90);
-      background: var(--yellow); border-radius: var(--r-pill);
-      padding: 5px 14px; margin-top: 16px;
-    }
-    .summer-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: 10px; margin-top: 36px;
-    }
-    .summer-card {
-      border-radius: var(--r-lg); padding: 20px 18px;
-      border: 1px solid oklch(40% 0.07 258 / 0.5);
-      background: oklch(25% 0.07 258 / 0.7);
-      display: flex; flex-direction: column; gap: 5px;
-      transition: border-color var(--t-base), background var(--t-base);
-    }
-    .summer-card:hover {
-      border-color: oklch(60% 0.12 72 / 0.7);
-      background: oklch(28% 0.08 258 / 0.9);
-    }
-    .summer-card.highlight {
-      border-color: oklch(88% 0.13 97 / 0.4);
-      background: oklch(27% 0.09 260 / 0.8);
-    }
-    .summer-card.highlight:hover {
-      border-color: oklch(88% 0.13 97 / 0.7);
-    }
-    .summer-icon { font-size: 20px; margin-bottom: 2px; }
-    .summer-name { font-size: 14px; font-weight: 800; color: #fff; }
-    .summer-meta { font-size: 12px; color: oklch(65% 0.06 280); }
-    .summer-period { font-size: 11px; font-weight: 700; color: var(--yellow); margin-top: 4px; }
-
     /* ── 상담 CTA ── */
     .consult { background: linear-gradient(150deg, var(--navy), oklch(28% 0.09 260)); padding: clamp(80px,11vw,140px) 0; text-align: center; }
     .consult-title { font-size: clamp(24px, 4vw, 42px); font-weight: 800; color: #fff; line-height: 1.2; letter-spacing: -0.025em; text-wrap: balance; }
@@ -522,7 +469,6 @@
 
     /* ── RESPONSIVE ── */
     @media (min-width: 640px) {
-      .summer-grid { grid-template-columns: repeat(3, 1fr); }
       .trust-grid  { grid-template-columns: repeat(4, 1fr); }
       .trust-badge { grid-column: 1 / -1; }
     }
@@ -543,7 +489,6 @@
       .menu-toggle { display: none; }
       .phil-grid { grid-template-columns: 1fr 1fr; }
       .teacher-grid { grid-template-columns: repeat(3, 1fr); }
-      .summer-grid { grid-template-columns: repeat(4, 1fr); }
       .talent-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 64px; }
       .talent-card { border-top: 1px solid var(--border); }
       .hero { grid-template-columns: 1fr 320px; gap: 64px; }
@@ -1011,73 +956,7 @@
   </div>
 </section>
 
-<!-- ══════════════════ 8. 여름방학 특강 ══════════════════ -->
-<section class="summer" id="summer" aria-labelledby="summer-heading">
-  <div class="container" style="position:relative;z-index:1;">
-    <p class="summer-eyebrow anim">2026 여름방학 특강</p>
-    <h2 id="summer-heading" class="summer-heading anim anim-d1">
-      방학을 <em>실력</em>으로 채우는<br>8가지 특강
-    </h2>
-    <span class="summer-header-note anim anim-d2">📅 7월 22일 ~ 8월 17일</span>
-    <div class="summer-grid">
-      <div class="summer-card highlight anim anim-d1">
-        <div class="summer-icon">📚</div>
-        <div class="summer-name">고원재독서캠프</div>
-        <div class="summer-meta">주니어솔로몬</div>
-        <div class="summer-period">7/22 ~ 8/17</div>
-      </div>
-      <div class="summer-card anim anim-d2">
-        <div class="summer-icon">🤝</div>
-        <div class="summer-name">하브루타독서캠프</div>
-        <div class="summer-meta">주니어솔로몬</div>
-        <div class="summer-period">7/22 ~ 8/17</div>
-      </div>
-      <div class="summer-card anim anim-d3">
-        <div class="summer-icon">🌊</div>
-        <div class="summer-name">리딩오션</div>
-        <div class="summer-meta">교과연계 독서</div>
-        <div class="summer-period">7/22 ~ 8/17</div>
-      </div>
-      <div class="summer-card anim anim-d1">
-        <div class="summer-icon">🎬</div>
-        <div class="summer-name">시나리오창작</div>
-        <div class="summer-meta">주니어솔로몬</div>
-        <div class="summer-period">7/22 ~ 8/17</div>
-      </div>
-      <div class="summer-card anim anim-d2">
-        <div class="summer-icon">🖼️</div>
-        <div class="summer-name">그림책캠프</div>
-        <div class="summer-meta">유아·초등</div>
-        <div class="summer-period">7/22 ~ 8/17</div>
-      </div>
-      <div class="summer-card anim anim-d3">
-        <div class="summer-icon">✏️</div>
-        <div class="summer-name">한글캠프</div>
-        <div class="summer-meta">기초 문해력</div>
-        <div class="summer-period">7/22 ~ 8/17</div>
-      </div>
-      <div class="summer-card highlight anim anim-d1">
-        <div class="summer-icon">📖</div>
-        <div class="summer-name">고전문학특강</div>
-        <div class="summer-meta">박효정T · 소포스에듀</div>
-        <div class="summer-period">7/22 ~ 8/17</div>
-      </div>
-      <div class="summer-card highlight anim anim-d2">
-        <div class="summer-icon">🎯</div>
-        <div class="summer-name">문학독서·문법특강</div>
-        <div class="summer-meta">이대건T · 소포스에듀</div>
-        <div class="summer-period">7/22 ~ 8/17</div>
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:36px;" class="anim anim-d3">
-      <a href="board-notice.html" style="display:inline-flex;align-items:center;gap:8px;font-size:15px;padding:14px 32px;border-radius:9999px;font-weight:800;text-decoration:none;background:var(--yellow);color:oklch(16% 0.05 90);transition:opacity 0.15s,transform 0.22s;" onmouseover="this.style.opacity='.88';this.style.transform='translateY(-2px)'" onmouseout="this.style.opacity='1';this.style.transform='translateY(0)'">
-        여름방학 특강 상담 신청 →
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════ 9. 상담 CTA ══════════════════ -->
+<!-- ══════════════════ 8. 상담 CTA ══════════════════ -->
 <section class="consult" id="contact-cta" aria-labelledby="consult-heading">
   <div class="container">
     <h2 id="consult-heading" class="consult-title anim">
