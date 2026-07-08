@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#F7F3EC">
   <title>주니어솔로몬 | 질문으로 시작되는 독서·철학·논술 전문 학원</title>
-  <meta name="description" content="2022 한국브랜드소비자평가 논술교육 대상. 하브루타 질문 중심 독서·철학·논술 전문 학원. 서울 용산구 이촌동. ☎ 02-794-8123">
+  <meta name="description" content="2022 한국브랜드소비자평가 독서·논술 교육 부문 대상. 하브루타 질문 중심 독서·철학·논술 전문 학원. 서울 용산구 이촌동. ☎ 02-794-8123">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
@@ -389,44 +389,6 @@
     .summer-meta { font-size: 12px; color: oklch(65% 0.06 280); }
     .summer-period { font-size: 11px; font-weight: 700; color: var(--yellow); margin-top: 4px; }
 
-    /* ── 공지사항 ── */
-    .notice { background: var(--surf-1); padding: clamp(64px,8vw,100px) 0; }
-    .notice-list { margin-top: 32px; display: flex; flex-direction: column; gap: 2px; }
-    .notice-item {
-      background: var(--canvas); border-radius: var(--r-md);
-      border: 1px solid var(--border); overflow: hidden;
-    }
-    .notice-btn {
-      width: 100%; padding: 18px 20px; background: none; border: none;
-      cursor: pointer; font-family: var(--font);
-      display: flex; align-items: center; gap: 12px;
-      text-align: left;
-      transition: background var(--t-fast);
-    }
-    .notice-btn:hover { background: var(--surf-1); }
-    .notice-tag {
-      font-size: 11px; font-weight: 700; padding: 3px 8px;
-      border-radius: var(--r-pill); white-space: nowrap; flex-shrink: 0;
-    }
-    .notice-tag.sophos { background: var(--purple-light); color: var(--purple-deep); }
-    .notice-tag.general { background: var(--yellow-light); color: var(--yellow-deep); }
-    .notice-title { flex: 1; font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.4; }
-    .notice-date  { font-size: 12px; color: var(--ink-subtle); white-space: nowrap; flex-shrink: 0; }
-    .notice-arrow { font-size: 14px; color: var(--ink-subtle); flex-shrink: 0;
-      transition: transform var(--t-base) var(--ease); }
-    .notice-item.open .notice-arrow { transform: rotate(90deg); }
-    .notice-body {
-      display: grid; grid-template-rows: 0fr;
-      transition: grid-template-rows var(--t-slow) var(--ease);
-    }
-    .notice-item.open .notice-body { grid-template-rows: 1fr; }
-    .notice-body-inner {
-      overflow: hidden;
-      font-size: 14px; color: var(--ink-muted); line-height: 1.7;
-      padding: 0 20px;
-    }
-    .notice-item.open .notice-body-inner { padding: 0 20px 18px; }
-
     /* ── 상담 CTA ── */
     .consult { background: linear-gradient(150deg, var(--navy), oklch(28% 0.09 260)); padding: clamp(80px,11vw,140px) 0; text-align: center; }
     .consult-title { font-size: clamp(24px, 4vw, 42px); font-weight: 800; color: #fff; line-height: 1.2; letter-spacing: -0.025em; text-wrap: balance; }
@@ -597,7 +559,6 @@
       outline-offset: 3px;
       border-radius: 4px;
     }
-    .notice-btn:focus-visible,
     .nav-link:focus-visible,
     .level-item:focus-visible,
     .header-btn:focus-visible { outline-offset: 2px; }
@@ -721,7 +682,7 @@
     <div class="hero-badge anim anim-d4" aria-label="주요 인증 및 수상">
       <span>📅 설립 2017</span>
       <span class="dot"></span>
-      <span>🏆 2022 논술교육 대상</span>
+      <span>🏆 2022 독서·논술 교육 부문 대상</span>
       <span class="dot"></span>
       <span>📰 중앙일보 특집</span>
     </div>
@@ -1043,7 +1004,7 @@
         <div class="trust-label">레벨 커리큘럼</div>
       </div>
       <div class="trust-badge">
-        <div class="trust-badge-text">🏆 2022 한국브랜드소비자평가 논술교육 부문 대상</div>
+        <div class="trust-badge-text">🏆 2022 한국브랜드소비자평가 독서·논술 교육 부문 대상</div>
         <div class="trust-badge-sub">중앙일보 특집 기사 게재 · 중부교육지원청 제3336호</div>
       </div>
     </div>
@@ -1116,80 +1077,7 @@
   </div>
 </section>
 
-<!-- ══════════════════ 9. 공지사항 ══════════════════ -->
-<section class="notice" id="notice" aria-labelledby="notice-heading">
-  <div class="container">
-    <p style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--purple);margin-bottom:10px;" class="anim">공지사항</p>
-    <h2 id="notice-heading" style="font-size:clamp(32px,4.5vw,48px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;line-height:1.1;" class="anim anim-d1">최근 소식</h2>
-    <div class="notice-list anim anim-d2">
-      <div class="notice-item">
-        <button class="notice-btn" aria-expanded="false">
-          <span class="notice-tag sophos">소포스에듀</span>
-          <span class="notice-title">3/30개강 용강중 국어 중간고사 '전략적' 내신 대비반</span>
-          <span class="notice-date">2026.03.18</span>
-          <span class="notice-arrow" aria-hidden="true">›</span>
-        </button>
-        <div class="notice-body" role="region">
-          <div class="notice-body-inner">
-            소포스에듀 이대건T의 용강중 국어 중간고사 내신 대비반을 개강합니다.
-            전략적 문제 풀이와 출제 유형 분석으로 단기간에 실력을 끌어올립니다.
-            <br><br><a href="board-notice.html" style="color:var(--purple);font-weight:700;">자세히 보기 →</a>
-          </div>
-        </div>
-      </div>
-      <div class="notice-item">
-        <button class="notice-btn" aria-expanded="false">
-          <span class="notice-tag general">설명회</span>
-          <span class="notice-title">중등 국어 1등급 로드맵 전략 설명회</span>
-          <span class="notice-date">2025.12.09</span>
-          <span class="notice-arrow" aria-hidden="true">›</span>
-        </button>
-        <div class="notice-body" role="region">
-          <div class="notice-body-inner">
-            중등 국어 1등급을 위한 체계적 로드맵을 공개합니다.
-            내신 전략부터 수능 준비까지, 단계별 학습 방향을 안내드립니다.
-            <br><br><a href="board-notice.html" style="color:var(--purple);font-weight:700;">자세히 보기 →</a>
-          </div>
-        </div>
-      </div>
-      <div class="notice-item">
-        <button class="notice-btn" aria-expanded="false">
-          <span class="notice-tag general">공지</span>
-          <span class="notice-title">주니어솔로몬 정치·종교 중립 선언문</span>
-          <span class="notice-date">2025.10.29</span>
-          <span class="notice-arrow" aria-hidden="true">›</span>
-        </button>
-        <div class="notice-body" role="region">
-          <div class="notice-body-inner">
-            주니어솔로몬은 특정 정치·종교적 입장을 취하지 않으며,
-            순수하게 아이들의 사고력과 표현력 교육에만 집중합니다.
-            <br><br><a href="board-notice.html" style="color:var(--purple);font-weight:700;">자세히 보기 →</a>
-          </div>
-        </div>
-      </div>
-      <div class="notice-item">
-        <button class="notice-btn" aria-expanded="false">
-          <span class="notice-tag general">설명회</span>
-          <span class="notice-title">중고등 생기부 전략 설명회</span>
-          <span class="notice-date">2025.08.18</span>
-          <span class="notice-arrow" aria-hidden="true">›</span>
-        </button>
-        <div class="notice-body" role="region">
-          <div class="notice-body-inner">
-            학교생활기록부를 전략적으로 완성하는 방법을 공개합니다.
-            독서 활동, 자율동아리, 세부능력특기사항까지 실전 가이드를 제공합니다.
-            <br><br><a href="board-notice.html" style="color:var(--purple);font-weight:700;">자세히 보기 →</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:24px;" class="anim anim-d3">
-      <a href="board-notice.html" style="font-size:14px;color:var(--purple);font-weight:700;text-decoration:none;">전체 공지 보기 →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════ 10. 상담 CTA ══════════════════ -->
+<!-- ══════════════════ 9. 상담 CTA ══════════════════ -->
 <section class="consult" id="contact-cta" aria-labelledby="consult-heading">
   <div class="container">
     <h2 id="consult-heading" class="consult-title anim">
@@ -1321,15 +1209,6 @@
     if (!e.target.closest('.nav-item')) {
       document.querySelectorAll('.nav-item button.nav-link').forEach(b => b.setAttribute('aria-expanded', 'false'));
     }
-  });
-
-  /* Notice accordion */
-  document.querySelectorAll('.notice-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.closest('.notice-item');
-      const isOpen = item.classList.toggle('open');
-      btn.setAttribute('aria-expanded', isOpen);
-    });
   });
 
   /* Scroll reveal */
