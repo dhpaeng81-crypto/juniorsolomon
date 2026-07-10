@@ -212,7 +212,7 @@ a { color: inherit; }
   text-decoration: none; flex-shrink: 0;
 }
 .logo-img {
-  width: 46px; height: 46px; flex-shrink: 0;
+  height: 46px; width: auto; flex-shrink: 0;
   filter: none;
   transition: transform var(--t-base) var(--ease);
 }
