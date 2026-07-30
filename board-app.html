@@ -515,8 +515,6 @@
       <div class="fg"><label class="fl">비밀번호</label><input id="lin-pw" class="fi" type="password" placeholder="비밀번호 입력" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"></div>
       <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="login()">로그인</button>
       <div class="auth-footer">계정이 없으신가요? <span class="link" onclick="go('register')">회원가입</span></div>
-      <div class="divider"></div>
-      <div class="alert alert-info"><strong>기본 관리자</strong> — admin@board.com / admin123</div>
     </div>
   </div>
 </div>
@@ -629,136 +627,87 @@
   <div id="lbx-inner"></div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+// ═══════════════════════════════════════════
+//  SUPABASE CLIENT
+// ═══════════════════════════════════════════
+const SUPABASE_URL = 'https://mcdvxstcondbrwltbuvr.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jZHZ4c3Rjb25kYnJ3bHRidXZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzNjAyMjgsImV4cCI6MjEwMDkzNjIyOH0.45vrCiEkoGxymhsVUYZTBkekEPhFPAS5VfN722h0pwg';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 // ═══════════════════════════════════════════
 //  BOARD CONFIG
 // ═══════════════════════════════════════════
 const BOARDS = {
-  notice:  { label: '공지사항', icon: '📢' },
-  gallery: { label: '갤러리',   icon: '🖼️' },
+  notice:  { label: '공지사항', icon: '📢', table: 'notices' },
+  gallery: { label: '갤러리',   icon: '🖼️', table: 'gallery' },
   qna:     { label: 'Q&A',      icon: '💬' },
-  review:  { label: '수강후기', icon: '✏️' },
+  review:  { label: '수강후기', icon: '✏️', table: 'reviews' },
 };
 
 // ═══════════════════════════════════════════
-//  IndexedDB – media
+//  State
 // ═══════════════════════════════════════════
-let mdb = null;
-const DB_NAME = 'BBoard_Media', DB_VER = 1, STORE = 'media';
-
-function openMDB() {
-  return new Promise(res => {
-    const r = indexedDB.open(DB_NAME, DB_VER);
-    r.onupgradeneeded = e => e.target.result.createObjectStore(STORE, {keyPath:'id'});
-    r.onsuccess = e => { mdb = e.target.result; res(); };
-    r.onerror = () => res();
-  });
-}
-function putMedia(id, blob) {
-  if (!mdb) return Promise.resolve();
-  return new Promise(res => {
-    const tx = mdb.transaction(STORE,'readwrite');
-    tx.objectStore(STORE).put({id, blob});
-    tx.oncomplete = res; tx.onerror = res;
-  });
-}
-function getMedia(id) {
-  if (!mdb) return Promise.resolve(null);
-  return new Promise(res => {
-    const r = mdb.transaction(STORE,'readonly').objectStore(STORE).get(id);
-    r.onsuccess = () => res(r.result?.blob || null);
-    r.onerror   = () => res(null);
-  });
-}
-function delMedia(ids) {
-  if (!mdb || !ids?.length) return;
-  const tx = mdb.transaction(STORE,'readwrite');
-  ids.forEach(id => tx.objectStore(STORE).delete(id));
-}
+let currentUser = null;
+let currentProfile = null;
+let curBoard = 'notice';
+let curPage = 'board', curPostId = null, editId = null;
+let pendFiles = [], objURLs = [], boardPg = 1;
+const PER_PG = 12;
 
 // ═══════════════════════════════════════════
-//  localStorage
+//  Auth helpers
 // ═══════════════════════════════════════════
-const LS = {
-  users:   () => JSON.parse(localStorage.getItem('bb_users')  || '[]'),
-  sUsers:  v  => localStorage.setItem('bb_users',  JSON.stringify(v)),
-  posts:   () => JSON.parse(localStorage.getItem('bb_posts')  || '[]'),
-  sPosts:  v  => localStorage.setItem('bb_posts',  JSON.stringify(v)),
-  sess:    () => JSON.parse(localStorage.getItem('bb_sess')   || 'null'),
-  setSess: v  => localStorage.setItem('bb_sess',   JSON.stringify(v)),
-  clrSess: () => localStorage.removeItem('bb_sess'),
-};
-function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
-
-const SEED_POSTS = [
-  { id:'seed5', board:'notice', title:'[2026 여름방학 특강] 8종 집중 프로그램 안내 (7/22~8/17)', content:'주니어솔로몬과 소포스에듀가 함께하는 2026 여름방학 특강 8종을 안내드립니다.\n\n■ 운영 기간: 2026년 7월 22일(화) ~ 8월 17일(일)\n\n━━ 주니어솔로몬 프로그램 ━━\n\n📚 고원재독서캠프\n  - 대상: 초등 3~6학년\n  - 내용: 고전 인문 도서 독서 후 발표·토론·글쓰기\n\n🤝 하브루타독서캠프\n  - 대상: 초등 전학년\n  - 내용: 짝과 함께하는 질문·토론 중심 독서 훈련\n\n🌊 리딩오션\n  - 대상: 초등 2~4학년\n  - 내용: 교과 연계 독서로 어휘력·이해력 향상\n\n🎬 시나리오창작캠프\n  - 대상: 초등 4~6학년\n  - 내용: 스토리텔링·대본쓰기·발표 훈련\n\n🖼️ 그림책캠프\n  - 대상: 유아(6~7세)·초등 1학년\n  - 내용: 그림책 철학·감성독서·표현놀이\n\n✏️ 한글캠프\n  - 대상: 미취학 아동·초등 1학년\n  - 내용: 즐거운 한글 문해력 기초 집중반\n\n━━ 소포스에듀 특강 ━━\n\n📖 고전문학특강 (박효정T)\n  - 대상: 중등 전학년\n  - 내용: 수능 고전문학 집중 분석 및 실전 적용\n\n🎯 문학독서·문법특강 (이대건T)\n  - 대상: 중등 전학년\n  - 내용: 현대문학·독서 파트 + 문법 완성\n\n━━━━━━━━━━━━━━━━━━━━━━━━\n수강 문의: 02-794-8123 / 010-3212-8123\n카카오톡 채널: 주니어솔로몬 검색\n네이버 톡톡: 주니어솔로몬 검색', authorId:'adm0', authorName:'관리자', views:0, images:[], videos:[], createdAt:'2026-07-01T09:00:00.000Z', updatedAt:'2026-07-01T09:00:00.000Z' },
-  { id:'seed4', board:'notice', title:'♦ 중고등 생기부 전략 설명회 ♦', content:'학교생활기록부(생기부)는 대입에서 가장 중요한 서류 중 하나입니다.\n중학교 때부터 전략적으로 준비하는 방법을 안내합니다.\n\n• 생기부 세부능력 특기사항(세특) 작성 전략\n• 독서 활동과 생기부 연계 방법\n• 중학교 → 고등학교 → 대입까지의 장기 로드맵\n• 학종(학생부 종합전형) 준비 방향\n\n문의: 02-794-8123 | 010-3212-8123', authorId:'adm0', authorName:'관리자', views:0, images:[], videos:[], createdAt:'2025-08-18T09:00:00.000Z', updatedAt:'2025-08-18T09:00:00.000Z' },
-  { id:'seed3', board:'notice', title:'주니어솔로몬 정치·종교 중립 선언문', content:'주니어솔로몬은 모든 교육 과정에서 정치적·종교적 중립을 지킵니다.\n\n하브루타 교육은 다양한 관점을 탐구하는 열린 대화를 추구하며, 특정 정치적 이념이나 종교적 교리를 전파하지 않습니다.\n\n학부모님과 학생 모두가 안심하고 학습에 집중할 수 있는 환경을 만들어 나가겠습니다.', authorId:'adm0', authorName:'관리자', views:0, images:[], videos:[], createdAt:'2025-10-29T09:00:00.000Z', updatedAt:'2025-10-29T09:00:00.000Z' },
-  { id:'seed2', board:'notice', title:'중등 국어 1등급 로드맵 전략 설명회', content:'중학교 국어 1등급 달성을 위한 체계적인 로드맵을 안내하는 설명회입니다.\n\n• 중등 내신 국어 1등급을 위한 단계별 전략\n• 수능 국어와 연계된 장기 플랜 설계\n• 소포스에듀 이대건T와 주니어솔로몬 박효정T 합동 진행\n\n자세한 내용은 02-794-8123으로 문의하세요.', authorId:'adm0', authorName:'관리자', views:0, images:[], videos:[], createdAt:'2025-12-09T09:00:00.000Z', updatedAt:'2025-12-09T09:00:00.000Z' },
-  { id:'seed1', board:'notice', title:'[3/30 개강] 용강중 국어 중간고사 전략적 내신 대비반', content:'소포스에듀 — 이대건 선생님이 진행하는 용강중 중간고사 내신 대비 집중반입니다.\n\n개강일: 2026년 3월 30일 (월)\n대상: 용강중 재학생 (중1~3)\n수업 일정: 매주 월요일 16:30 – 19:30 (3시간)\n\n내용:\n• 용강중 중간고사 기출 분석 및 출제 경향 파악\n• 교과서 지문 심화 분석과 어법 정리\n• 내신 1등급 전략 설계\n\n문의: 02-794-8123', authorId:'adm0', authorName:'관리자', views:0, images:[], videos:[], createdAt:'2026-03-18T09:00:00.000Z', updatedAt:'2026-03-18T09:00:00.000Z' },
-];
-
-function initDB() {
-  const us = LS.users();
-  if (!us.find(u => u.role === 'admin'))
-    us.push({ id:'adm0', username:'관리자', email:'admin@board.com', password:'admin123', role:'admin', status:'verified', createdAt:'2024-01-01T00:00:00.000Z' });
-  LS.sUsers(us);
-  let posts = LS.posts();
-  let ch = false;
-  posts.forEach(p => { if (!p.board) { p.board = 'notice'; ch = true; } });
-  // 초기 공지사항 시드 데이터 (없을 때만)
-  SEED_POSTS.forEach(seed => {
-    if (!posts.find(p => p.id === seed.id)) { posts.unshift(seed); ch = true; }
-  });
-  if (ch) LS.sPosts(posts);
+function isAdmin()   { return currentProfile?.role === 'admin'; }
+function isApproved(){ return currentProfile?.is_approved === true; }
+function canWrite() {
+  if (!currentUser) return false;
+  if (curBoard === 'notice' || curBoard === 'gallery') return isAdmin();
+  if (curBoard === 'review') return isApproved() || isAdmin();
+  return false;
 }
 
-// ═══════════════════════════════════════════
-//  Auth
-// ═══════════════════════════════════════════
-function sess()     { return LS.sess(); }
-function canWrite() { const s = sess(); return s && (s.status === 'verified' || s.role === 'admin'); }
-
-function login() {
+async function login() {
   const email = $v('lin-email'), pw = $v('lin-pw');
   if (!email || !pw) { toast('이메일과 비밀번호를 입력하세요', 'err'); return; }
-  const u = LS.users().find(u => u.email === email && u.password === pw);
-  if (!u)                  { toast('이메일 또는 비밀번호가 올바르지 않습니다', 'err'); return; }
-  if (u.status==='rejected'){ toast('가입이 거절된 계정입니다', 'err'); return; }
-  LS.setSess({ id:u.id, username:u.username, role:u.role, status:u.status });
-  toast(`${u.username}님, 환영합니다!`, 'ok');
+  const { error } = await sb.auth.signInWithPassword({ email, password: pw });
+  if (error) { toast('이메일 또는 비밀번호가 올바르지 않습니다', 'err'); return; }
+  toast(`환영합니다!`, 'ok');
   go('board');
 }
 
-function register() {
-  const name=$v('reg-name'), email=$v('reg-email'), pw=$v('reg-pw'), pw2=$v('reg-pw2');
-  if (!name||!email||!pw) { toast('모든 항목을 입력하세요', 'err'); return; }
-  if (pw.length<6)         { toast('비밀번호는 6자 이상이어야 합니다', 'err'); return; }
-  if (pw!==pw2)            { toast('비밀번호가 일치하지 않습니다', 'err'); return; }
-  const us = LS.users();
-  if (us.find(u => u.email===email)) { toast('이미 사용 중인 이메일입니다', 'err'); return; }
-  us.push({ id:uid(), username:name, email, password:pw, role:'user', status:'pending', createdAt:new Date().toISOString() });
-  LS.sUsers(us);
+async function register() {
+  const name = $v('reg-name'), email = $v('reg-email'), pw = $v('reg-pw'), pw2 = $v('reg-pw2');
+  if (!name || !email || !pw) { toast('모든 항목을 입력하세요', 'err'); return; }
+  if (pw.length < 6)          { toast('비밀번호는 6자 이상이어야 합니다', 'err'); return; }
+  if (pw !== pw2)             { toast('비밀번호가 일치하지 않습니다', 'err'); return; }
+  const { error } = await sb.auth.signUp({ email, password: pw, options: { data: { display_name: name } } });
+  if (error) { toast(error.message, 'err'); return; }
   toast('가입 신청 완료! 관리자 승인 후 이용 가능합니다', 'ok');
   go('login');
 }
 
-function logout() { LS.clrSess(); toast('로그아웃되었습니다'); go('board'); closeDropdown(); }
+async function logout() {
+  await sb.auth.signOut();
+  toast('로그아웃되었습니다');
+  go('board');
+  closeDropdown();
+}
 
 // ═══════════════════════════════════════════
 //  Navigation
 // ═══════════════════════════════════════════
-let curBoard = 'notice';
-let curPage = 'board', curPostId = null, editId = null;
-let pendMedia = [], objURLs = [], boardPg = 1;
-const PER_PG = 12;
-
 function selectBoard(board) {
   curBoard = board; boardPg = 1;
   document.querySelectorAll('.btab').forEach(t => t.classList.toggle('on', t.dataset.board === board));
   const b = BOARDS[board];
   const el = $('brd-title-text');
   if (el) el.innerHTML = `${b.icon} ${b.label}`;
+  if (board === 'qna') {
+    window.open('http://pf.kakao.com/_xadGxnxb', '_blank', 'noopener,noreferrer');
+    return;
+  }
   if (curPage === 'board') renderBoard(); else go('board');
 }
 
@@ -767,27 +716,28 @@ function go(page, postId=null) {
   document.getElementById('page-' + page).classList.add('on');
   curPage = page; window.scrollTo(0, 0);
   updateNav();
-  if      (page === 'board')              renderBoard();
-  else if (page === 'detail' && postId)   { curPostId = postId; renderDetail(postId); }
-  else if (page === 'write')              setupWrite(postId);
-  else if (page === 'admin')              renderAdmin();
+  if      (page === 'board')            renderBoard();
+  else if (page === 'detail' && postId) { curPostId = postId; renderDetail(postId); }
+  else if (page === 'write')            setupWrite(postId);
+  else if (page === 'admin')            renderAdmin();
 }
 
 function updateNav() {
-  const s = sess(), nav = $('nav');
-  if (s) {
-    const adminBtn = s.role === 'admin'
+  const nav = $('nav');
+  if (currentUser && currentProfile) {
+    const name = currentProfile.display_name || currentUser.email;
+    const adminBtn = isAdmin()
       ? `<button class="btn btn-ghost btn-sm" onclick="go('admin')" style="font-size:.8rem">⚙️ 관리</button>`
       : '';
-    const statusLabel = s.role==='admin' ? '관리자' : s.status==='verified' ? '승인된 회원' : '승인 대기 중';
+    const statusLabel = isAdmin() ? '관리자' : isApproved() ? '승인된 회원' : '승인 대기 중';
     nav.innerHTML = `${adminBtn}
       <div class="umenu" id="umenu">
-        <div class="avatar" onclick="toggleDrop()">${s.username[0].toUpperCase()}</div>
+        <div class="avatar" onclick="toggleDrop()">${esc(name[0]).toUpperCase()}</div>
         <div class="drop" id="drop">
           <div class="ditem" style="cursor:default;gap:10px">
-            <div style="width:32px;height:32px;border-radius:50%;background:var(--primary);color:var(--bg);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82rem;flex-shrink:0">${s.username[0].toUpperCase()}</div>
+            <div style="width:32px;height:32px;border-radius:50%;background:var(--primary);color:var(--bg);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82rem;flex-shrink:0">${esc(name[0]).toUpperCase()}</div>
             <div>
-              <div style="font-weight:700;font-size:.88rem">${esc(s.username)}</div>
+              <div style="font-weight:700;font-size:.88rem">${esc(name)}</div>
               <div class="ditem-meta">${statusLabel}</div>
             </div>
           </div>
@@ -823,19 +773,26 @@ function renderBoard() {
   if (curBoard === 'gallery') renderGallery(); else renderList();
 }
 
-function renderList() {
+async function renderList() {
   const q = ($('search')?.value || '').toLowerCase();
-  let posts = LS.posts()
-    .filter(p => (p.board || 'notice') === curBoard)
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  if (q) posts = posts.filter(p => p.title.toLowerCase().includes(q) || p.content.toLowerCase().includes(q));
-
-  const total = Math.ceil(posts.length / PER_PG);
-  if (boardPg > total && total > 0) boardPg = total;
-  const slice = posts.slice((boardPg-1)*PER_PG, boardPg*PER_PG);
   const con = $('post-list');
+  con.innerHTML = `<div class="empty"><div class="empty-ico" style="font-size:1.5rem">⏳</div></div>`;
 
-  if (!posts.length) {
+  const tbl = BOARDS[curBoard].table;
+  let query = sb.from(tbl).select('*').order('created_at', { ascending: false });
+  if (curBoard === 'review') query = query.eq('is_approved', true);
+
+  const { data: posts, error } = await query;
+  if (error) { con.innerHTML = `<div class="empty"><div class="empty-title">불러오기 실패</div></div>`; return; }
+
+  let filtered = posts || [];
+  if (q) filtered = filtered.filter(p => (p.title||'').toLowerCase().includes(q) || (p.content||'').toLowerCase().includes(q));
+
+  const total = Math.ceil(filtered.length / PER_PG);
+  if (boardPg > total && total > 0) boardPg = total;
+  const slice = filtered.slice((boardPg-1)*PER_PG, boardPg*PER_PG);
+
+  if (!filtered.length) {
     con.innerHTML = `<div class="empty">
       <div class="empty-ico">${BOARDS[curBoard].icon}</div>
       <div class="empty-title">${q ? '검색 결과가 없습니다' : '아직 게시글이 없습니다'}</div>
@@ -844,100 +801,82 @@ function renderList() {
     $('pagi').innerHTML = ''; return;
   }
 
-  con.innerHTML = slice.map(p => {
-    const bs = [];
-    if (p.images?.length) bs.push(`<span class="badge b-img">🖼 ${p.images.length}</span>`);
-    if (p.videos?.length) bs.push(`<span class="badge b-vid">🎬 ${p.videos.length}</span>`);
-    return `<div class="post-card" onclick="go('detail','${p.id}')">
+  con.innerHTML = `<div class="post-list">${slice.map(p => {
+    const imgCnt = (p.image_urls || []).length;
+    const bs = imgCnt ? `<span class="badge b-img">🖼 ${imgCnt}</span>` : '';
+    const authorName = p.author_name || (p.profiles?.display_name) || '관리자';
+    const isPinned = p.is_pinned ? `<span class="badge b-pend">📌 고정</span>` : '';
+    return `<div class="post-card" onclick="openPost('${tbl}','${p.id}')">
       <div class="pc-top">
         <div class="pc-title">${esc(p.title)}</div>
-        <div class="pc-badges">${bs.join('')}</div>
+        <div class="pc-badges">${isPinned}${bs}</div>
       </div>
       <div class="pc-preview">${esc(p.content)}</div>
       <div class="pc-meta">
-        <span>✍️ ${esc(p.authorName)}</span>
-        <span>📅 ${fmtDate(p.createdAt)}</span>
+        <span>✍️ ${esc(authorName)}</span>
+        <span>📅 ${fmtDate(p.created_at)}</span>
         <span>👁 ${p.views || 0}</span>
       </div>
     </div>`;
-  }).join('');
+  }).join('')}</div>`;
   renderPagi(total);
 }
 
 async function renderGallery() {
   const q = ($('search')?.value || '').toLowerCase();
-  let posts = LS.posts()
-    .filter(p => (p.board || 'notice') === 'gallery')
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  if (q) posts = posts.filter(p => p.title.toLowerCase().includes(q) || p.content.toLowerCase().includes(q));
-
-  const total = Math.ceil(posts.length / PER_PG);
-  if (boardPg > total && total > 0) boardPg = total;
-  const slice = posts.slice((boardPg-1)*PER_PG, boardPg*PER_PG);
   const con = $('post-list');
 
-  if (!posts.length) {
-    con.innerHTML = `<div class="empty">
-      <div class="empty-ico">🖼️</div>
-      <div class="empty-title">${q ? '검색 결과가 없습니다' : '아직 갤러리 게시글이 없습니다'}</div>
-      <div class="empty-sub">${q ? '다른 검색어를 입력해보세요' : canWrite() ? '첫 번째 사진을 올려보세요' : ''}</div>
-    </div>`;
-    $('pagi').innerHTML = ''; return;
-  }
-
-  // Skeleton first
-  con.innerHTML = `<div class="gcards">${slice.map(() =>
+  con.innerHTML = `<div class="gcards">${Array.from({length:6}).map(() =>
     `<div class="gcard">
-      <div class="gcard-thumb skeleton"></div>
+      <div class="gcard-thumb skeleton" style="aspect-ratio:4/3"></div>
       <div class="gcard-info">
         <div class="skeleton" style="height:14px;margin-bottom:8px;border-radius:4px"></div>
         <div class="skeleton" style="height:11px;width:60%;border-radius:4px"></div>
       </div>
     </div>`).join('')}</div>`;
 
-  const cards = await Promise.all(slice.map(async p => {
-    let thumbHtml = '';
-    const firstImg = p.images?.[0], firstVid = p.videos?.[0];
-    const firstId = firstImg || firstVid;
+  const { data: posts, error } = await sb.from('gallery').select('*').order('created_at', { ascending: false });
+  if (error) { con.innerHTML = `<div class="empty"><div class="empty-title">불러오기 실패</div></div>`; return; }
 
-    if (firstId) {
-      const blob = await getMedia(firstId);
-      if (blob) {
-        const url = URL.createObjectURL(blob); objURLs.push(url);
-        if (firstImg) {
-          thumbHtml = `<img src="${url}" loading="lazy" alt="${esc(p.title)}">`;
-        } else {
-          thumbHtml = `<video src="${url}" preload="metadata"></video><div class="gcard-play">▶</div>`;
-        }
-      }
-    }
+  let filtered = posts || [];
+  if (q) filtered = filtered.filter(p => (p.title||'').toLowerCase().includes(q) || (p.description||'').toLowerCase().includes(q));
 
-    const nImg = p.images?.length || 0, nVid = p.videos?.length || 0;
-    const totalMedia = nImg + nVid;
+  const total = Math.ceil(filtered.length / PER_PG);
+  if (boardPg > total && total > 0) boardPg = total;
+  const slice = filtered.slice((boardPg-1)*PER_PG, boardPg*PER_PG);
 
-    return `<div class="gcard" onclick="go('detail','${p.id}')">
+  if (!filtered.length) {
+    con.innerHTML = `<div class="empty">
+      <div class="empty-ico">🖼️</div>
+      <div class="empty-title">${q ? '검색 결과가 없습니다' : '아직 갤러리 게시글이 없습니다'}</div>
+      <div class="empty-sub">${q ? '다른 검색어를 입력해보세요' : isAdmin() ? '첫 번째 사진을 올려보세요' : ''}</div>
+    </div>`;
+    $('pagi').innerHTML = ''; return;
+  }
+
+  con.innerHTML = `<div class="gcards">${slice.map(p => {
+    const urls = p.image_urls || [];
+    const thumb = urls[0] || '';
+    const more = urls.length > 1 ? `<div class="gcard-badge">+${urls.length - 1}</div>` : '';
+    const thumbHtml = thumb
+      ? `<img src="${esc(thumb)}" loading="lazy" alt="${esc(p.title)}">`
+      : `<div class="gcard-placeholder">📷</div>`;
+    return `<div class="gcard" onclick="openPost('gallery','${p.id}')">
       <div class="gcard-thumb">
-        ${thumbHtml || `<div class="gcard-placeholder">📝</div>`}
-        ${totalMedia > 1 ? `<div class="gcard-badge">+${totalMedia - 1}</div>` : ''}
+        ${thumbHtml}${more}
         <div class="gcard-overlay"><div class="gcard-overlay-ico">🔍</div></div>
       </div>
       <div class="gcard-info">
         <div class="gcard-title">${esc(p.title)}</div>
         <div class="gcard-meta">
-          <span>✍️ ${esc(p.authorName)}</span>
-          <span>📅 ${fmtDate(p.createdAt)}</span>
-          <span>👁 ${p.views || 0}</span>
+          <span>📅 ${fmtDate(p.created_at)}</span>
         </div>
         <div class="gcard-foot">
-          ${nImg ? `<span class="media-cnt">🖼 ${nImg}</span>` : ''}
-          ${nVid ? `<span class="media-cnt">🎬 ${nVid}</span>` : ''}
-          ${!nImg && !nVid ? `<span class="media-cnt">📝 텍스트</span>` : ''}
+          ${urls.length ? `<span class="media-cnt">🖼 ${urls.length}</span>` : ''}
         </div>
       </div>
     </div>`;
-  }));
-
-  con.innerHTML = `<div class="gcards">${cards.join('')}</div>`;
+  }).join('')}</div>`;
   renderPagi(total);
 }
 
@@ -955,79 +894,103 @@ function renderPagi(total) {
 // ═══════════════════════════════════════════
 //  Detail
 // ═══════════════════════════════════════════
+async function openPost(tbl, postId) {
+  curBoard = Object.keys(BOARDS).find(k => BOARDS[k].table === tbl) || curBoard;
+  go('detail', postId);
+}
+
 async function renderDetail(postId) {
-  const posts = LS.posts(), post = posts.find(p => p.id === postId);
-  if (!post) { go('board'); return; }
-  post.views = (post.views || 0) + 1; LS.sPosts(posts);
+  const tbl = BOARDS[curBoard].table;
+  $('detail-body').innerHTML = `<div class="empty"><div class="empty-ico" style="font-size:1.5rem">⏳</div></div>`;
 
-  const s = sess(), canEdit = s && (s.id === post.authorId || s.role === 'admin');
-  const b = BOARDS[post.board || 'notice'];
+  const { data: post, error } = await sb.from(tbl).select('*').eq('id', postId).single();
+  if (error || !post) { go('board'); return; }
 
-  let imgHtml = '', vidHtml = '';
-  if (post.images?.length) {
-    const items = await Promise.all(post.images.map(async id => {
-      const blob = await getMedia(id); if (!blob) return '';
-      const url = URL.createObjectURL(blob); objURLs.push(url);
-      return `<div class="dt-gitem" onclick="openLbx('image','${url}')">
-        <div class="dt-gitem-inner"><img src="${url}" loading="lazy"><div class="dt-zoom">🔍</div></div>
-      </div>`;
-    }));
-    const f = items.filter(Boolean);
-    if (f.length) imgHtml = `<div class="media-section-title">📸 이미지 <span>(${f.length})</span></div><div class="dt-gallery${f.length === 1 ? ' solo' : ''}">${f.join('')}</div>`;
-  }
-  if (post.videos?.length) {
-    const items = await Promise.all(post.videos.map(async id => {
-      const blob = await getMedia(id); if (!blob) return '';
-      const url = URL.createObjectURL(blob); objURLs.push(url);
-      return `<div class="dt-gitem" onclick="openLbx('video','${url}')">
-        <div class="dt-gitem-inner"><video src="${url}" preload="metadata"></video><div class="vid-play-ico">▶</div><div class="dt-zoom" style="font-size:1.5rem">⛶</div></div>
-      </div>`;
-    }));
-    const f = items.filter(Boolean);
-    if (f.length) vidHtml = `<div class="media-section-title">🎬 동영상 <span>(${f.length})</span></div><div class="dt-gallery${f.length === 1 ? ' solo' : ''}">${f.join('')}</div>`;
+  await sb.from(tbl).update({ views: (post.views || 0) + 1 }).eq('id', postId);
+
+  const b = BOARDS[curBoard];
+  const authorName = post.author_name || post.display_name || '관리자';
+  const canEdit = currentUser && (post.author_id === currentUser.id || isAdmin());
+
+  let imgHtml = '';
+  const urls = post.image_urls || [];
+  if (urls.length) {
+    const items = urls.map(url =>
+      `<div class="dt-gitem" onclick="openLbx('image','${esc(url)}')">
+        <div class="dt-gitem-inner"><img src="${esc(url)}" loading="lazy"><div class="dt-zoom">🔍</div></div>
+      </div>`
+    ).join('');
+    imgHtml = `<div class="media-section-title">📸 이미지 <span>(${urls.length})</span></div>
+      <div class="dt-gallery${urls.length === 1 ? ' solo' : ''}">${items}</div>`;
   }
 
   const editBtns = canEdit ? `<div class="dt-actions">
-    <button class="btn btn-outline btn-sm" onclick="go('write','${post.id}')">✏️ 수정</button>
-    <button class="btn btn-danger btn-sm" onclick="delPost('${post.id}')">🗑️ 삭제</button>
+    <button class="btn btn-outline btn-sm" onclick="go('write','${postId}')">✏️ 수정</button>
+    <button class="btn btn-danger btn-sm" onclick="delPost('${tbl}','${postId}')">🗑️ 삭제</button>
   </div>` : '';
+
+  const reviewStatus = (curBoard === 'review' && isAdmin() && !post.is_approved)
+    ? `<div class="alert alert-warn" style="margin-top:16px">⏳ 승인 대기 중 — <button class="btn btn-success btn-xs" onclick="approveReview('${postId}')">승인하기</button></div>`
+    : '';
 
   $('detail-body').innerHTML = `
     <div class="board-crumb">${b.icon} ${b.label}</div>
     <h1 class="dt-title">${esc(post.title)}</h1>
     <div class="dt-meta">
-      <span>✍️ ${esc(post.authorName)}</span>
-      <span>📅 ${fmtDate(post.createdAt)}</span>
-      ${post.updatedAt && post.updatedAt !== post.createdAt ? `<span style="color:var(--accent-fg)">✏️ 수정됨 ${fmtDate(post.updatedAt)}</span>` : ''}
-      <span>👁 ${post.views}</span>
+      <span>✍️ ${esc(authorName)}</span>
+      <span>📅 ${fmtDate(post.created_at)}</span>
+      ${post.updated_at && post.updated_at !== post.created_at ? `<span style="color:var(--accent-fg)">✏️ 수정됨 ${fmtDate(post.updated_at)}</span>` : ''}
+      <span>👁 ${(post.views || 0) + 1}</span>
     </div>
-    <div class="dt-body">${esc(post.content)}</div>
-    ${imgHtml}${vidHtml}
-    ${editBtns}`;
+    <div class="dt-body">${esc(post.content || post.description || '')}</div>
+    ${imgHtml}${reviewStatus}${editBtns}`;
 }
 
-async function delPost(postId) {
+async function delPost(tbl, postId) {
   if (!confirm('이 게시글을 삭제하시겠습니까?')) return;
-  let posts = LS.posts(), post = posts.find(p => p.id === postId);
-  if (post) delMedia([...(post.images || []), ...(post.videos || [])]);
-  LS.sPosts(posts.filter(p => p.id !== postId));
+  if (tbl === 'gallery') {
+    const { data: post } = await sb.from('gallery').select('image_urls').eq('id', postId).single();
+    if (post?.image_urls?.length) {
+      const paths = post.image_urls.map(u => u.split('/gallery/')[1]).filter(Boolean);
+      if (paths.length) await sb.storage.from('gallery').remove(paths);
+    }
+  }
+  const { error } = await sb.from(tbl).delete().eq('id', postId);
+  if (error) { toast('삭제 실패: ' + error.message, 'err'); return; }
   toast('삭제되었습니다', 'ok'); go('board');
+}
+
+async function approveReview(postId) {
+  const { error } = await sb.from('reviews').update({ is_approved: true }).eq('id', postId);
+  if (error) { toast('승인 실패', 'err'); return; }
+  toast('승인되었습니다', 'ok');
+  renderDetail(postId);
 }
 
 // ═══════════════════════════════════════════
 //  Write / Edit
 // ═══════════════════════════════════════════
 async function setupWrite(postId=null) {
-  editId = postId; pendMedia = []; $('prev-grid').innerHTML = '';
+  editId = postId; pendFiles = []; $('prev-grid').innerHTML = '';
   $('edit-id').value = postId || '';
+
+  const showUpload = (curBoard === 'gallery' || (postId && editId));
+
   if (postId) {
     $('write-hdr').textContent = '게시글 수정';
-    const p = LS.posts().find(p => p.id === postId);
+    const tbl = BOARDS[curBoard].table;
+    const { data: p } = await sb.from(tbl).select('*').eq('id', postId).single();
     if (p) {
-      const b = BOARDS[p.board || 'notice'];
+      const b = BOARDS[curBoard];
       $('write-board-tag').innerHTML = `${b.icon} ${b.label}`;
-      $('w-title').value = p.title; $('w-body').value = p.content;
-      await loadExistingMedia(p);
+      $('w-title').value = p.title || '';
+      $('w-body').value = p.content || p.description || '';
+      if (p.image_urls?.length) {
+        p.image_urls.forEach(url => {
+          pendFiles.push({ existing: true, url, file: null });
+        });
+        renderPrev();
+      }
     }
   } else {
     $('write-hdr').textContent = '새 글 작성';
@@ -1035,20 +998,9 @@ async function setupWrite(postId=null) {
     $('write-board-tag').innerHTML = `${b.icon} ${b.label}`;
     $('w-title').value = ''; $('w-body').value = '';
   }
-}
 
-async function loadExistingMedia(post) {
-  for (const id of (post.images || [])) {
-    const blob = await getMedia(id); if (!blob) continue;
-    const url = URL.createObjectURL(blob); objURLs.push(url);
-    pendMedia.push({ file:null, type:'image', url, mediaId:id, existing:true });
-  }
-  for (const id of (post.videos || [])) {
-    const blob = await getMedia(id); if (!blob) continue;
-    const url = URL.createObjectURL(blob); objURLs.push(url);
-    pendMedia.push({ file:null, type:'video', url, mediaId:id, existing:true });
-  }
-  renderPrev();
+  const upZone = document.querySelector('.upload-zone')?.parentElement;
+  if (upZone) upZone.style.display = (curBoard === 'gallery' || postId) ? '' : 'none';
 }
 
 function ondov(e) { e.preventDefault(); $('dropzone').classList.add('drag'); }
@@ -1058,52 +1010,73 @@ function onFileSelect(e) { addFiles([...e.target.files]); e.target.value = ''; }
 
 function addFiles(files) {
   for (const f of files) {
-    const isImg = f.type.startsWith('image/'), isVid = f.type.startsWith('video/');
-    if (!isImg && !isVid) { toast(`${f.name}: 이미지나 동영상만 첨부 가능합니다`, 'err'); continue; }
-    if (f.size > 100*1024*1024) { toast(`${f.name}: 100 MB 이하 파일만 첨부 가능합니다`, 'err'); continue; }
+    const isImg = f.type.startsWith('image/');
+    if (!isImg) { toast(`${f.name}: 이미지 파일만 첨부 가능합니다`, 'err'); continue; }
+    if (f.size > 10*1024*1024) { toast(`${f.name}: 10 MB 이하 파일만 첨부 가능합니다`, 'err'); continue; }
     const url = URL.createObjectURL(f); objURLs.push(url);
-    pendMedia.push({ file:f, type:isImg?'image':'video', url, mediaId:uid(), existing:false });
+    pendFiles.push({ file: f, url, existing: false });
   }
   renderPrev();
 }
 
 function renderPrev() {
-  $('prev-grid').innerHTML = pendMedia.map((m,i) => `
-    <div class="pitem">
-      ${m.type==='image' ? `<img src="${m.url}" onclick="openLbx('image','${m.url}')">` : `<video src="${m.url}" preload="metadata"></video>`}
+  $('prev-grid').innerHTML = pendFiles.map((m,i) =>
+    `<div class="pitem">
+      <img src="${m.url}" onclick="openLbx('image','${m.url}')">
       <button class="pitem-rm" onclick="removePrev(${i})">✕</button>
-    </div>`).join('');
+    </div>`
+  ).join('');
 }
-function removePrev(i) { pendMedia.splice(i,1); renderPrev(); }
+function removePrev(i) {
+  if (!pendFiles[i].existing) URL.revokeObjectURL(pendFiles[i].url);
+  pendFiles.splice(i, 1); renderPrev();
+}
 
 async function submitPost() {
   if (!canWrite()) { toast('권한이 없습니다', 'err'); return; }
-  const title = $v('w-title'), content = $v('w-body');
-  if (!title)   { toast('제목을 입력하세요', 'err'); return; }
-  if (!content) { toast('내용을 입력하세요', 'err'); return; }
+  const title   = $v('w-title');
+  const content = $v('w-body');
+  if (!title) { toast('제목을 입력하세요', 'err'); return; }
 
-  const imgIds = [], vidIds = [];
-  for (const m of pendMedia) {
-    if (!m.existing && m.file) await putMedia(m.mediaId, m.file);
-    if (m.type === 'image') imgIds.push(m.mediaId); else vidIds.push(m.mediaId);
-  }
+  const submitBtn = document.querySelector('.form-footer .btn-primary');
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '저장 중…'; }
 
-  const posts = LS.posts(), s = sess(), now = new Date().toISOString();
-  if (editId) {
-    const idx = posts.findIndex(p => p.id === editId);
-    if (idx > -1) {
-      const old = posts[idx];
-      const keepIds = pendMedia.map(m => m.mediaId);
-      delMedia([...(old.images||[]),...(old.videos||[])].filter(id => !keepIds.includes(id)));
-      posts[idx] = { ...old, title, content, images:imgIds, videos:vidIds, updatedAt:now };
+  try {
+    const tbl = BOARDS[curBoard].table;
+    const now = new Date().toISOString();
+    let imageUrls = pendFiles.filter(m => m.existing).map(m => m.url);
+
+    for (const m of pendFiles.filter(m => !m.existing && m.file)) {
+      const ext = m.file.name.split('.').pop();
+      const path = `${currentUser.id}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const { error: upErr } = await sb.storage.from('gallery').upload(path, m.file, { upsert: false });
+      if (upErr) { toast('이미지 업로드 실패: ' + upErr.message, 'err'); continue; }
+      const { data: { publicUrl } } = sb.storage.from('gallery').getPublicUrl(path);
+      imageUrls.push(publicUrl);
     }
-  } else {
-    posts.unshift({ id:uid(), title, content, authorId:s.id, authorName:s.username,
-      board:curBoard, images:imgIds, videos:vidIds, views:0, createdAt:now, updatedAt:now });
+
+    if (editId) {
+      const patch = { title, updated_at: now };
+      if (tbl === 'gallery') { patch.description = content; patch.image_urls = imageUrls; }
+      else { patch.content = content; }
+      const { error } = await sb.from(tbl).update(patch).eq('id', editId);
+      if (error) throw error;
+    } else {
+      const row = { title, author_id: currentUser.id, created_at: now, updated_at: now };
+      if (tbl === 'gallery')  { row.description = content; row.image_urls = imageUrls; }
+      else if (tbl === 'reviews') { row.content = content; row.author_name = currentProfile.display_name; row.user_id = currentUser.id; }
+      else { row.content = content; }
+      const { error } = await sb.from(tbl).insert(row);
+      if (error) throw error;
+    }
+
+    toast(editId ? '수정되었습니다' : '게시글이 등록되었습니다', 'ok');
+    editId = null; go('board');
+  } catch(err) {
+    toast('저장 실패: ' + err.message, 'err');
+  } finally {
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '게시하기'; }
   }
-  LS.sPosts(posts);
-  toast(editId ? '수정되었습니다' : '게시글이 등록되었습니다', 'ok');
-  editId = null; go('board');
 }
 
 // ═══════════════════════════════════════════
@@ -1120,59 +1093,77 @@ function adminTab(t) {
 }
 function renderAdmin() { curAdminTab === 'users' ? renderAdminUsers() : renderAdminPosts(); }
 
-function renderAdminUsers() {
-  const us = LS.users().filter(u => u.role !== 'admin');
+async function renderAdminUsers() {
   const el = $('admin-users');
-  if (!us.length) { el.innerHTML = `<div class="empty"><div class="empty-ico">👤</div><div class="empty-title">가입 신청자가 없습니다</div></div>`; return; }
-  const smap  = { pending:'b-pend', verified:'b-ok', rejected:'b-rej' };
-  const slbl  = { pending:'대기 중', verified:'승인됨', rejected:'거절됨' };
-  el.innerHTML = us.map(u => `
-    <div class="urow">
-      <div class="uinfo">
-        <div class="uname">${esc(u.username)}</div>
-        <div class="uemail">${esc(u.email)}</div>
-        <div style="font-size:.72rem;color:var(--muted);margin-top:3px">가입: ${fmtDate(u.createdAt)}</div>
-      </div>
-      <span class="badge ${smap[u.status]}">${slbl[u.status]}</span>
-      <div class="uactions">
-        ${u.status!=='verified' ? `<button class="btn btn-success btn-xs" onclick="setUserStatus('${u.id}','verified')">✅ 승인</button>` : ''}
-        ${u.status!=='rejected' ? `<button class="btn btn-danger  btn-xs" onclick="setUserStatus('${u.id}','rejected')">❌ 거절</button>` : ''}
-        <button class="btn btn-ghost btn-xs" onclick="deleteUser('${u.id}')">🗑️</button>
-      </div>
-    </div>`).join('');
-}
-
-function renderAdminPosts() {
-  const posts = LS.posts().sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
-  const el = $('admin-posts');
-  if (!posts.length) { el.innerHTML = `<div class="empty"><div class="empty-ico">📭</div><div class="empty-title">게시글이 없습니다</div></div>`; return; }
-  el.innerHTML = posts.map(p => {
-    const b = BOARDS[p.board || 'notice'];
+  el.innerHTML = `<div class="empty"><div class="empty-ico" style="font-size:1.5rem">⏳</div></div>`;
+  const { data: users, error } = await sb.from('profiles').select('*').neq('role','admin').order('created_at');
+  if (error || !users?.length) {
+    el.innerHTML = `<div class="empty"><div class="empty-ico">👤</div><div class="empty-title">가입 신청자가 없습니다</div></div>`;
+    return;
+  }
+  const smap = { true: 'b-ok', false: 'b-pend' };
+  const slbl = { true: '승인됨', false: '대기 중' };
+  el.innerHTML = users.map(u => {
+    const ap = String(u.is_approved);
     return `<div class="urow">
       <div class="uinfo">
-        <div class="uname" style="cursor:pointer;display:flex;align-items:center;gap:7px" onclick="curBoard='${p.board||'notice'}';go('detail','${p.id}')">
-          <span class="badge b-board">${b.icon} ${b.label}</span>${esc(p.title)}
-        </div>
-        <div class="uemail">${esc(p.authorName)} · ${fmtDate(p.createdAt)} · 👁 ${p.views||0}</div>
+        <div class="uname">${esc(u.display_name)}</div>
+        <div class="uemail">가입: ${fmtDate(u.created_at)}</div>
       </div>
+      <span class="badge ${smap[ap]}">${slbl[ap]}</span>
       <div class="uactions">
-        <button class="btn btn-outline btn-xs" onclick="curBoard='${p.board||'notice'}';go('write','${p.id}')">✏️ 수정</button>
-        <button class="btn btn-danger  btn-xs" onclick="delPost('${p.id}')">🗑️ 삭제</button>
+        ${!u.is_approved ? `<button class="btn btn-success btn-xs" onclick="setApproval('${u.id}',true)">✅ 승인</button>` : ''}
+        ${u.is_approved  ? `<button class="btn btn-danger btn-xs"  onclick="setApproval('${u.id}',false)">❌ 취소</button>` : ''}
+        <button class="btn btn-ghost btn-xs" onclick="deleteProfile('${u.id}')">🗑️</button>
       </div>
     </div>`;
   }).join('');
 }
 
-function setUserStatus(userId, status) {
-  const us = LS.users(), u = us.find(x => x.id === userId); if (!u) return;
-  u.status = status; LS.sUsers(us);
-  const s = sess(); if (s && s.id === userId) { s.status = status; LS.setSess(s); }
-  toast(status==='verified' ? '승인되었습니다' : '거절되었습니다', status==='verified' ? 'ok' : 'err');
+async function renderAdminPosts() {
+  const el = $('admin-posts');
+  el.innerHTML = `<div class="empty"><div class="empty-ico" style="font-size:1.5rem">⏳</div></div>`;
+  const [notices, gallery, reviews] = await Promise.all([
+    sb.from('notices').select('id,title,created_at,views').order('created_at', {ascending:false}),
+    sb.from('gallery').select('id,title,created_at').order('created_at', {ascending:false}),
+    sb.from('reviews').select('id,title,author_name,created_at,is_approved').order('created_at', {ascending:false}),
+  ]);
+  const all = [
+    ...(notices.data||[]).map(p=>({...p, _board:'notice'})),
+    ...(gallery.data||[]).map(p=>({...p, _board:'gallery'})),
+    ...(reviews.data||[]).map(p=>({...p, _board:'review'})),
+  ].sort((a,b) => new Date(b.created_at)-new Date(a.created_at));
+
+  if (!all.length) { el.innerHTML = `<div class="empty"><div class="empty-ico">📭</div><div class="empty-title">게시글이 없습니다</div></div>`; return; }
+  el.innerHTML = all.map(p => {
+    const b = BOARDS[p._board];
+    const tbl = b.table;
+    const pend = (p._board==='review' && !p.is_approved) ? `<span class="badge b-pend">미승인</span> ` : '';
+    return `<div class="urow">
+      <div class="uinfo">
+        <div class="uname" style="cursor:pointer;display:flex;align-items:center;gap:7px" onclick="curBoard='${p._board}';openPost('${tbl}','${p.id}')">
+          <span class="badge b-board">${b.icon} ${b.label}</span>${pend}${esc(p.title)}
+        </div>
+        <div class="uemail">${fmtDate(p.created_at)}${p.views!=null?' · 👁 '+p.views:''}</div>
+      </div>
+      <div class="uactions">
+        <button class="btn btn-outline btn-xs" onclick="curBoard='${p._board}';go('write','${p.id}')">✏️ 수정</button>
+        <button class="btn btn-danger btn-xs" onclick="delPost('${tbl}','${p.id}')">🗑️ 삭제</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function setApproval(userId, approved) {
+  const { error } = await sb.from('profiles').update({ is_approved: approved }).eq('id', userId);
+  if (error) { toast('처리 실패', 'err'); return; }
+  toast(approved ? '승인되었습니다' : '승인이 취소되었습니다', approved ? 'ok' : 'err');
   renderAdminUsers();
 }
-function deleteUser(userId) {
+
+async function deleteProfile(userId) {
   if (!confirm('사용자를 삭제하시겠습니까?')) return;
-  LS.sUsers(LS.users().filter(u => u.id !== userId));
+  await sb.from('profiles').delete().eq('id', userId);
   toast('삭제되었습니다'); renderAdminUsers();
 }
 
@@ -1191,9 +1182,9 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLbx(); 
 // ═══════════════════════════════════════════
 //  Utils
 // ═══════════════════════════════════════════
-function $(id)   { return document.getElementById(id); }
-function $v(id)  { return ($(id)?.value || '').trim(); }
-function esc(s)  { if (!s) return ''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function $(id)  { return document.getElementById(id); }
+function $v(id) { return ($(id)?.value || '').trim(); }
+function esc(s) { if (!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function fmtDate(iso) {
   if (!iso) return '';
   const d = new Date(iso);
@@ -1203,9 +1194,9 @@ function fmtDate(iso) {
 let toastT;
 function toast(msg, type='') {
   const el = $('toast'); el.textContent = msg;
-  el.className = 'toast' + (type==='ok' ? ' ok' : type==='err' ? ' err' : '');
+  el.className = (type === 'ok' ? 'ok' : type === 'err' ? 'err' : '');
   void el.offsetWidth; el.classList.add('show');
-  clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), 3000);
+  clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), 3500);
 }
 
 // ═══════════════════════════════════════════
@@ -1227,7 +1218,6 @@ window.addEventListener('beforeunload', () => objURLs.forEach(u => URL.revokeObj
     t.addEventListener('click', function(){ var o = m.classList.toggle('open'); t.setAttribute('aria-expanded', o); document.body.style.overflow = o ? 'hidden' : ''; });
     m.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ m.classList.remove('open'); t.setAttribute('aria-expanded','false'); document.body.style.overflow = ''; }); });
   }
-  // dropdown
   document.querySelectorAll('.nav-item').forEach(function(item){
     var btn = item.querySelector('.nav-link[aria-haspopup]');
     var drop = item.querySelector('.dropdown');
@@ -1237,12 +1227,29 @@ window.addEventListener('beforeunload', () => objURLs.forEach(u => URL.revokeObj
   });
 })();
 
-// ── 해시 기반 보드 선택 ──
+// ── Supabase Auth + Boot ──
 (async () => {
-  await openMDB();
-  initDB();
-  const hash = location.hash.replace('#','');
-  const initial = BOARDS[hash] ? hash : 'notice';
+  const { data: { session } } = await sb.auth.getSession();
+  if (session?.user) {
+    currentUser = session.user;
+    const { data } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
+    currentProfile = data;
+  }
+
+  sb.auth.onAuthStateChange(async (event, session) => {
+    if (session?.user) {
+      currentUser = session.user;
+      const { data } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
+      currentProfile = data;
+    } else {
+      currentUser = null; currentProfile = null;
+    }
+    updateNav();
+    if (curPage === 'board') renderBoard();
+  });
+
+  const hash = location.hash.replace('#', '');
+  const initial = (hash && BOARDS[hash] && hash !== 'qna') ? hash : 'notice';
   go('board');
   selectBoard(initial);
 })();
