@@ -422,6 +422,30 @@
       .board-auth-nav   { display: none; }
     }
 
+    /* ══ 모바일 인증 바 (탭 하단) ══ */
+    .mobile-auth-bar {
+      display: none;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .mobile-user-info {
+      font-size: .78rem; color: var(--muted);
+      margin-right: auto; display: flex; align-items: center; gap: 6px;
+    }
+    .mobile-user-info .avatar-xs {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--primary); color: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: .7rem; flex-shrink: 0;
+    }
+    @media (max-width: 768px) {
+      .mobile-auth-bar { display: flex; }
+    }
+
     /* ══ MOBILE ══ */
     @media (max-width: 640px) {
       .auth-card { padding: 28px 20px; }
@@ -504,6 +528,9 @@
     <button class="btab"    data-board="review"  onclick="selectBoard('review')">✏️ 수강후기</button>
   </div>
 </div>
+
+<!-- ══ 모바일 인증 바 ══ -->
+<div class="mobile-auth-bar" id="mobile-auth-bar"></div>
 
 <!-- ══ LOGIN ══ -->
 <div id="page-login" class="page">
@@ -724,6 +751,7 @@ function go(page, postId=null) {
 
 function updateNav() {
   const nav = $('nav');
+  const mbar = $('mobile-auth-bar');
   if (currentUser && currentProfile) {
     const name = currentProfile.display_name || currentUser.email;
     const adminBtn = isAdmin()
@@ -748,8 +776,18 @@ function updateNav() {
           </div>
         </div>
       </div>`;
+    if (mbar) mbar.innerHTML = `
+      <div class="mobile-user-info">
+        <div class="avatar-xs">${esc(name[0]).toUpperCase()}</div>
+        <span>${esc(name)} · ${statusLabel}</span>
+      </div>
+      ${isAdmin() ? `<button class="btn btn-ghost btn-xs" onclick="go('admin')">⚙️ 관리</button>` : ''}
+      <button class="btn btn-ghost btn-xs" onclick="logout()">로그아웃</button>`;
   } else {
     nav.innerHTML = `
+      <button class="btn btn-ghost btn-sm" onclick="go('login')">로그인</button>
+      <button class="btn btn-primary btn-sm" onclick="go('register')">회원가입</button>`;
+    if (mbar) mbar.innerHTML = `
       <button class="btn btn-ghost btn-sm" onclick="go('login')">로그인</button>
       <button class="btn btn-primary btn-sm" onclick="go('register')">회원가입</button>`;
   }
