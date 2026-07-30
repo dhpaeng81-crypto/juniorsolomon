@@ -575,7 +575,7 @@
           onclick="document.getElementById('fupload').click()"
           ondragover="ondov(event)" ondragleave="ondol(event)" ondrop="ondod(event)">
           <div class="upload-ico">📎</div>
-          <div class="upload-hint">클릭하거나 파일을 드래그하여 첨부<br>이미지(JPG · PNG · GIF · WebP) · 동영상(MP4 · WebM) — 각 100 MB 이하</div>
+          <div class="upload-hint">클릭하거나 파일을 드래그하여 첨부<br>이미지(JPG · PNG · GIF · WebP) — 파일당 10 MB 이하</div>
         </div>
         <input type="file" id="fupload" accept="image/*,video/*" multiple style="display:none" onchange="onFileSelect(event)">
         <div class="prev-grid" id="prev-grid"></div>
@@ -948,12 +948,13 @@ async function renderDetail(postId) {
 
 async function delPost(tbl, postId) {
   if (!confirm('이 게시글을 삭제하시겠습니까?')) return;
-  if (tbl === 'gallery') {
-    const { data: post } = await sb.from('gallery').select('image_urls').eq('id', postId).single();
-    if (post?.image_urls?.length) {
-      const paths = post.image_urls.map(u => u.split('/gallery/')[1]).filter(Boolean);
-      if (paths.length) await sb.storage.from('gallery').remove(paths);
-    }
+  const { data: post } = await sb.from(tbl).select('image_urls').eq('id', postId).single();
+  if (post?.image_urls?.length) {
+    const paths = post.image_urls.map(u => {
+      const m = u.match(/\/storage\/v1\/object\/public\/gallery\/(.+)$/);
+      return m ? m[1] : null;
+    }).filter(Boolean);
+    if (paths.length) await sb.storage.from('gallery').remove(paths);
   }
   const { error } = await sb.from(tbl).delete().eq('id', postId);
   if (error) { toast('삭제 실패: ' + error.message, 'err'); return; }
@@ -999,8 +1000,7 @@ async function setupWrite(postId=null) {
     $('w-title').value = ''; $('w-body').value = '';
   }
 
-  const upZone = document.querySelector('.upload-zone')?.parentElement;
-  if (upZone) upZone.style.display = (curBoard === 'gallery' || postId) ? '' : 'none';
+  // upload zone shown for all boards
 }
 
 function ondov(e) { e.preventDefault(); $('dropzone').classList.add('drag'); }
@@ -1056,14 +1056,14 @@ async function submitPost() {
     }
 
     if (editId) {
-      const patch = { title, updated_at: now };
-      if (tbl === 'gallery') { patch.description = content; patch.image_urls = imageUrls; }
+      const patch = { title, updated_at: now, image_urls: imageUrls };
+      if (tbl === 'gallery') { patch.description = content; }
       else { patch.content = content; }
       const { error } = await sb.from(tbl).update(patch).eq('id', editId);
       if (error) throw error;
     } else {
-      const row = { title, author_id: currentUser.id, created_at: now, updated_at: now };
-      if (tbl === 'gallery')  { row.description = content; row.image_urls = imageUrls; }
+      const row = { title, image_urls: imageUrls, author_id: currentUser.id, created_at: now, updated_at: now };
+      if (tbl === 'gallery')  { row.description = content; }
       else if (tbl === 'reviews') { row.content = content; row.author_name = currentProfile.display_name; row.user_id = currentUser.id; }
       else { row.content = content; }
       const { error } = await sb.from(tbl).insert(row);
