@@ -112,6 +112,25 @@
     .teacher-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
     .teacher-color-bar { height: 5px; background: var(--purple); }
     .teacher-color-bar.sophos { background: var(--yellow); }
+
+    /* ── TEACHER PHOTO ── */
+    .teacher-photo {
+      width: 100%; aspect-ratio: 4/3; overflow: hidden;
+      background: var(--surf-2); position: relative;
+    }
+    .teacher-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      display: block;
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .teacher-card:hover .teacher-photo img { transform: scale(1.04); }
+
+    .principal-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      display: block;
+    }
     .teacher-body { padding: 28px; }
     .teacher-role-tag {
       display: inline-flex; align-items: center; gap: 5px;
@@ -330,8 +349,8 @@
     </h2>
     <div class="principal-card anim anim-d2">
       <div class="principal-grid">
-        <div class="principal-photo" aria-hidden="true">
-          👑
+        <div class="principal-photo">
+          <img src="images/teacher-jang.jpg" alt="장화연 원장" loading="eager">
         </div>
         <div class="principal-content">
           <span class="principal-role">설립자 · 원장</span>
@@ -402,6 +421,9 @@
 
       <!-- 박효정 -->
       <div class="teacher-card anim anim-d1">
+        <div class="teacher-photo">
+          <img src="images/teacher-park.jpg" alt="박효정 선생님" loading="lazy">
+        </div>
         <div class="teacher-color-bar"></div>
         <div class="teacher-body">
           <span class="teacher-role-tag js">수석 지도교사</span>
@@ -424,6 +446,9 @@
 
       <!-- 하정빈 -->
       <div class="teacher-card anim anim-d2">
+        <div class="teacher-photo">
+          <img src="images/teacher-ha.jpg" alt="하정빈 선생님" loading="lazy">
+        </div>
         <div class="teacher-color-bar"></div>
         <div class="teacher-body">
           <span class="teacher-role-tag js">독서 · 철학 · 하브루타</span>
@@ -446,6 +471,9 @@
 
       <!-- 손수영 -->
       <div class="teacher-card anim anim-d3">
+        <div class="teacher-photo">
+          <img src="images/teacher-son.jpg" alt="손수영 선생님" loading="lazy">
+        </div>
         <div class="teacher-color-bar"></div>
         <div class="teacher-body">
           <span class="teacher-role-tag js">7세반 전담</span>
@@ -483,8 +511,15 @@
       </p>
     </div>
     <div class="sophos-card anim anim-d2">
-      <div class="teacher-name" style="color:#fff;font-size:26px;margin-bottom:4px;">이대건</div>
-      <div style="font-size:14px;color:var(--yellow);margin-bottom:20px;font-weight:600;">수능 문학독서 · 문법 · 내신 전문</div>
+      <div style="display:flex;align-items:center;gap:20px;margin-bottom:20px;">
+        <div style="width:72px;height:72px;border-radius:50%;background:oklch(30% 0.08 258);border:2px solid oklch(40% 0.08 258 / 0.6);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <span style="font-size:26px;font-weight:900;color:var(--yellow);letter-spacing:-0.02em;">이</span>
+        </div>
+        <div>
+          <div class="teacher-name" style="color:#fff;font-size:26px;margin-bottom:2px;">이대건</div>
+          <div style="font-size:14px;color:var(--yellow);font-weight:600;">수능 문학독서 · 문법 · 내신 전문</div>
+        </div>
+      </div>
       <p class="sophos-teacher-desc">
         서울대학교 졸업 후 미래탐구·대치명인·대치메이드에서 강의한 경력을 바탕으로,
         수능 문학독서·문법·내신을 전략적으로 지도합니다.
