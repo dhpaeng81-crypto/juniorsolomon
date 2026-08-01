@@ -7,6 +7,8 @@
   <title>선생님 소개 | 주니어솔로몬</title>
   <meta name="description" content="장화연 원장을 비롯한 주니어솔로몬 교사진 소개. 하브루타·독서·논술·수능국어 전문 선생님 5명이 소수정예로 아이의 성장을 이끕니다.">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="style.css">
   <style>
     .anim { opacity: 0; transform: translateY(20px); transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1); }
@@ -32,10 +34,10 @@
     }
     .breadcrumb a { color: oklch(62% 0.02 78); text-decoration: none; transition: color var(--t-fast); }
     .breadcrumb a:hover { color: oklch(85% 0.025 80); }
-    .breadcrumb span { color: oklch(50% 0.015 78); }
+    .breadcrumb span { color: oklch(70% 0.015 78); }
     .page-hero h1 {
       font-size: clamp(28px, 5vw, 52px); font-weight: 800;
-      color: #fff; letter-spacing: -0.03em; line-height: 1.1; text-wrap: balance;
+      color: var(--ink-on-dark); letter-spacing: -0.03em; line-height: 1.1; text-wrap: balance;
     }
     .page-hero p {
       font-size: clamp(15px, 1.8vw, 17px); color: oklch(76% 0.015 80);
@@ -81,8 +83,18 @@
     .principal-quote {
       font-size: clamp(17px, 2.2vw, 22px); font-weight: 700;
       color: var(--ink); line-height: 1.4; letter-spacing: -0.02em;
-      border-left: 4px solid var(--yellow); padding-left: 18px;
+      position: relative;
+      padding: 20px 24px 20px 24px;
+      background: var(--purple-xlight);
+      border-radius: var(--r-md);
       margin-bottom: 20px; text-wrap: balance;
+    }
+    .principal-quote::before {
+      content: '\201C';
+      position: absolute; top: 0; left: 10px;
+      font-family: var(--serif); font-size: 72px; line-height: 1;
+      color: var(--amber); opacity: 0.35; font-weight: 400;
+      pointer-events: none;
     }
     .principal-body {
       font-size: 15px; color: var(--ink-muted); line-height: 1.85;
@@ -115,7 +127,7 @@
 
     /* ── TEACHER PHOTO ── */
     .teacher-photo {
-      width: 100%; aspect-ratio: 3/4; overflow: hidden;
+      width: 100%; aspect-ratio: 3/4; max-height: 260px; overflow: hidden;
       background: var(--surf-2); position: relative;
     }
     .teacher-photo img {
@@ -125,6 +137,21 @@
       transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
     }
     .teacher-card:hover .teacher-photo img { transform: scale(1.04); }
+    @media (min-width: 768px) {
+      .teacher-photo { max-height: none; }
+    }
+
+    /* ── SOPHOS CTA LINK ── */
+    .sophos-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 12px 24px; background: var(--yellow); color: #3B1B1B;
+      border-radius: var(--r-pill); font-size: 14px; font-weight: 800;
+      text-decoration: none;
+      transition: opacity var(--t-fast), transform var(--t-base) cubic-bezier(0.16,1,0.3,1);
+    }
+    .sophos-cta:hover, .sophos-cta:focus-visible {
+      opacity: 0.85; transform: translateY(-1px);
+    }
 
     .principal-photo img {
       width: 100%; height: 100%;
@@ -228,7 +255,7 @@
 
     /* ── CONSULT CTA ── */
     .consult { background: var(--purple-deep); padding: 72px 0; text-align: center; }
-    .consult-title { font-size: clamp(22px, 3.5vw, 36px); font-weight: 800; color: #fff; letter-spacing: -0.025em; text-wrap: balance; }
+    .consult-title { font-size: clamp(22px, 3.5vw, 36px); font-weight: 800; color: var(--ink-on-dark); letter-spacing: -0.025em; text-wrap: balance; }
     .consult-sub { font-size: 15px; color: oklch(65% 0.015 80); margin-top: 12px; }
     .consult-cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 32px; }
     .btn-naver {
@@ -383,33 +410,33 @@
             2017년 주니어솔로몬을 설립한 이후, 아이 한 명 한 명의 지적 성장을 직접 챙기는
             방식으로 깊은 신뢰를 쌓아왔습니다.
           </p>
-          <div style="display:grid;gap:14px;margin-top:18px;font-size:13px;">
+          <dl style="display:grid;gap:14px;margin-top:18px;font-size:13px;">
             <div>
-              <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple);margin-bottom:5px;">학력</div>
-              <div style="color:var(--ink-muted);line-height:1.8;">
+              <dt style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple);margin-bottom:5px;">학력</dt>
+              <dd style="color:var(--ink-muted);line-height:1.8;margin:0;">
                 한국외국어대학교 대학원 독서논술교육과 졸업<br>
                 한국외국어대학교 스페인어과 졸업
-              </div>
+              </dd>
             </div>
             <div>
-              <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple);margin-bottom:5px;">경력</div>
-              <div style="color:var(--ink-muted);line-height:1.8;">
+              <dt style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple);margin-bottom:5px;">경력</dt>
+              <dd style="color:var(--ink-muted);line-height:1.8;margin:0;">
                 현) 주니어솔로몬 이촌 본점 원장 (2017~)<br>
                 전) 한국방송출판(KBS) · 보림출판사 도서편집<br>
                 전) 월간지 &lt;빛과 소금&gt; 기자<br>
                 전) 고차적사고력교육센터 목동점 부원장<br>
                 전) CGNTV · MKTV(미국) 아나운서
-              </div>
+              </dd>
             </div>
             <div>
-              <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple);margin-bottom:5px;">해외 연수</div>
-              <div style="color:var(--ink-muted);line-height:1.8;">
+              <dt style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple);margin-bottom:5px;">해외 연수</dt>
+              <dd style="color:var(--ink-muted);line-height:1.8;margin:0;">
                 스페인 살라망카 대학교 (Universidad de Salamanca)<br>
                 미국 뉴욕 컬럼비아 대학교 (Columbia University in the City of New York)<br>
                 이스라엘 예루살렘 히브루 대학교 (Hebrew University of Jerusalem)
-              </div>
+              </dd>
             </div>
-          </div>
+          </dl>
           <div class="principal-highlights" style="margin-top:16px;">
             <span class="highlight-tag">한국외대 대학원</span>
             <span class="highlight-tag">KBS 도서편집</span>
@@ -550,7 +577,7 @@
         <li style="font-size:14px;font-weight:700;color:var(--ink);">내신 대비반 <span style="font-size:12px;font-weight:400;color:var(--ink-muted);">— 중등</span></li>
       </ul>
       <div style="margin-top:24px;">
-        <a href="edu-1.html" style="display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:var(--yellow);color:#3B1B1B;border-radius:var(--r-pill);font-size:14px;font-weight:800;text-decoration:none;transition:opacity var(--t-fast);" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+        <a href="edu-1.html" class="sophos-cta">
           소포스에듀 상세 안내 →
         </a>
       </div>

@@ -22,7 +22,8 @@
   /* Ink */
   --ink:           oklch(22% 0.07 258);
   --ink-muted:     oklch(40% 0.020 62);
-  --ink-subtle:    oklch(62% 0.012 58);
+  --ink-subtle:    oklch(44% 0.015 60);
+  --ink-on-dark:   oklch(97% 0.010 80);
   /* Surfaces */
   --canvas:        oklch(96% 0.014 80);
   --surf-0:        oklch(96% 0.014 80);
@@ -882,6 +883,44 @@ a { color: inherit; }
   .fee-table th,
   .fee-table td  { padding: 10px 12px; }
   .cta-band-actions { flex-direction: column; align-items: center; }
+}
+
+/* ─────────────────────────────────────────────
+   DARK MODE
+───────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --canvas:        oklch(15% 0.04 258);
+    --surf-0:        oklch(15% 0.04 258);
+    --surf-1:        oklch(19% 0.05 260);
+    --surf-2:        oklch(24% 0.06 258);
+    --border:        oklch(31% 0.06 258);
+    --cream:         oklch(15% 0.04 258);
+    --cream-2:       oklch(19% 0.05 260);
+    --cream-3:       oklch(24% 0.06 258);
+    --ink:           oklch(91% 0.015 80);
+    --ink-muted:     oklch(66% 0.020 72);
+    --ink-subtle:    oklch(50% 0.015 60);
+    --purple-light:  oklch(27% 0.06 258);
+    --purple-xlight: oklch(19% 0.05 80);
+    --yellow-deep:   oklch(76% 0.12 72);
+    --yellow-light:  oklch(24% 0.05 72);
+    --amber-xlight:  oklch(24% 0.05 72);
+    --shadow-sm:     0 1px 4px oklch(5% 0.01 258 / 0.50);
+    --shadow-md:     0 4px 16px oklch(5% 0.01 258 / 0.60);
+    --shadow-lg:     0 8px 32px oklch(5% 0.01 258 / 0.70);
+  }
+  .header {
+    background: oklch(15% 0.04 258 / 0.95);
+    border-bottom-color: oklch(28% 0.06 258);
+  }
+  .header.scrolled { background: oklch(15% 0.04 258 / 0.99); }
+  .dropdown {
+    background: oklch(19% 0.05 260);
+    border-color: oklch(31% 0.06 258);
+  }
+  .principal-title { color: var(--amber); }
+  .scroll-top { background: oklch(19% 0.05 260); }
 }
 
 /* ─────────────────────────────────────────────
