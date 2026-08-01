@@ -154,59 +154,76 @@
     /* ── SOPHOS SECTION ── */
     .sophos-section {
       padding: 80px 0;
-      background: linear-gradient(150deg, oklch(18% 0.05 258), oklch(22% 0.07 258));
+      background: var(--surf-1);
     }
     .sophos-header { margin-bottom: 40px; }
     .sophos-badge {
       display: inline-flex; align-items: center; gap: 8px;
       font-size: 11px; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase;
-      color: var(--yellow-deep); background: oklch(88% 0.13 97 / 0.15);
-      border: 1px solid oklch(88% 0.13 97 / 0.3);
+      color: var(--yellow-deep); background: oklch(88% 0.13 97 / 0.25);
+      border: 1px solid oklch(72% 0.14 78 / 0.4);
       padding: 5px 14px; border-radius: var(--r-pill); margin-bottom: 16px;
     }
     .sophos-title {
       font-size: clamp(22px, 3.5vw, 36px); font-weight: 800;
-      color: #fff; letter-spacing: -0.025em; text-wrap: balance; margin-bottom: 8px;
+      color: var(--ink); letter-spacing: -0.025em; text-wrap: balance; margin-bottom: 8px;
     }
-    .sophos-sub { font-size: 15px; color: oklch(65% 0.015 80); line-height: 1.7; }
+    .sophos-sub { font-size: 15px; color: var(--ink-muted); line-height: 1.7; }
     .sophos-card {
-      background: oklch(20% 0.07 258 / 0.8);
-      border: 1px solid oklch(35% 0.07 258 / 0.4);
-      border-radius: var(--r-xl); padding: 32px;
+      background: var(--canvas);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl); overflow: hidden;
+      box-shadow: var(--shadow-sm);
     }
-    .sophos-teacher-name { font-size: 26px; font-weight: 900; color: #fff; margin-bottom: 4px; }
-    .sophos-teacher-spec { font-size: 14px; color: var(--yellow); margin-bottom: 20px; }
-    .sophos-teacher-desc { font-size: 14px; color: oklch(65% 0.015 80); line-height: 1.8; margin-bottom: 24px; }
+    .sophos-card-inner {
+      display: grid; grid-template-columns: 1fr; gap: 0;
+    }
+    .sophos-photo {
+      width: 100%; aspect-ratio: 3/4; overflow: hidden;
+      background: var(--surf-2); max-height: 360px;
+    }
+    .sophos-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top; display: block;
+    }
+    .sophos-content { padding: 32px; }
+    .sophos-teacher-name { font-size: 26px; font-weight: 900; color: var(--ink); margin-bottom: 4px; }
+    .sophos-teacher-spec { font-size: 14px; color: var(--yellow-deep); font-weight: 600; margin-bottom: 20px; }
+    .sophos-teacher-desc { font-size: 14px; color: var(--ink-muted); line-height: 1.8; margin-bottom: 24px; }
     .sophos-career {
       display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;
     }
     .sophos-career-tag {
       font-size: 12px; font-weight: 600; padding: 5px 12px;
       border-radius: var(--r-pill);
-      background: oklch(24% 0.07 258 / 0.8);
-      border: 1px solid oklch(40% 0.07 258 / 0.4);
-      color: oklch(76% 0.015 80);
+      background: var(--surf-2);
+      border: 1px solid var(--border);
+      color: var(--ink-muted);
     }
     .sophos-table-title {
-      font-size: 13px; font-weight: 700; color: oklch(62% 0.015 80);
+      font-size: 13px; font-weight: 700; color: var(--ink-subtle);
       letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px;
     }
     .class-table { width: 100%; border-collapse: collapse; }
     .class-table th {
-      background: oklch(22% 0.07 258); color: oklch(76% 0.015 80);
+      background: var(--surf-1); color: var(--ink-muted);
       font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
-      padding: 10px 14px; text-align: left;
+      padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border);
     }
     .class-table td {
-      padding: 12px 14px; font-size: 13px; color: oklch(76% 0.015 80);
-      border-bottom: 1px solid oklch(24% 0.05 258 / 0.6);
+      padding: 12px 14px; font-size: 13px; color: var(--ink-muted);
+      border-bottom: 1px solid var(--border);
     }
     .class-table tr:last-child td { border-bottom: none; }
-    .class-table .prog-name { font-weight: 700; color: #fff; }
+    .class-table .prog-name { font-weight: 700; color: var(--ink); }
     .class-badge {
       display: inline-block; font-size: 11px; font-weight: 700;
       padding: 2px 8px; border-radius: var(--r-pill);
       background: var(--yellow); color: #3B1B1B;
+    }
+    @media (min-width: 768px) {
+      .sophos-card-inner { grid-template-columns: 260px 1fr; }
+      .sophos-photo { aspect-ratio: auto; max-height: none; height: 100%; }
     }
 
     /* ── CONSULT CTA ── */
@@ -502,24 +519,17 @@
   <div class="container">
     <div class="sophos-header">
       <span class="sophos-badge anim">소포스에듀 (Sophos Edu)</span>
-      <h2 id="sophos-heading" class="sophos-title anim anim-d1">
-        수능 국어의 전략적 완성
-      </h2>
-      <p class="sophos-sub anim anim-d2">
-        주니어솔로몬과 함께하는 수능 국어 전문 브랜드.<br>
-        이대건 선생님이 문학·문법·내신을 체계적으로 지도합니다.
-      </p>
+      <h2 id="sophos-heading" class="sophos-title anim anim-d1">수능 국어의 전략적 완성</h2>
+      <p class="sophos-sub anim anim-d2">주니어솔로몬과 함께하는 수능 국어 전문 브랜드.<br>이대건 선생님이 문학·문법·내신을 체계적으로 지도합니다.</p>
     </div>
     <div class="sophos-card anim anim-d2">
-      <div style="display:flex;gap:24px;margin-bottom:24px;align-items:flex-start;flex-wrap:wrap;">
-        <div style="width:140px;flex-shrink:0;border-radius:var(--r-lg);overflow:hidden;border:1px solid oklch(40% 0.08 258 / 0.5);">
-          <img src="images/teacher-lee.jpg" alt="이대건 선생님" loading="lazy" style="width:100%;display:block;object-fit:cover;object-position:center top;">
+      <div class="sophos-card-inner">
+        <div class="sophos-photo">
+          <img src="images/teacher-lee.jpg" alt="이대건 선생님" loading="lazy">
         </div>
-        <div style="flex:1;min-width:180px;">
-          <div class="teacher-name" style="color:#fff;font-size:26px;margin-bottom:4px;">이대건</div>
-          <div style="font-size:14px;color:var(--yellow);font-weight:600;margin-bottom:0;">수능 문학독서 · 문법 · 내신 전문</div>
-        </div>
-      </div>
+        <div class="sophos-content">
+      <div class="sophos-teacher-name">이대건</div>
+      <div class="sophos-teacher-spec">수능 문학독서 · 문법 · 내신 전문</div>
       <p class="sophos-teacher-desc">
         서울대학교 졸업 후 미래탐구·대치명인·대치메이드에서 강의한 경력을 바탕으로,
         수능 문학독서·문법·내신을 전략적으로 지도합니다.
@@ -539,12 +549,14 @@
         <li style="font-size:14px;font-weight:700;color:var(--ink);">수능 문법반 <span style="font-size:12px;font-weight:400;color:var(--ink-muted);">— 중·고등</span></li>
         <li style="font-size:14px;font-weight:700;color:var(--ink);">내신 대비반 <span style="font-size:12px;font-weight:400;color:var(--ink-muted);">— 중등</span></li>
       </ul>
-      <div style="margin-top:24px;text-align:center;">
+      <div style="margin-top:24px;">
         <a href="edu-1.html" style="display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:var(--yellow);color:#3B1B1B;border-radius:var(--r-pill);font-size:14px;font-weight:800;text-decoration:none;transition:opacity var(--t-fast);" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
           소포스에듀 상세 안내 →
         </a>
       </div>
-    </div>
+        </div><!-- sophos-content -->
+      </div><!-- sophos-card-inner -->
+    </div><!-- sophos-card -->
   </div>
 </section>
 
