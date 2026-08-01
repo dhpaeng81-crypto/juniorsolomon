@@ -907,7 +907,7 @@ a { color: inherit; }
     --cream-3:       oklch(24% 0.06 258);
     --ink:           oklch(91% 0.015 80);
     --ink-muted:     oklch(66% 0.020 72);
-    --ink-subtle:    oklch(50% 0.015 60);
+    --ink-subtle:    oklch(56% 0.015 60);
     --purple-light:  oklch(27% 0.06 258);
     --purple-xlight: oklch(19% 0.05 80);
     --yellow-deep:   oklch(76% 0.12 72);

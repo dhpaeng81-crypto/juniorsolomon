@@ -22,6 +22,7 @@
       --navy:          oklch(22% 0.07 258);
       --navy-mid:      oklch(30% 0.09 260);
       --amber:         oklch(60% 0.12 72);
+      --amber-text:    oklch(42% 0.09 70);
       --amber-light:   oklch(70% 0.13 76);
       --amber-xlight:  oklch(93% 0.05 80);
       /* Ink */
@@ -86,7 +87,7 @@
     .hero-left { position: relative; z-index: 1; max-width: 620px; }
     .hero-label {
       font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--amber); margin-bottom: 24px;
+      color: var(--amber-text); margin-bottom: 24px;
       display: flex; align-items: center; justify-content: flex-start; gap: 10px;
     }
     .hero-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--amber); }
@@ -98,7 +99,7 @@
       color: var(--navy); text-wrap: balance;
       margin-bottom: 24px;
     }
-    .hero-title em { font-style: normal; color: var(--amber); }
+    .hero-title em { font-style: normal; color: var(--amber-text); }
     .hero-sub {
       font-size: 18px; color: var(--ink-muted);
       line-height: 1.78; margin-top: 0; margin-bottom: 40px; max-width: 500px;
@@ -136,7 +137,7 @@
     .hero-stat:last-child { border-bottom: none; padding-bottom: 0; }
     .hero-stat:first-child { padding-top: 0; }
     .hero-stat-num {
-      font-size: 34px; font-weight: 900; color: var(--amber);
+      font-size: 34px; font-weight: 900; color: var(--amber-text);
       letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums;
     }
     .hero-stat-label { font-size: 12px; color: var(--ink-subtle); margin-top: 4px; font-weight: 500; }
@@ -151,7 +152,7 @@
     }
     .principal-kicker {
       font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--purple); margin-bottom: 20px;
+      color: var(--amber-text); margin-bottom: 20px;
     }
     .principal-quote {
       font-family: var(--serif);
@@ -167,7 +168,7 @@
       font-family: Georgia, 'Times New Roman', serif;
       pointer-events: none;
     }
-    .principal-quote em { font-style: normal; color: var(--purple); }
+    .principal-quote em { font-style: normal; color: var(--amber-text); }
     .principal-right { display: flex; flex-direction: column; justify-content: center; gap: 20px; }
     .principal-body {
       font-size: 17px; color: var(--ink-muted); line-height: 1.9;
@@ -196,7 +197,7 @@
     .principle-item:hover { border-color: var(--purple-light); box-shadow: var(--shadow-sm); }
     .principle-num {
       width: 40px; height: 40px; border-radius: var(--r-md); flex-shrink: 0;
-      background: var(--purple); color: #fff;
+      background: var(--purple); color: oklch(15% 0.04 258);
       font-size: 15px; font-weight: 900;
       display: flex; align-items: center; justify-content: center;
     }
@@ -216,7 +217,7 @@
       content: attr(data-step);
       position: absolute; left: 18px; top: 22px;
       width: 34px; height: 34px; border-radius: var(--r-md);
-      background: var(--amber); color: #fff;
+      background: var(--amber); color: oklch(15% 0.04 258);
       font-size: 14px; font-weight: 900;
       display: flex; align-items: center; justify-content: center;
     }
@@ -228,7 +229,7 @@
     }
     .phil-section-title {
       font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--purple); margin-bottom: 16px;
+      color: var(--amber-text); margin-bottom: 16px;
     }
 
     /* ── 6대 인재상 ── */
@@ -283,7 +284,7 @@
     .level-badge.l5 { background: var(--navy); }
     .level-label { font-size: 16px; font-weight: 700; color: var(--ink); }
     .level-desc  { font-size: 14px; color: var(--ink-muted); margin-top: 4px; line-height: 1.5; }
-    .level-age   { font-size: 13px; font-weight: 700; color: var(--purple); white-space: nowrap; }
+    .level-age   { font-size: 13px; font-weight: 700; color: var(--amber-text); white-space: nowrap; }
     .curriculum-cta { text-align: center; margin-top: 32px; }
 
     /* ── 교사진 ── */
@@ -304,7 +305,7 @@
     .teacher-role {
       display: inline-flex; align-items: center; gap: 6px;
       font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--purple); background: var(--purple-light);
+      color: var(--amber-text); background: var(--purple-light);
       padding: 4px 10px; border-radius: var(--r-pill);
     }
     .teacher-name { font-size: 20px; font-weight: 900; color: var(--ink); }
@@ -326,20 +327,20 @@
       padding: 36px 28px; text-align: center;
     }
     .trust-num  { font-size: clamp(40px, 6vw, 60px); font-weight: 900; color: var(--amber-light); line-height: 1; letter-spacing: -0.03em; }
-    .trust-unit { font-size: 15px; color: rgba(255,255,255,0.65); font-weight: 600; margin-top: 6px; }
-    .trust-label{ font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 6px; }
+    .trust-unit { font-size: 15px; color: rgba(255,255,255,0.80); font-weight: 600; margin-top: 6px; }
+    .trust-label{ font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 6px; }
     .trust-badge {
       grid-column: 1 / -1;
       background: oklch(22% 0.07 258);
       padding: 28px 24px; text-align: center;
     }
     .trust-badge-text { font-size: 16px; font-weight: 700; color: var(--amber-light); }
-    .trust-badge-sub  { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 6px; }
+    .trust-badge-sub  { font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 6px; }
 
     /* ── 상담 CTA ── */
     .consult { background: linear-gradient(150deg, var(--navy), oklch(28% 0.09 260)); padding: clamp(80px,11vw,140px) 0; text-align: center; }
     .consult-title { font-size: clamp(24px, 4vw, 42px); font-weight: 800; color: #fff; line-height: 1.2; letter-spacing: -0.025em; text-wrap: balance; }
-    .consult-sub   { font-size: 16px; color: rgba(255,255,255,0.6); margin-top: 14px; }
+    .consult-sub   { font-size: 16px; color: rgba(255,255,255,0.78); margin-top: 14px; }
     .consult-cta   { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 36px; }
     .btn-naver {
       background: var(--navy); color: #fff;
@@ -358,7 +359,7 @@
       transition: opacity var(--t-fast), transform var(--t-base) var(--ease);
     }
     .btn-kakao:hover { opacity: 0.9; transform: translateY(-2px); }
-    .consult-info { font-size: 14px; color: rgba(255,255,255,0.4); margin-top: 24px; }
+    .consult-info { font-size: 14px; color: rgba(255,255,255,0.62); margin-top: 24px; }
 
     /* ── FOOTER ── */
     .footer { background: var(--navy); padding: 56px 0 32px; }
@@ -367,20 +368,20 @@
       display: grid; grid-template-columns: 1fr; gap: 40px;
     }
     .footer-brand .logo-text { color: #fff; font-size: 20px; }
-    .footer-brand .logo-sub  { color: rgba(255,255,255,0.4); }
-    .footer-tagline { font-size: 13px; color: rgba(255,255,255,0.38); margin-top: 12px; line-height: 1.6; }
+    .footer-brand .logo-sub  { color: rgba(255,255,255,0.62); }
+    .footer-tagline { font-size: 13px; color: rgba(255,255,255,0.60); margin-top: 12px; line-height: 1.6; }
     .footer-social { display: flex; gap: 12px; margin-top: 16px; }
     .footer-social a {
       width: 36px; height: 36px; border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.15);
       display: flex; align-items: center; justify-content: center;
-      color: rgba(255,255,255,0.4); text-decoration: none; font-size: 14px;
+      color: rgba(255,255,255,0.62); text-decoration: none; font-size: 14px;
       transition: border-color var(--t-fast), color var(--t-fast);
     }
     .footer-social a:hover { border-color: var(--amber); color: var(--amber-light); }
     .footer-nav { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
-    .footer-col-title { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.38); margin-bottom: 12px; }
-    .footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.45); text-decoration: none; margin-bottom: 8px; transition: color var(--t-fast); }
+    .footer-col-title { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.60); margin-bottom: 12px; }
+    .footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.65); text-decoration: none; margin-bottom: 8px; transition: color var(--t-fast); }
     .footer-col a:hover { color: rgba(255,255,255,0.8); }
     .footer-bottom {
       border-top: 1px solid rgba(255,255,255,0.1);
@@ -676,7 +677,7 @@
 <!-- ══════════════════ 3. 교육 철학 ══════════════════ -->
 <section class="philosophy" id="philosophy" aria-labelledby="phil-heading">
   <div class="container">
-    <p style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--purple);margin-bottom:10px;" class="anim">교육 철학</p>
+    <p style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber-text);margin-bottom:10px;" class="anim">교육 철학</p>
     <h2 id="phil-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
       3대 원칙<br>× 4단계 프로세스
     </h2>
@@ -738,7 +739,7 @@
 <!-- ══════════════════ 4. 6대 인재상 ══════════════════ -->
 <section class="talent" id="talent" aria-labelledby="talent-heading">
   <div class="container">
-    <p style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--purple);margin-bottom:10px;" class="anim">6대 인재상</p>
+    <p style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber-text);margin-bottom:10px;" class="anim">6대 인재상</p>
     <h2 id="talent-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
       주니어솔로몬이 키우는<br>여섯 가지 인재
     </h2>
@@ -798,7 +799,7 @@
 <!-- ══════════════════ 5. 커리큘럼 레벨 ══════════════════ -->
 <section class="curriculum" id="curriculum" aria-labelledby="curriculum-heading">
   <div class="container">
-    <p style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--purple);margin-bottom:10px;" class="anim">커리큘럼</p>
+    <p style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber-text);margin-bottom:10px;" class="anim">커리큘럼</p>
     <h2 id="curriculum-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
       7세부터 중등까지<br>5단계 맞춤 과정
     </h2>
@@ -853,7 +854,7 @@
 <!-- ══════════════════ 6. 교사진 ══════════════════ -->
 <section class="teachers" id="teachers" aria-labelledby="teachers-heading">
   <div class="container">
-    <p style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--purple);margin-bottom:10px;" class="anim">교사진</p>
+    <p style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber-text);margin-bottom:10px;" class="anim">교사진</p>
     <h2 id="teachers-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
       아이의 생각을 깊게 하는<br>다섯 명의 선생님
     </h2>
