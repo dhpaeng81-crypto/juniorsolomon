@@ -17,6 +17,7 @@
       --surface:      oklch(93% 0.018 80);
       --surface-2:    oklch(87% 0.022 78);
       --primary:      oklch(60% 0.12 72);
+      --primary-text: oklch(15% 0.04 258);
       --primary-hov:  oklch(52% 0.14 72);
       --primary-sub:  oklch(93% 0.05 78);
       --accent:       oklch(88% 0.13   97);
@@ -25,7 +26,7 @@
       --error:        oklch(52% 0.20   25);
       --ink:          oklch(22% 0.07 258);
       --ink-2:        oklch(40% 0.020 62);
-      --muted:        oklch(62% 0.012 58);
+      --muted:        oklch(44% 0.012 58);
       --border:       oklch(84% 0.020 78);
       --border-str:   oklch(78% 0.018 78);
       /* Shadow */
@@ -50,7 +51,7 @@
       --yellow-deep:   oklch(72% 0.14 78);
       --yellow-light:  oklch(96% 0.07 99);
       --ink-muted:     oklch(40% 0.020 62);
-      --ink-subtle:    oklch(62% 0.012 58);
+      --ink-subtle:    oklch(44% 0.015 60);
       --canvas:        oklch(96% 0.014 80);
       --surf-0:        oklch(96% 0.014 80);
       --surf-1:        oklch(93% 0.018 80);
@@ -118,7 +119,7 @@
       white-space: nowrap; min-height: 40px;
       letter-spacing: -0.01em;
     }
-    .btn-primary { background: var(--primary); color: var(--bg); }
+    .btn-primary { background: var(--primary); color: var(--primary-text); }
     .btn-primary:hover { background: var(--primary-hov); box-shadow: var(--sh-sm); }
     .btn-outline {
       background: transparent; color: var(--primary);
@@ -182,7 +183,7 @@
 
     /* Alert */
     .alert { padding: 12px 15px; border-radius: var(--r-md); font-size: .82rem; margin-bottom: 14px; line-height: 1.55; }
-    .alert-info { background: var(--primary-sub); color: var(--primary-hov); border: 1px solid oklch(0.60 0.12 72 / .20); }
+    .alert-info { background: var(--primary-sub); color: oklch(38% 0.10 72); border: 1px solid oklch(0.60 0.12 72 / .20); }
     .alert-warn { background: oklch(0.98 0.05 75); color: var(--accent-fg); border: 1px solid oklch(0.88 0.13 97 / .35); }
     .divider { height: 1px; background: var(--border); margin: 20px 0; }
 
@@ -282,7 +283,7 @@
     @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
     /* ══ DETAIL ══ */
-    .board-crumb { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 20px; font-size: .76rem; font-weight: 700; margin-bottom: 14px; background: var(--primary-sub); color: var(--primary); }
+    .board-crumb { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 20px; font-size: .76rem; font-weight: 700; margin-bottom: 14px; background: var(--primary-sub); color: oklch(38% 0.10 72); }
     .dt-title { font-size: 1.35rem; font-weight: 800; margin-bottom: 14px; line-height: 1.38; letter-spacing: -0.03em; }
     .dt-meta { display: flex; gap: 14px; flex-wrap: wrap; font-size: .8rem; color: var(--muted); padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 22px; }
     .dt-meta span { display: flex; align-items: center; gap: 4px; }
@@ -310,7 +311,7 @@
     .dt-actions { display: flex; gap: 8px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
 
     /* ══ WRITE ══ */
-    .write-board-tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: .78rem; font-weight: 700; background: var(--primary-sub); color: var(--primary); margin-bottom: 18px; }
+    .write-board-tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: .78rem; font-weight: 700; background: var(--primary-sub); color: oklch(38% 0.10 72); margin-bottom: 18px; }
     .upload-zone {
       border: 2px dashed var(--border); border-radius: var(--r-lg);
       padding: 30px; text-align: center; cursor: pointer;
@@ -359,7 +360,7 @@
       display: flex; align-items: center; justify-content: center;
       transition: all var(--dur) var(--ease); color: var(--ink-2); font-weight: 500;
     }
-    .pbtn.on { background: var(--primary); border-color: var(--primary); color: var(--bg); font-weight: 700; }
+    .pbtn.on { background: var(--primary); border-color: var(--primary); color: var(--primary-text); font-weight: 700; }
     .pbtn:hover:not(.on) { border-color: var(--primary); color: var(--primary); background: var(--primary-sub); }
 
     /* ══ TOAST ══ */
@@ -397,7 +398,7 @@
     .umenu { position: relative; }
     .avatar {
       width: 36px; height: 36px; border-radius: 50%;
-      background: var(--primary); color: var(--bg);
+      background: var(--primary); color: var(--primary-text);
       display: flex; align-items: center; justify-content: center;
       font-weight: 800; font-size: .85rem; cursor: pointer;
       user-select: none; transition: box-shadow var(--dur) var(--ease);
@@ -438,7 +439,7 @@
     }
     .mobile-user-info .avatar-xs {
       width: 24px; height: 24px; border-radius: 50%;
-      background: var(--primary); color: var(--bg);
+      background: var(--primary); color: var(--primary-text);
       display: flex; align-items: center; justify-content: center;
       font-weight: 800; font-size: .7rem; flex-shrink: 0;
     }
@@ -763,7 +764,7 @@ function updateNav() {
         <div class="avatar" onclick="toggleDrop()">${esc(name[0]).toUpperCase()}</div>
         <div class="drop" id="drop">
           <div class="ditem" style="cursor:default;gap:10px">
-            <div style="width:32px;height:32px;border-radius:50%;background:var(--primary);color:var(--bg);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82rem;flex-shrink:0">${esc(name[0]).toUpperCase()}</div>
+            <div style="width:32px;height:32px;border-radius:50%;background:var(--primary);color:var(--primary-text);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82rem;flex-shrink:0">${esc(name[0]).toUpperCase()}</div>
             <div>
               <div style="font-weight:700;font-size:.88rem">${esc(name)}</div>
               <div class="ditem-meta">${statusLabel}</div>

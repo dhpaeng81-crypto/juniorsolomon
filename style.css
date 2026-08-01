@@ -17,6 +17,7 @@
   --navy:          oklch(22% 0.07 258);
   --navy-mid:      oklch(30% 0.09 260);
   --amber:         oklch(60% 0.12 72);
+  --amber-text:    oklch(42% 0.09 70);
   --amber-light:   oklch(70% 0.13 76);
   --amber-xlight:  oklch(93% 0.05 80);
   /* Ink */
@@ -122,7 +123,7 @@ a { color: inherit; }
 .sec-label {
   display: inline-flex; align-items: center; gap: 8px;
   font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--amber); margin-bottom: 12px;
+  color: var(--amber-text); margin-bottom: 12px;
 }
 .sec-label::before {
   content: ''; display: block; width: 24px; height: 1px;
@@ -164,13 +165,13 @@ a { color: inherit; }
 }
 
 .btn-amber {
-  background: var(--amber); color: #fff;
+  background: var(--amber); color: oklch(15% 0.04 258);
   box-shadow: var(--shadow-btn);
 }
 .btn-amber:hover { background: oklch(55% 0.11 70); transform: translateY(-1px); }
 
 .btn-orange {
-  background: var(--amber); color: #fff;
+  background: var(--amber); color: oklch(15% 0.04 258);
   box-shadow: var(--shadow-btn);
 }
 .btn-orange:hover { background: oklch(55% 0.11 70); transform: translateY(-1px); }
@@ -264,9 +265,9 @@ a { color: inherit; }
 }
 .dropdown a:first-child { border-radius: var(--r-lg) var(--r-lg) 0 0; }
 .dropdown a:last-child  { border-radius: 0 0 var(--r-lg) var(--r-lg); }
-.dropdown a:hover  { background: var(--surf-1); color: var(--amber); }
+.dropdown a:hover  { background: var(--surf-1); color: var(--amber-text); }
 .dropdown a.active {
-  background: var(--amber-xlight); color: var(--amber); font-weight: 700;
+  background: var(--amber-xlight); color: var(--amber-text); font-weight: 700;
 }
 
 /* Header CTA */
@@ -553,9 +554,9 @@ a { color: inherit; }
 .compare-table td:first-child {
   font-weight: 700; color: var(--ink); background: var(--surf-1);
 }
-.compare-table .col-us   { color: var(--amber); font-weight: 700; text-align: center; }
+.compare-table .col-us   { color: var(--amber-text); font-weight: 700; text-align: center; }
 .compare-table .col-them { color: var(--ink-subtle); text-align: center; }
-.compare-table .check    { color: var(--amber); font-size: 18px; }
+.compare-table .check    { color: var(--amber-text); font-size: 18px; }
 .compare-table .cross    { color: var(--ink-subtle); font-size: 18px; }
 
 /* ─────────────────────────────────────────────
@@ -804,7 +805,7 @@ a { color: inherit; }
   padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 8px;
-  font-size: 12px; color: rgba(255,255,255,0.28);
+  font-size: 12px; color: rgba(255,255,255,0.52);
 }
 
 /* ─────────────────────────────────────────────
