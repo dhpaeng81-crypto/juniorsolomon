@@ -376,7 +376,7 @@ a { color: inherit; }
 .breadcrumb-sep { font-size: 11px; opacity: 0.5; }
 .breadcrumb-cur { color: rgba(255,255,255,0.85); font-weight: 600; }
 .page-hero-title {
-  font-size: clamp(28px, 5vw, 52px);
+  font-size: clamp(28px, 5vw, 68px);
   font-weight: 800; letter-spacing: -0.03em;
   color: #fff; line-height: 1.1; text-wrap: balance;
 }
@@ -844,6 +844,12 @@ a { color: inherit; }
 /* ─────────────────────────────────────────────
    RESPONSIVE
 ───────────────────────────────────────────── */
+/* Wide screens: let hero headings run on one line instead of narrow 2-line blocks */
+@media (min-width: 1100px) {
+  .page-hero-title br,
+  .page-hero h1 br { display: none; }
+}
+
 @media (max-width: 1024px) {
   .cards-grid-3  { grid-template-columns: 1fr 1fr; }
   .facility-grid { grid-template-columns: 1fr 1fr; }
