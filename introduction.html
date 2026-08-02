@@ -107,6 +107,24 @@
       border-radius: var(--r-pill); background: var(--surf-2); color: var(--ink-muted);
       border: 1px solid var(--border);
     }
+    .publication-card {
+      margin-top: 20px; padding: 16px 18px;
+      background: var(--amber-xlight); border: 1.5px solid var(--border);
+      border-radius: var(--r-md); display: flex; gap: 14px; align-items: flex-start;
+    }
+    .publication-icon {
+      font-size: 22px; flex-shrink: 0; margin-top: 2px;
+    }
+    .publication-meta {
+      font-size: 10px; font-weight: 700; letter-spacing: .10em; text-transform: uppercase;
+      color: var(--amber-text); margin-bottom: 4px;
+    }
+    .publication-title {
+      font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.45; margin-bottom: 4px;
+    }
+    .publication-source {
+      font-size: 12px; color: var(--ink-muted);
+    }
 
     /* ── TEACHER GRID ── */
     .teachers-section { padding: 80px 0; background: var(--surf-1); }
@@ -437,6 +455,14 @@
               </dd>
             </div>
           </dl>
+          <div class="publication-card anim">
+            <div class="publication-icon">✍️</div>
+            <div>
+              <div class="publication-meta">기고 논문 · WORLDVIEW 2019.10</div>
+              <div class="publication-title">독서란 인생이라는 정원에 꽃과 나무를 심는 일</div>
+              <div class="publication-source">어린이철학교육(P4C) 현장 스케치 — 하브루타식 독서토론 수업의 철학과 실천</div>
+            </div>
+          </div>
           <div class="principal-highlights" style="margin-top:16px;">
             <span class="highlight-tag">한국외대 대학원</span>
             <span class="highlight-tag">KBS 도서편집</span>
