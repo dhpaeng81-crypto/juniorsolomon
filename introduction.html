@@ -305,8 +305,16 @@
 
     /* ── RESPONSIVE ── */
     @media (min-width: 768px) {
-      .principal-grid { grid-template-columns: 280px 1fr; }
-      .principal-photo { min-height: auto; }
+      .principal-grid {
+        grid-template-columns: 300px 1fr;
+        align-items: start;
+      }
+      .principal-photo {
+        min-height: auto;
+        aspect-ratio: 3 / 4;
+        position: sticky;
+        top: calc(var(--header-h) + 24px);
+      }
       .teacher-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (min-width: 1024px) {
@@ -471,14 +479,15 @@
               </dd>
             </div>
           </dl>
-          <div class="publication-card anim">
+          <a href="article-worldview.html" class="publication-card anim" style="text-decoration:none;display:flex;gap:14px;align-items:flex-start;cursor:pointer;" aria-label="WORLDVIEW 기고문 전문 읽기">
             <div class="publication-icon">✍️</div>
-            <div>
+            <div style="flex:1;">
               <div class="publication-meta">기고 논문 · WORLDVIEW 2019.10</div>
               <div class="publication-title">독서란 인생이라는 정원에 꽃과 나무를 심는 일</div>
               <div class="publication-source">어린이철학교육(P4C) 현장 스케치 — 하브루타식 독서토론 수업의 철학과 실천</div>
+              <div style="margin-top:8px;font-size:12px;font-weight:700;color:var(--amber-text);">전문 읽기 →</div>
             </div>
-          </div>
+          </a>
           <div class="principal-highlights" style="margin-top:16px;">
             <span class="highlight-tag">한국외대 대학원</span>
             <span class="highlight-tag">KBS 도서편집</span>
