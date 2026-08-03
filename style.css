@@ -53,8 +53,8 @@
   --shadow-btnH: 0 8px 20px oklch(60% 0.12 72 / 0.38);
   --r-sm:   6px;
   --r-md:   12px;
-  --r-lg:   20px;
-  --r-xl:   28px;
+  --r-lg:   16px;
+  --r-xl:   24px;
   --r-pill: 9999px;
   --ease:   cubic-bezier(0.16, 1, 0.3, 1);
   --t-fast: 120ms;
@@ -99,7 +99,7 @@ a { color: inherit; }
 
 /* ── LAYOUT ── */
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-.section    { padding: 72px 0; }
+.section    { padding: 96px 0; }
 .center     { text-align: center; }
 
 /* ─────────────────────────────────────────────
@@ -122,14 +122,13 @@ a { color: inherit; }
 
 /* ── SECTION HEADER ── */
 .sec-label {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--amber-text); margin-bottom: 12px;
+  display: inline-flex; align-items: center;
+  padding: 5px 14px; border-radius: var(--r-pill);
+  background: var(--surf-1); border: 1px solid var(--border);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--amber-text); margin-bottom: 16px;
 }
-.sec-label::before {
-  content: ''; display: block; width: 24px; height: 1px;
-  background: var(--amber); border-radius: 2px;
-}
+.sec-label::before { display: none; }
 .sec-title {
   font-size: clamp(28px, 4vw, 44px);
   font-weight: 900; line-height: 1.1; letter-spacing: -0.04em;
@@ -430,7 +429,7 @@ a { color: inherit; }
 }
 .card:hover {
   box-shadow: var(--shadow-md);
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   border-color: var(--cream-3);
 }
 .card-icon {
@@ -650,8 +649,8 @@ a { color: inherit; }
   font-weight: 600; line-height: 1.7; margin-bottom: 20px;
   padding: 16px 20px;
   background: var(--amber-xlight);
-  border-left: 3px solid var(--amber);
-  border-radius: 0 var(--r-md) var(--r-md) 0;
+  border: 1px solid oklch(84% 0.04 78);
+  border-radius: var(--r-md);
 }
 .teacher-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .teacher-list li {
@@ -758,18 +757,36 @@ a { color: inherit; }
    CTA BAND
 ───────────────────────────────────────────── */
 .cta-band {
+  padding: 0 20px 80px; background: var(--canvas);
+}
+.cta-band-inner {
   background: linear-gradient(135deg, var(--navy), var(--navy-mid));
-  padding: 56px 20px; text-align: center; color: #fff;
+  border-radius: var(--r-xl);
+  padding: 72px 48px;
+  text-align: center; color: #fff;
+  max-width: 1160px; margin: 0 auto;
+  position: relative; overflow: hidden;
+}
+.cta-band-inner::before {
+  content: ''; position: absolute;
+  width: 480px; height: 480px; border-radius: 50%;
+  background: oklch(60% 0.12 72 / 0.06);
+  top: -200px; right: -120px; pointer-events: none;
 }
 .cta-band h2 {
   font-size: clamp(22px, 3.5vw, 36px);
   font-weight: 800; letter-spacing: -0.025em; margin-bottom: 12px;
+  position: relative; z-index: 1;
 }
 .cta-band p {
   font-size: clamp(15px, 1.6vw, 17px);
   color: rgba(255,255,255,0.70); margin-bottom: 28px; line-height: 1.7;
+  position: relative; z-index: 1;
 }
-.cta-band-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.cta-band-actions {
+  display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
+  position: relative; z-index: 1;
+}
 
 /* ─────────────────────────────────────────────
    FOOTER — 네이비 다크
@@ -807,6 +824,115 @@ a { color: inherit; }
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 8px;
   font-size: 12px; color: rgba(255,255,255,0.65);
+}
+
+/* ─────────────────────────────────────────────
+   CLAY FEATURE CARDS & BADGE PILLS
+   Clay-inspired: solid color fills · rounded-xl · no shadow
+   Color arrangement preserved from existing palette
+───────────────────────────────────────────── */
+
+/* Pill badge (eyebrow / section label) */
+.badge-pill {
+  display: inline-flex; align-items: center;
+  padding: 5px 14px; border-radius: var(--r-pill);
+  background: var(--surf-1); border: 1px solid var(--border);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--amber-text);
+}
+.badge-pill-amber {
+  background: var(--amber-xlight);
+  border-color: oklch(80% 0.07 78);
+  color: var(--amber-text);
+}
+.badge-pill-navy {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+
+/* Sec-label on dark navy backgrounds */
+.sec-label-on-dark {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.15);
+  color: var(--amber-on-dark);
+}
+
+/* Clay feature card base */
+.clay-card {
+  border-radius: var(--r-xl);
+  padding: 32px;
+  transition: transform var(--t-base) var(--ease);
+}
+.clay-card:hover { transform: translateY(-2px); }
+
+/* Variants */
+.clay-card-navy {
+  background: var(--navy); color: #fff;
+}
+.clay-card-navy .clay-card-title { color: #fff; }
+.clay-card-navy .clay-card-en    { color: rgba(255,255,255,0.50); }
+.clay-card-navy .clay-card-desc  { color: rgba(255,255,255,0.78); }
+.clay-card-navy .clay-card-num   { color: rgba(255,255,255,0.15); }
+
+.clay-card-mid {
+  background: var(--navy-mid); color: #fff;
+}
+.clay-card-mid .clay-card-title { color: #fff; }
+.clay-card-mid .clay-card-en    { color: rgba(255,255,255,0.50); }
+.clay-card-mid .clay-card-desc  { color: rgba(255,255,255,0.78); }
+.clay-card-mid .clay-card-num   { color: rgba(255,255,255,0.15); }
+
+.clay-card-amber {
+  background: var(--amber); color: oklch(15% 0.04 258);
+}
+.clay-card-amber .clay-card-title { color: oklch(15% 0.04 258); }
+.clay-card-amber .clay-card-en    { color: oklch(25% 0.05 258 / 0.55); }
+.clay-card-amber .clay-card-desc  { color: oklch(22% 0.05 258); }
+.clay-card-amber .clay-card-num   { color: oklch(15% 0.04 258 / 0.15); }
+
+.clay-card-soft {
+  background: var(--surf-1); color: var(--ink);
+  border: 1px solid var(--border);
+}
+.clay-card-soft .clay-card-title { color: var(--ink); }
+.clay-card-soft .clay-card-en    { color: var(--ink-subtle); }
+.clay-card-soft .clay-card-desc  { color: var(--ink-muted); }
+.clay-card-soft .clay-card-num   { color: var(--ink); opacity: 0.10; }
+
+.clay-card-cream {
+  background: var(--cream-2); color: var(--ink);
+  border: 1px solid var(--border);
+}
+.clay-card-cream .clay-card-title { color: var(--ink); }
+.clay-card-cream .clay-card-en    { color: var(--ink-subtle); }
+.clay-card-cream .clay-card-desc  { color: var(--ink-muted); }
+.clay-card-cream .clay-card-num   { color: var(--ink); opacity: 0.10; }
+
+/* Clay card typography */
+.clay-card-num {
+  font-size: 44px; font-weight: 900; line-height: 1;
+  letter-spacing: -0.05em; margin-bottom: 16px;
+  font-variant-numeric: tabular-nums;
+}
+.clay-card-title {
+  font-size: 20px; font-weight: 800; letter-spacing: -0.025em;
+  margin-bottom: 4px; line-height: 1.2; text-wrap: balance;
+}
+.clay-card-en {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
+  margin-bottom: 14px; text-transform: uppercase;
+}
+.clay-card-desc {
+  font-size: 14px; line-height: 1.78;
+}
+
+/* Clay 3-up responsive grid */
+.clay-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 48px;
 }
 
 /* ─────────────────────────────────────────────
@@ -854,6 +980,7 @@ a { color: inherit; }
 
 @media (max-width: 1024px) {
   .cards-grid-3  { grid-template-columns: 1fr 1fr; }
+  .clay-card-grid { grid-template-columns: repeat(2, 1fr); }
   .facility-grid { grid-template-columns: 1fr 1fr; }
   .footer-inner  { grid-template-columns: 1fr 1fr; }
   .process-steps { flex-wrap: wrap; }
@@ -864,10 +991,12 @@ a { color: inherit; }
 @media (max-width: 768px) {
   .nav, .header-cta { display: none; }
   .menu-toggle { display: flex; }
-  .section      { padding: 52px 0; }
+  .section      { padding: 64px 0; }
   .page-content { padding: 48px 0; }
-  .cards-grid    { grid-template-columns: 1fr; }
-  .cards-grid-3  { grid-template-columns: 1fr; }
+  .cards-grid     { grid-template-columns: 1fr; }
+  .cards-grid-3   { grid-template-columns: 1fr; }
+  .clay-card-grid { grid-template-columns: 1fr; }
+  .clay-card      { padding: 24px; }
   .facility-grid { grid-template-columns: 1fr 1fr; }
   .level-content ul  { grid-template-columns: 1fr; }
   .award-highlight   { flex-direction: column; text-align: center; gap: 16px; }

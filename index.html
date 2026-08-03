@@ -53,7 +53,7 @@
       --shadow-lg:     0 8px 32px oklch(22% 0.07 258 / 0.12);
       --shadow-btn:    0 4px 14px oklch(60% 0.12 72 / 0.28);
       --shadow-btnH:   0 8px 20px oklch(60% 0.12 72 / 0.38);
-      --r-sm: 6px; --r-md: 12px; --r-lg: 20px; --r-xl: 28px; --r-pill: 9999px;
+      --r-sm: 6px; --r-md: 12px; --r-lg: 16px; --r-xl: 24px; --r-pill: 9999px;
       --ease: cubic-bezier(0.16, 1, 0.3, 1);
       --t-fast: 120ms; --t-base: 220ms; --t-slow: 350ms;
       --font: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -87,12 +87,12 @@
     .hero-star { display: none; }
     .hero-left { position: relative; z-index: 1; max-width: 620px; }
     .hero-label {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      display: inline-flex; align-items: center;
+      padding: 5px 14px; border-radius: var(--r-pill);
+      background: var(--surf-1); border: 1px solid var(--border);
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
       color: var(--amber-text); margin-bottom: 24px;
-      display: flex; align-items: center; justify-content: flex-start; gap: 10px;
     }
-    .hero-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--amber); }
-    .hero-label::after  { display: none; }
     .hero-title {
       font-family: var(--serif);
       font-size: clamp(40px, 5.5vw, 68px);
@@ -152,7 +152,10 @@
       display: grid; grid-template-columns: 1fr; gap: 52px;
     }
     .principal-kicker {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      display: inline-flex; align-items: center;
+      padding: 5px 14px; border-radius: var(--r-pill);
+      background: var(--surf-1); border: 1px solid var(--border);
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
       color: var(--amber-text); margin-bottom: 20px;
     }
     .principal-quote {
@@ -238,36 +241,32 @@
       height: 14px; line-height: 14px; margin: -2px 0;
     }
     .phil-section-title {
+      display: inline-flex; align-items: center;
+      padding: 5px 14px; border-radius: var(--r-pill);
+      background: var(--surf-1); border: 1px solid var(--border);
       font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--amber-text); margin-bottom: 16px;
+      color: var(--amber-text); margin-bottom: 20px;
     }
+    /* Principle cards (Clay) */
+    .phil-principles { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .principle-item {
+      display: flex; align-items: flex-start; gap: 20px;
+      padding: 24px 20px; border-radius: var(--r-xl);
+      background: var(--surf-1); border: 1px solid var(--border);
+      transition: transform var(--t-base) var(--ease);
+    }
+    .principle-item:hover { transform: translateY(-2px); border-color: var(--border); box-shadow: none; }
 
-    /* ── 6대 인재상 ── */
+    /* ── 6대 인재상 (Clay feature card grid) ── */
     .talent { background: var(--canvas); padding: clamp(80px,10vw,130px) 0; }
     .talent-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
       margin-top: 56px;
-      display: flex; flex-direction: column;
     }
-    .talent-card {
-      display: flex; align-items: flex-start; gap: 32px;
-      padding: 28px 0;
-      border-top: 1px solid var(--border);
-      background: transparent; border-radius: 0; box-shadow: none;
-      transition: padding var(--t-base), background var(--t-base);
-    }
-    .talent-card:last-child { border-bottom: 1px solid var(--border); }
-    .talent-card:hover { background: transparent; transform: none; }
-    .talent-num {
-      flex-shrink: 0; width: 60px;
-      font-size: 48px; font-weight: 900; line-height: 1;
-      color: var(--purple); opacity: 0.15;
-      letter-spacing: -0.05em; text-align: right;
-      font-variant-numeric: tabular-nums;
-    }
-    .talent-body { flex: 1; }
-    .talent-ko  { font-size: 20px; font-weight: 800; color: var(--ink); line-height: 1; }
-    .talent-en  { font-size: 12px; color: var(--ink-subtle); font-weight: 500; margin-top: 4px; }
-    .talent-desc { font-size: 14px; color: var(--ink-muted); line-height: 1.7; margin-top: 10px; max-width: 480px; }
+    @media (max-width: 1024px) { .talent-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px)  { .talent-grid { grid-template-columns: 1fr; gap: 12px; } }
 
     /* ── 커리큘럼 ── */
     .curriculum { background: var(--canvas); padding: clamp(72px,9vw,110px) 0; }
@@ -696,7 +695,7 @@
 <!-- ══════════════════ 3. 교육 철학 ══════════════════ -->
 <section class="philosophy" id="philosophy" aria-labelledby="phil-heading">
   <div class="container">
-    <p style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber-text);margin-bottom:10px;" class="anim">교육 철학</p>
+    <p class="badge-pill anim" style="margin-bottom:16px;">교육 철학</p>
     <h2 id="phil-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
       3대 원칙<br>× 4단계 프로세스
     </h2>
@@ -758,58 +757,46 @@
 <!-- ══════════════════ 4. 6대 인재상 ══════════════════ -->
 <section class="talent" id="talent" aria-labelledby="talent-heading">
   <div class="container">
-    <p style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber-text);margin-bottom:10px;" class="anim">6대 인재상</p>
+    <p class="badge-pill anim" style="margin-bottom:16px;">6대 인재상</p>
     <h2 id="talent-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
       주니어솔로몬이 키우는<br>여섯 가지 인재
     </h2>
     <div class="talent-grid">
-      <div class="talent-card anim anim-d1">
-        <div class="talent-num">01</div>
-        <div class="talent-body">
-          <div class="talent-ko">평생독서인</div>
-          <div class="talent-en">Lifelong Reader</div>
-          <div class="talent-desc">책을 즐거움으로 삼아 스스로 읽고 생각하는 습관을 평생의 자산으로 만듭니다.</div>
-        </div>
+      <div class="clay-card clay-card-navy anim anim-d1">
+        <div class="clay-card-num">01</div>
+        <div class="clay-card-title">평생독서인</div>
+        <div class="clay-card-en">Lifelong Reader</div>
+        <div class="clay-card-desc">책을 즐거움으로 삼아 스스로 읽고 생각하는 습관을 평생의 자산으로 만듭니다.</div>
       </div>
-      <div class="talent-card anim anim-d2">
-        <div class="talent-num">02</div>
-        <div class="talent-body">
-          <div class="talent-ko">논리적표현자</div>
-          <div class="talent-en">Logical Communicator</div>
-          <div class="talent-desc">자신의 생각을 조리 있게 말하고 쓰는 능력으로 어디서든 인정받습니다.</div>
-        </div>
+      <div class="clay-card clay-card-soft anim anim-d2">
+        <div class="clay-card-num">02</div>
+        <div class="clay-card-title">논리적 표현자</div>
+        <div class="clay-card-en">Logical Communicator</div>
+        <div class="clay-card-desc">자신의 생각을 조리 있게 말하고 쓰는 능력으로 어디서든 인정받습니다.</div>
       </div>
-      <div class="talent-card anim anim-d3">
-        <div class="talent-num">03</div>
-        <div class="talent-body">
-          <div class="talent-ko">공감능력자</div>
-          <div class="talent-en">Empathetic Listener</div>
-          <div class="talent-desc">타인의 감정을 이해하고 함께하는 마음이 진정한 인재의 출발점입니다.</div>
-        </div>
+      <div class="clay-card clay-card-amber anim anim-d3">
+        <div class="clay-card-num">03</div>
+        <div class="clay-card-title">공감 능력자</div>
+        <div class="clay-card-en">Empathetic Listener</div>
+        <div class="clay-card-desc">타인의 감정을 이해하고 함께하는 마음이 진정한 인재의 출발점입니다.</div>
       </div>
-      <div class="talent-card anim anim-d1">
-        <div class="talent-num">04</div>
-        <div class="talent-body">
-          <div class="talent-ko">탐구하는질문자</div>
-          <div class="talent-en">Inquiring Thinker</div>
-          <div class="talent-desc">궁금함을 질문으로 발전시키는 탐구 정신이 학문과 삶을 풍요롭게 합니다.</div>
-        </div>
+      <div class="clay-card clay-card-soft anim anim-d1">
+        <div class="clay-card-num">04</div>
+        <div class="clay-card-title">탐구하는 질문자</div>
+        <div class="clay-card-en">Inquiring Thinker</div>
+        <div class="clay-card-desc">궁금함을 질문으로 발전시키는 탐구 정신이 학문과 삶을 풍요롭게 합니다.</div>
       </div>
-      <div class="talent-card anim anim-d2">
-        <div class="talent-num">05</div>
-        <div class="talent-body">
-          <div class="talent-ko">창의적사고자</div>
-          <div class="talent-en">Creative Thinker</div>
-          <div class="talent-desc">기존 틀에 얽매이지 않는 유연한 사고로 새로운 가능성을 열어갑니다.</div>
-        </div>
+      <div class="clay-card clay-card-mid anim anim-d2">
+        <div class="clay-card-num">05</div>
+        <div class="clay-card-title">창의적 사고자</div>
+        <div class="clay-card-en">Creative Thinker</div>
+        <div class="clay-card-desc">기존 틀에 얽매이지 않는 유연한 사고로 새로운 가능성을 열어갑니다.</div>
       </div>
-      <div class="talent-card anim anim-d3">
-        <div class="talent-num">06</div>
-        <div class="talent-body">
-          <div class="talent-ko">사회에기여하는인재</div>
-          <div class="talent-en">Socially Responsible Leader</div>
-          <div class="talent-desc">배움을 나누고 세상을 더 좋게 만드는 리더십으로 공동체를 이끕니다.</div>
-        </div>
+      <div class="clay-card clay-card-amber anim anim-d3">
+        <div class="clay-card-num">06</div>
+        <div class="clay-card-title">사회에 기여하는 인재</div>
+        <div class="clay-card-en">Socially Responsible Leader</div>
+        <div class="clay-card-desc">배움을 나누고 세상을 더 좋게 만드는 리더십으로 공동체를 이끕니다.</div>
       </div>
     </div>
   </div>
@@ -818,7 +805,7 @@
 <!-- ══════════════════ 5. 커리큘럼 레벨 ══════════════════ -->
 <section class="curriculum" id="curriculum" aria-labelledby="curriculum-heading">
   <div class="container">
-    <p style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber-text);margin-bottom:10px;" class="anim">커리큘럼</p>
+    <p class="badge-pill anim" style="margin-bottom:16px;">커리큘럼</p>
     <h2 id="curriculum-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
       7세부터 중등까지<br>5단계 맞춤 과정
     </h2>
@@ -873,7 +860,7 @@
 <!-- ══════════════════ 6. 교사진 ══════════════════ -->
 <section class="teachers" id="teachers" aria-labelledby="teachers-heading">
   <div class="container">
-    <p style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber-text);margin-bottom:10px;" class="anim">교사진</p>
+    <p class="badge-pill anim" style="margin-bottom:16px;">교사진</p>
     <h2 id="teachers-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
       아이의 생각을 깊게 하는<br>다섯 명의 선생님
     </h2>
