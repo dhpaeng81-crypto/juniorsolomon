@@ -193,11 +193,6 @@
       .header { top: 36px !important; }
       .mobile-nav { top: calc(36px + 84px) !important; }
       section[id] { scroll-margin-top: calc(36px + 84px); }
-      /* ── Desktop logo: 200% 크기, 한 줄 배치 ── */
-      .logo-img { height: 84px; }
-      .logo-wordmark { flex-direction: row; align-items: baseline; gap: 14px; }
-      .logo-text { font-size: 28px; }
-      .logo-sub  { font-size: 13px; margin-top: 0; color: var(--ink-subtle); }
     }
 
     /* ── Kairos-style section eyebrow labels ── */
@@ -489,6 +484,13 @@
     .logo-wordmark { display: flex; flex-direction: column; gap: 2px; }
     .logo-text { font-size: 20px; font-weight: 900; letter-spacing: -0.04em; color: var(--navy); line-height: 1; }
     .logo-sub  { font-size: 11px; font-weight: 600; color: var(--ink-subtle); letter-spacing: 0.01em; }
+    /* PC: 로고 200% 확대 + 한 줄 배치 */
+    @media (min-width: 768px) {
+      .logo-img { height: 84px; }
+      .logo-wordmark { flex-direction: row; align-items: baseline; gap: 14px; }
+      .logo-text { font-size: 28px; }
+      .logo-sub  { font-size: 13px; margin-top: 0; }
+    }
     .nav { display: none; align-items: center; gap: 4px; }
     .nav-item { position: relative; }
     .nav-link {
