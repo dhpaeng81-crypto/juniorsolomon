@@ -310,6 +310,40 @@
     .vid-play-ico { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: oklch(0 0 0 / .30); font-size: 2.4rem; pointer-events: none; }
     .dt-actions { display: flex; gap: 8px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
 
+    /* ══ LIKES ══ */
+    .like-section { display:flex; align-items:center; justify-content:center; margin-top:28px; padding-top:22px; border-top:1px solid var(--border); }
+    .like-btn {
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      padding:10px 28px; border-radius:var(--r-pill);
+      border:2px solid var(--border); background:var(--bg);
+      color:var(--muted); cursor:pointer;
+      font-size:.9rem; font-weight:700; font-family:inherit;
+      min-width:140px; transition:all var(--dur) var(--ease);
+    }
+    .like-btn:hover  { border-color:#e11d48; color:#e11d48; background:#fff1f2; }
+    .like-btn.liked  { border-color:#e11d48; color:#e11d48; background:#fff1f2; }
+    .like-ico { font-size:1.1rem; display:inline-block; }
+    .like-btn.liked .like-ico { animation:heartpop .22s cubic-bezier(.16,1,.3,1); }
+    @keyframes heartpop { 0%{transform:scale(1)} 55%{transform:scale(1.45)} 100%{transform:scale(1)} }
+
+    /* ══ COMMENTS ══ */
+    .comments-section { margin-top:28px; padding-top:24px; border-top:1px solid var(--border); }
+    .comments-hdr { font-size:.95rem; font-weight:800; letter-spacing:-.02em; margin-bottom:16px; display:flex; align-items:center; gap:7px; }
+    .comment-form { background:var(--surface); border-radius:var(--r-lg); padding:14px 16px; margin-bottom:18px; }
+    .comment-input { width:100%; padding:10px 14px; border:1.5px solid var(--border); border-radius:var(--r-md); font-size:.875rem; font-family:inherit; background:var(--bg); color:var(--ink); resize:vertical; min-height:76px; transition:border-color var(--dur) var(--ease); line-height:1.6; }
+    .comment-input:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 3px oklch(.60 .12 72 / .12); }
+    .comment-form-foot { display:flex; justify-content:flex-end; margin-top:10px; }
+    .comment-item { padding:14px 0; border-bottom:1px solid var(--border); }
+    .comment-item:last-child { border-bottom:none; }
+    .comment-meta { display:flex; align-items:center; gap:8px; margin-bottom:7px; }
+    .c-avatar { width:28px; height:28px; border-radius:50%; background:var(--primary); color:var(--primary-text); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.7rem; flex-shrink:0; }
+    .c-name  { font-size:.82rem; font-weight:700; color:var(--ink); }
+    .c-date  { font-size:.72rem; color:var(--muted); margin-left:auto; }
+    .c-del   { background:none; border:none; font-size:.72rem; color:var(--muted); cursor:pointer; font-family:inherit; padding:0 2px; transition:color var(--dur); }
+    .c-del:hover { color:var(--error); }
+    .c-body  { font-size:.875rem; color:var(--ink-2); line-height:1.65; white-space:pre-wrap; word-break:break-word; }
+    .pc-stat { display:flex; align-items:center; gap:3px; }
+
     /* ══ WRITE ══ */
     .write-board-tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: .78rem; font-weight: 700; background: var(--primary-sub); color: oklch(38% 0.10 72); margin-bottom: 18px; }
     .upload-zone {
@@ -840,11 +874,24 @@ async function renderList() {
     $('pagi').innerHTML = ''; return;
   }
 
+  // 댓글·좋아요 수 일괄 조회
+  const pids = slice.map(p => p.id);
+  let cMap = {}, lMap = {};
+  if (pids.length) {
+    const [{ data: cms }, { data: lks }] = await Promise.all([
+      sb.from('comments').select('post_id').eq('post_table', tbl).in('post_id', pids),
+      sb.from('likes').select('post_id').eq('post_table', tbl).in('post_id', pids),
+    ]);
+    (cms||[]).forEach(c => { cMap[c.post_id] = (cMap[c.post_id]||0)+1; });
+    (lks||[]).forEach(l => { lMap[l.post_id] = (lMap[l.post_id]||0)+1; });
+  }
+
   con.innerHTML = `<div class="post-list">${slice.map(p => {
     const imgCnt = (p.image_urls || []).length;
     const bs = imgCnt ? `<span class="badge b-img">🖼 ${imgCnt}</span>` : '';
     const authorName = p.author_name || (p.profiles?.display_name) || '관리자';
     const isPinned = p.is_pinned ? `<span class="badge b-pend">📌 고정</span>` : '';
+    const lc = lMap[p.id]||0, cc = cMap[p.id]||0;
     return `<div class="post-card" onclick="openPost('${tbl}','${p.id}')">
       <div class="pc-top">
         <div class="pc-title">${esc(p.title)}</div>
@@ -855,6 +902,8 @@ async function renderList() {
         <span>✍️ ${esc(authorName)}</span>
         <span>📅 ${fmtDate(p.created_at)}</span>
         <span>👁 ${p.views || 0}</span>
+        ${lc ? `<span class="pc-stat">❤️ ${lc}</span>` : ''}
+        ${cc ? `<span class="pc-stat">💬 ${cc}</span>` : ''}
       </div>
     </div>`;
   }).join('')}</div>`;
@@ -893,6 +942,18 @@ async function renderGallery() {
     $('pagi').innerHTML = ''; return;
   }
 
+  // 갤러리 댓글·좋아요 수 일괄 조회
+  const gpids = slice.map(p => p.id);
+  let gcMap = {}, glMap = {};
+  if (gpids.length) {
+    const [{ data: gcms }, { data: glks }] = await Promise.all([
+      sb.from('comments').select('post_id').eq('post_table', 'gallery').in('post_id', gpids),
+      sb.from('likes').select('post_id').eq('post_table', 'gallery').in('post_id', gpids),
+    ]);
+    (gcms||[]).forEach(c => { gcMap[c.post_id] = (gcMap[c.post_id]||0)+1; });
+    (glks||[]).forEach(l => { glMap[l.post_id] = (glMap[l.post_id]||0)+1; });
+  }
+
   con.innerHTML = `<div class="gcards">${slice.map(p => {
     const urls = p.image_urls || [];
     const thumb = urls[0] || '';
@@ -900,6 +961,7 @@ async function renderGallery() {
     const thumbHtml = thumb
       ? `<img src="${esc(thumb)}" loading="lazy" alt="${esc(p.title)}">`
       : `<div class="gcard-placeholder">📷</div>`;
+    const glc = glMap[p.id]||0, gcc = gcMap[p.id]||0;
     return `<div class="gcard" onclick="openPost('gallery','${p.id}')">
       <div class="gcard-thumb">
         ${thumbHtml}${more}
@@ -912,6 +974,8 @@ async function renderGallery() {
         </div>
         <div class="gcard-foot">
           ${urls.length ? `<span class="media-cnt">🖼 ${urls.length}</span>` : ''}
+          ${glc ? `<span class="media-cnt">❤️ ${glc}</span>` : ''}
+          ${gcc ? `<span class="media-cnt">💬 ${gcc}</span>` : ''}
         </div>
       </div>
     </div>`;
@@ -982,7 +1046,21 @@ async function renderDetail(postId) {
       <span>👁 ${(post.views || 0) + 1}</span>
     </div>
     <div class="dt-body">${esc(post.content || post.description || '')}</div>
-    ${imgHtml}${reviewStatus}${editBtns}`;
+    ${imgHtml}${reviewStatus}${editBtns}
+    <div class="like-section">
+      <button class="like-btn" id="like-btn" onclick="toggleLike('${tbl}','${postId}')">
+        <span class="like-ico">🤍</span> <span id="like-label">좋아요</span>
+      </button>
+    </div>
+    <div id="comments-section" class="comments-section"></div>`;
+
+  // 좋아요·댓글 비동기 로드
+  const [likeData, comments] = await Promise.all([
+    loadLikes(tbl, postId),
+    loadComments(tbl, postId),
+  ]);
+  renderLikeBtn(likeData.count, likeData.userLiked);
+  renderComments(tbl, postId, comments);
 }
 
 async function delPost(tbl, postId) {
@@ -1005,6 +1083,118 @@ async function approveReview(postId) {
   if (error) { toast('승인 실패', 'err'); return; }
   toast('승인되었습니다', 'ok');
   renderDetail(postId);
+}
+
+// ═══════════════════════════════════════════
+//  Likes
+// ═══════════════════════════════════════════
+async function loadLikes(tbl, postId) {
+  const [{ count }, { data: myLike }] = await Promise.all([
+    sb.from('likes').select('*', { count: 'exact', head: true }).eq('post_table', tbl).eq('post_id', postId),
+    currentUser
+      ? sb.from('likes').select('id').eq('post_table', tbl).eq('post_id', postId).eq('user_id', currentUser.id).maybeSingle()
+      : Promise.resolve({ data: null }),
+  ]);
+  return { count: count || 0, userLiked: !!myLike };
+}
+
+function renderLikeBtn(count, userLiked) {
+  const btn = $('like-btn');
+  const lbl = $('like-label');
+  if (!btn || !lbl) return;
+  btn.className = 'like-btn' + (userLiked ? ' liked' : '');
+  btn.querySelector('.like-ico').textContent = userLiked ? '❤️' : '🤍';
+  lbl.textContent = count > 0 ? `좋아요 ${count}` : '좋아요';
+}
+
+async function toggleLike(tbl, postId) {
+  if (!currentUser) { toast('로그인 후 이용할 수 있습니다', 'err'); return; }
+  const btn = $('like-btn');
+  const liked = btn?.classList.contains('liked');
+  if (liked) {
+    await sb.from('likes').delete().eq('post_table', tbl).eq('post_id', postId).eq('user_id', currentUser.id);
+  } else {
+    const { error } = await sb.from('likes').insert({ post_table: tbl, post_id: postId, user_id: currentUser.id });
+    if (error) { toast('좋아요 처리 실패', 'err'); return; }
+  }
+  const { count, userLiked } = await loadLikes(tbl, postId);
+  renderLikeBtn(count, userLiked);
+}
+
+// ═══════════════════════════════════════════
+//  Comments
+// ═══════════════════════════════════════════
+async function loadComments(tbl, postId) {
+  const { data } = await sb.from('comments').select('*').eq('post_table', tbl).eq('post_id', postId).order('created_at');
+  return data || [];
+}
+
+function renderComments(tbl, postId, comments) {
+  const section = $('comments-section');
+  if (!section) return;
+
+  const canComment = !!currentUser;
+  const formHtml = canComment
+    ? `<div class="comment-form">
+        <textarea class="comment-input" id="comment-input" placeholder="댓글을 입력하세요…"></textarea>
+        <div class="comment-form-foot">
+          <button class="btn btn-primary btn-sm" onclick="submitComment('${tbl}','${postId}')">등록</button>
+        </div>
+       </div>`
+    : `<div class="alert alert-info" style="margin-bottom:16px">💬 <span class="link" onclick="go('login')">로그인</span> 후 댓글을 작성할 수 있습니다</div>`;
+
+  const listHtml = comments.length
+    ? comments.map(c => {
+        const name = c.author_name || '익명';
+        const canDel = currentUser && (c.user_id === currentUser.id || isAdmin());
+        return `<div class="comment-item">
+          <div class="comment-meta">
+            <div class="c-avatar">${esc(name[0]).toUpperCase()}</div>
+            <span class="c-name">${esc(name)}</span>
+            ${canDel ? `<button class="c-del" onclick="deleteComment('${c.id}','${tbl}','${postId}')">삭제</button>` : ''}
+            <span class="c-date">${fmtDate(c.created_at)}</span>
+          </div>
+          <div class="c-body">${esc(c.content)}</div>
+        </div>`;
+      }).join('')
+    : `<div style="text-align:center;padding:28px 0;color:var(--muted);font-size:.875rem">첫 번째 댓글을 남겨보세요 💬</div>`;
+
+  section.innerHTML = `
+    <div class="comments-hdr">💬 댓글 <span style="color:var(--primary);font-weight:900">${comments.length}</span></div>
+    ${formHtml}
+    <div id="comment-list">${listHtml}</div>`;
+}
+
+async function submitComment(tbl, postId) {
+  if (!currentUser) { toast('로그인 후 이용할 수 있습니다', 'err'); return; }
+  const content = ($('comment-input')?.value || '').trim();
+  if (!content) { toast('댓글 내용을 입력하세요', 'err'); return; }
+
+  const submitBtn = document.querySelector('.comment-form-foot .btn');
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '등록 중…'; }
+
+  const { error } = await sb.from('comments').insert({
+    post_table: tbl, post_id: postId,
+    user_id: currentUser.id,
+    author_name: currentProfile?.display_name || currentUser.email,
+    content,
+  });
+
+  if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '등록'; }
+  if (error) { toast('댓글 등록 실패: ' + error.message, 'err'); return; }
+
+  const comments = await loadComments(tbl, postId);
+  renderComments(tbl, postId, comments);
+  toast('댓글이 등록되었습니다', 'ok');
+}
+
+async function deleteComment(commentId, tbl, postId) {
+  if (!confirm('댓글을 삭제하시겠습니까?')) return;
+  const { error } = await sb.from('comments').delete().eq('id', commentId);
+  if (error) { toast('삭제 실패', 'err'); return; }
+  const comments = await loadComments(tbl, postId);
+  renderComments(tbl, postId, comments);
+  toast('삭제되었습니다', 'ok');
 }
 
 // ═══════════════════════════════════════════
