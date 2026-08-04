@@ -853,15 +853,23 @@ a { color: inherit; }
 
 /* Sec-label on dark navy backgrounds */
 .sec-label-on-dark {
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(255,255,255,0.15);
   color: var(--amber-on-dark);
 }
+
+/* Decorative underline after section headings (Kairos-style) */
+.sec-rule {
+  display: block; width: 40px; height: 3px;
+  background: var(--amber); border-radius: 2px;
+  margin-top: 20px;
+}
+.center .sec-rule { margin-left: auto; margin-right: auto; }
 
 /* Clay feature card base */
 .clay-card {
   border-radius: var(--r-xl);
   padding: 32px;
+  position: relative;
+  overflow: hidden;
   transition: transform var(--t-base) var(--ease);
 }
 .clay-card:hover { transform: translateY(-2px); }
@@ -911,19 +919,24 @@ a { color: inherit; }
 
 /* Clay card typography */
 .clay-card-num {
-  font-size: 44px; font-weight: 900; line-height: 1;
-  letter-spacing: -0.05em; margin-bottom: 16px;
+  position: absolute; bottom: -14px; right: 14px;
+  font-size: 96px; font-weight: 900; line-height: 1;
+  letter-spacing: -0.05em;
   font-variant-numeric: tabular-nums;
+  pointer-events: none; user-select: none;
 }
 .clay-card-title {
+  position: relative; z-index: 1;
   font-size: 20px; font-weight: 800; letter-spacing: -0.025em;
   margin-bottom: 4px; line-height: 1.2; text-wrap: balance;
 }
 .clay-card-en {
+  position: relative; z-index: 1;
   font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
   margin-bottom: 14px; text-transform: uppercase;
 }
 .clay-card-desc {
+  position: relative; z-index: 1;
   font-size: 14px; line-height: 1.78;
 }
 
@@ -952,6 +965,64 @@ a { color: inherit; }
 .scroll-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
 .scroll-top:hover { background: var(--navy-mid); }
 .scroll-top svg { width: 20px; height: 20px; }
+
+/* ─────────────────────────────────────────────
+   UTILITY BAR (above main header)
+───────────────────────────────────────────── */
+.util-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--util-h, 0); z-index: 101;
+  background: var(--navy);
+  display: none; align-items: center; padding: 0 20px;
+}
+.util-bar-inner {
+  max-width: 1200px; margin: 0 auto; width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.util-bar-tel {
+  font-size: 12px; font-weight: 600;
+  color: rgba(255,255,255,0.72); text-decoration: none;
+  transition: color var(--t-fast);
+}
+.util-bar-tel:hover { color: #fff; }
+.util-bar-links { display: flex; align-items: center; gap: 20px; }
+.util-bar-link {
+  font-size: 12px; font-weight: 500;
+  color: rgba(255,255,255,0.55); text-decoration: none;
+  transition: color var(--t-fast);
+}
+.util-bar-link:hover { color: var(--amber-light); }
+@media (min-width: 768px) { .util-bar { display: flex; } }
+
+/* ─────────────────────────────────────────────
+   QUICK LINKS BAR
+───────────────────────────────────────────── */
+.quick-bar {
+  position: relative; z-index: 10;
+  padding: 0 20px;
+  margin-top: -44px;
+}
+.quick-bar-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+}
+.quick-item {
+  background: #fff; border-radius: var(--r-lg);
+  padding: 20px 14px; text-align: center;
+  text-decoration: none; color: var(--ink);
+  box-shadow: 0 4px 20px oklch(22% 0.07 258 / 0.14);
+  transition: transform var(--t-base) var(--ease), box-shadow var(--t-base);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.quick-item:hover { transform: translateY(-3px); box-shadow: 0 8px 28px oklch(22% 0.07 258 / 0.18); }
+.quick-item-icon { color: var(--navy); }
+.quick-item-icon svg { display: block; }
+.quick-item-label { font-size: 14px; font-weight: 800; color: var(--ink); line-height: 1.2; }
+.quick-item-sub   { font-size: 11px; color: var(--ink-muted); }
+@media (max-width: 640px) {
+  .quick-bar-inner { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .quick-bar { margin-top: -32px; }
+}
 
 /* ─────────────────────────────────────────────
    SCROLL-REVEAL ANIMATION

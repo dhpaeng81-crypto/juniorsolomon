@@ -57,6 +57,7 @@
       --ease: cubic-bezier(0.16, 1, 0.3, 1);
       --t-fast: 120ms; --t-base: 220ms; --t-slow: 350ms;
       --font: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      --util-h: 36px;
       --header-h: 64px;
     }
 
@@ -68,82 +69,90 @@
     .anim-d3  { transition-delay: 0.24s; }
     .anim-d4  { transition-delay: 0.32s; }
 
-    /* ── HERO — Direction A: 크림 배경, 좌정렬 ── */
+    /* ── HERO — Kairos 스타일: 다크 풀블리드 포토 히어로 ── */
     .hero {
       min-height: 100dvh;
-      background: var(--cream);
-      display: grid;
-      grid-template-columns: 1fr;
-      align-items: center;
-      padding: calc(var(--header-h) + 72px) clamp(24px, 5vw, 80px) 80px;
-      position: relative; overflow: hidden;
-    }
-    .hero::before {
-      content: ''; position: absolute; inset: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 55% 70% at 92% 50%, oklch(60% 0.12 72 / 0.07), transparent),
-        radial-gradient(ellipse 35% 50% at 5% 90%, oklch(22% 0.07 258 / 0.04), transparent);
+        linear-gradient(to bottom, oklch(14% 0.04 258 / 0.70) 0%, oklch(16% 0.05 258 / 0.88) 100%),
+        url('img-facility-01.jpg') center / cover no-repeat;
+      display: flex; align-items: center; justify-content: center;
+      padding: calc(var(--util-h) + var(--header-h) + 60px) clamp(24px, 5vw, 80px) 110px;
+      position: relative; overflow: hidden;
+      text-align: center;
     }
-    .hero-star { display: none; }
-    .hero-left { position: relative; z-index: 1; max-width: 620px; }
+    .hero::before { display: none; }
+    .hero-left { position: relative; z-index: 1; max-width: 700px; width: 100%; }
     .hero-label {
-      display: inline-flex; align-items: center;
-      padding: 5px 14px; border-radius: var(--r-pill);
-      background: var(--surf-1); border: 1px solid var(--border);
-      font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--amber-text); margin-bottom: 24px;
+      display: block;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--amber-light); margin-bottom: 20px;
+      background: none; border: none; padding: 0;
     }
     .hero-title {
       font-family: var(--serif);
-      font-size: clamp(40px, 5.5vw, 68px);
-      font-weight: 700; line-height: 1.12; letter-spacing: -0.02em;
-      color: var(--navy); text-wrap: balance;
+      font-size: clamp(42px, 6vw, 76px);
+      font-weight: 700; line-height: 1.08; letter-spacing: -0.025em;
+      color: #fff; text-wrap: balance;
       margin-bottom: 24px;
     }
-    .hero-title em { font-style: normal; color: var(--amber-text); }
+    .hero-title em { font-style: normal; color: var(--amber-light); }
     .hero-sub {
-      font-size: 18px; color: var(--ink-muted);
-      line-height: 1.78; margin-top: 0; margin-bottom: 40px; max-width: 500px;
+      font-size: 17px; color: rgba(255,255,255,0.74);
+      line-height: 1.82; margin-bottom: 40px;
+      max-width: 520px; margin-left: auto; margin-right: auto;
     }
     .hero-cta {
-      display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-start; margin-top: 0;
+      display: flex; flex-wrap: wrap; gap: 12px;
+      justify-content: center; margin-top: 0;
     }
+    .hero-cta .btn-naver {
+      background: var(--amber); color: oklch(14% 0.04 258);
+      padding: 16px 36px; border-radius: var(--r-pill);
+      font-size: 16px; font-weight: 800; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      box-shadow: 0 4px 22px oklch(60% 0.12 72 / 0.44);
+      transition: transform var(--t-base) var(--ease), box-shadow var(--t-fast);
+    }
+    .hero-cta .btn-naver:hover { transform: translateY(-2px); box-shadow: 0 8px 30px oklch(60% 0.12 72 / 0.54); }
     .hero-cta .btn-kakao {
-      background: var(--cream-2); color: var(--navy);
-      border: 1.5px solid var(--cream-3);
+      background: rgba(255,255,255,0.10); color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.46);
+      padding: 16px 30px; border-radius: var(--r-pill);
+      font-size: 16px; font-weight: 700; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: background var(--t-fast), border-color var(--t-fast);
     }
-    .hero-cta .btn-kakao:hover { background: var(--cream-3); opacity: 1; }
+    .hero-cta .btn-kakao:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.75); }
     .hero-badge {
       position: static; transform: none;
-      display: flex; gap: 20px; align-items: center;
-      font-size: 12px; color: var(--ink-subtle); white-space: nowrap;
-      flex-wrap: wrap; margin-top: 36px;
+      display: flex; gap: 18px; align-items: center;
+      font-size: 12px; color: rgba(255,255,255,0.55); white-space: nowrap;
+      flex-wrap: wrap; margin-top: 36px; justify-content: center;
     }
     .hero-badge span { display: flex; align-items: center; gap: 5px; }
-    .hero-badge .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--cream-3); }
-    .hero-right {
-      display: none;
-      flex-shrink: 0; width: 272px; position: relative; z-index: 1;
-    }
-    .hero-stats-card {
-      background: var(--cream-2); border: 1px solid var(--cream-3);
-      border-radius: var(--r-xl); padding: 32px 28px; position: relative;
-    }
-    .hero-stats-card::before {
-      content: '';
-      position: absolute; top: 0; left: 36px; right: 36px; height: 3px;
-      background: var(--amber); border-radius: 3px 3px 0 0;
-    }
-    .hero-stat { padding: 18px 0; border-bottom: 1px solid var(--cream-3); }
-    .hero-stat:last-child { border-bottom: none; padding-bottom: 0; }
-    .hero-stat:first-child { padding-top: 0; }
-    .hero-stat-num {
-      font-size: 34px; font-weight: 900; color: var(--amber-text);
-      letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums;
-    }
-    .hero-stat-label { font-size: 12px; color: var(--ink-subtle); margin-top: 4px; font-weight: 500; }
-    .scroll-hint { display: none; }
+    .hero-badge .dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,0.30); }
+    .hero-badge a { color: rgba(255,255,255,0.55); text-decoration: none; }
+    .hero-badge a:hover { color: rgba(255,255,255,0.85); }
+    .hero-right { display: none !important; }
+    .hero-stats-card, .hero-stat, .hero-stat-num, .hero-stat-label, .scroll-hint { display: none; }
     @keyframes bob { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+
+    /* ── UTIL BAR + HEADER offset ── */
+    @media (min-width: 768px) {
+      .header { top: var(--util-h) !important; }
+      .mobile-nav { top: calc(var(--util-h) + var(--header-h)) !important; }
+      section[id] { scroll-margin-top: calc(var(--util-h) + var(--header-h)); }
+    }
+
+    /* ── Kairos-style section eyebrow labels ── */
+    .badge-pill {
+      display: block !important;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--amber-text);
+      background: none !important; border: none !important;
+      padding: 0 !important; border-radius: 0 !important;
+      margin-bottom: 10px;
+    }
 
     /* ── 원장 인사말 ── */
     .principal { background: var(--canvas); }
@@ -490,19 +499,11 @@
       .talent-card { gap: 40px; }
       .talent-num { width: 72px; font-size: 56px; }
     }
-    @media (min-width: 900px) {
-      .hero { grid-template-columns: 1fr 280px; gap: 48px; }
-      .hero-right { display: flex; }
-    }
     @media (min-width: 1024px) {
       .nav { display: flex; }
       .menu-toggle { display: none; }
       .phil-grid { grid-template-columns: 1fr 1fr; }
       .teacher-grid { grid-template-columns: repeat(3, 1fr); }
-      .talent-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 64px; }
-      .talent-card { border-top: 1px solid var(--border); }
-      .hero { grid-template-columns: 1fr 320px; gap: 64px; }
-      .hero-right { display: flex; }
     }
 
     /* ── SCROLL MARGIN ── */
@@ -529,6 +530,18 @@
 </head>
 <body>
 <a href="#main" class="skip-link">본문 바로가기</a>
+
+<!-- ══════════════════ UTILITY BAR ══════════════════ -->
+<div class="util-bar" role="complementary" aria-label="연락처 정보">
+  <div class="util-bar-inner">
+    <a href="tel:027948123" class="util-bar-tel">☎ 02-794-8123 전화 상담</a>
+    <div class="util-bar-links">
+      <a href="fee.html" class="util-bar-link">교습비 안내</a>
+      <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="util-bar-link">네이버 톡톡</a>
+      <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" class="util-bar-link">카카오채널</a>
+    </div>
+  </div>
+</div>
 
 <!-- ══════════════════ HEADER ══════════════════ -->
 <header class="header" id="header" role="banner">
@@ -617,50 +630,68 @@
 <!-- ══════════════════ 1. HERO ══════════════════ -->
 <section class="hero" aria-label="메인 히어로">
   <div class="hero-left">
-    <p class="hero-label anim">지혜가 샘솟는 독서·철학·논술 전문 학원</p>
+    <p class="hero-label anim">Reading · Philosophy · Writing Academy</p>
     <h1 class="hero-title anim anim-d1">
       아이의 생각이<br>
       <em>깊어지는</em> 시간
     </h1>
     <p class="hero-sub anim anim-d2">
-      단순한 독서를 넘어, 스스로 사고하고 표현하는 힘을 키웁니다.
+      단순한 독서를 넘어, 스스로 사고하고 표현하는 힘을 키웁니다.<br>
       주니어솔로몬의 검증된 커리큘럼이 아이의 가능성을 열어줍니다.
     </p>
     <div class="hero-cta anim anim-d3">
       <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="btn-naver">
-        💬 네이버 톡톡 상담
+        무료 상담 신청하기
       </a>
       <a href="curriculum.html" class="btn-kakao">
         커리큘럼 보기 →
       </a>
     </div>
     <div class="hero-badge anim anim-d4" aria-label="주요 인증 및 수상">
-      <span>📅 설립 2017</span>
+      <span>설립 2017</span>
       <span class="dot"></span>
-      <span>🏆 2022 독서·논술 교육 부문 대상</span>
+      <span>2022 독서·논술 교육 부문 대상</span>
       <span class="dot"></span>
-      <a href="https://www.joongang.co.kr/article/25121798#home" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">📰 중앙일보 특집 ↗</a>
+      <a href="https://www.joongang.co.kr/article/25121798#home" target="_blank" rel="noopener noreferrer">중앙일보 특집 ↗</a>
       <span class="dot"></span>
-      <a href="introduction.html#principal" style="color:inherit;text-decoration:none;">✍️ WORLDVIEW 기고 ↗</a>
-    </div>
-  </div>
-  <div class="hero-right" aria-hidden="true">
-    <div class="hero-stats-card">
-      <div class="hero-stat">
-        <div class="hero-stat-num">2,100+</div>
-        <div class="hero-stat-label">누적 수강생</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">9+년</div>
-        <div class="hero-stat-label">교육 경력</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">98%</div>
-        <div class="hero-stat-label">학부모 만족도</div>
-      </div>
+      <a href="article-worldview.html">WORLDVIEW 기고 ↗</a>
     </div>
   </div>
 </section>
+
+<!-- ══════════════════ QUICK LINKS BAR ══════════════════ -->
+<div class="quick-bar" aria-label="빠른 메뉴">
+  <div class="quick-bar-inner">
+    <a href="contact.html" class="quick-item anim">
+      <span class="quick-item-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.62 6.62l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      </span>
+      <span class="quick-item-label">입학 상담</span>
+      <span class="quick-item-sub">02-794-8123</span>
+    </a>
+    <a href="curriculum.html" class="quick-item anim anim-d1">
+      <span class="quick-item-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      </span>
+      <span class="quick-item-label">커리큘럼</span>
+      <span class="quick-item-sub">7세 ~ 중등</span>
+    </a>
+    <a href="introduction.html" class="quick-item anim anim-d2">
+      <span class="quick-item-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      </span>
+      <span class="quick-item-label">선생님 소개</span>
+      <span class="quick-item-sub">5인 전문 교사진</span>
+    </a>
+    <a href="contact.html#map" class="quick-item anim anim-d3">
+      <span class="quick-item-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </span>
+      <span class="quick-item-label">오시는 길</span>
+      <span class="quick-item-sub">용산구 이촌동</span>
+    </a>
+  </div>
+</div>
 
 <!-- ══════════════════ 2. 원장 인사말 ══════════════════ -->
 <section class="principal" id="about" aria-labelledby="principal-heading">
@@ -695,10 +726,11 @@
 <!-- ══════════════════ 3. 교육 철학 ══════════════════ -->
 <section class="philosophy" id="philosophy" aria-labelledby="phil-heading">
   <div class="container">
-    <p class="badge-pill anim" style="margin-bottom:16px;">교육 철학</p>
+    <p class="badge-pill anim" style="margin-bottom:12px;">교육 철학</p>
     <h2 id="phil-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
       3대 원칙<br>× 4단계 프로세스
     </h2>
+    <span class="sec-rule anim anim-d1" aria-hidden="true"></span>
     <div class="phil-grid">
       <div class="anim anim-d1">
         <p class="phil-section-title">3대 교육 원칙</p>
@@ -757,11 +789,12 @@
 <!-- ══════════════════ 4. 6대 인재상 ══════════════════ -->
 <section class="talent" id="talent" aria-labelledby="talent-heading">
   <div class="container">
-    <p class="badge-pill anim" style="margin-bottom:16px;">6대 인재상</p>
+    <p class="badge-pill anim" style="margin-bottom:12px;">6대 인재상</p>
     <h2 id="talent-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
       주니어솔로몬이 키우는<br>여섯 가지 인재
     </h2>
-    <div class="talent-grid">
+    <span class="sec-rule anim anim-d1" aria-hidden="true"></span>
+    <div class="talent-grid" style="margin-top:40px;">
       <div class="clay-card clay-card-navy anim anim-d1">
         <div class="clay-card-num">01</div>
         <div class="clay-card-title">평생독서인</div>
@@ -805,11 +838,12 @@
 <!-- ══════════════════ 5. 커리큘럼 레벨 ══════════════════ -->
 <section class="curriculum" id="curriculum" aria-labelledby="curriculum-heading">
   <div class="container">
-    <p class="badge-pill anim" style="margin-bottom:16px;">커리큘럼</p>
+    <p class="badge-pill anim" style="margin-bottom:12px;">커리큘럼</p>
     <h2 id="curriculum-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
       7세부터 중등까지<br>5단계 맞춤 과정
     </h2>
-    <div class="level-list">
+    <span class="sec-rule anim anim-d1" aria-hidden="true"></span>
+    <div class="level-list" style="margin-top:40px;">
       <a href="curriculum.html#level1" class="level-item anim anim-d1">
         <div class="level-badge l1">7세</div>
         <div>
@@ -860,11 +894,12 @@
 <!-- ══════════════════ 6. 교사진 ══════════════════ -->
 <section class="teachers" id="teachers" aria-labelledby="teachers-heading">
   <div class="container">
-    <p class="badge-pill anim" style="margin-bottom:16px;">교사진</p>
+    <p class="badge-pill anim" style="margin-bottom:12px;">교사진</p>
     <h2 id="teachers-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
       아이의 생각을 깊게 하는<br>다섯 명의 선생님
     </h2>
-    <div class="teacher-grid">
+    <span class="sec-rule anim anim-d1" aria-hidden="true"></span>
+    <div class="teacher-grid" style="margin-top:40px;">
       <!-- 원장 -->
       <div class="teacher-card principal-card anim anim-d1">
         <span class="teacher-role">원장</span>
