@@ -884,7 +884,7 @@ async function renderList() {
     con.innerHTML = `<div class="empty">
       <div class="empty-ico">${BOARDS[curBoard].icon}</div>
       <div class="empty-title">${q ? '검색 결과가 없습니다' : '아직 게시글이 없습니다'}</div>
-      <div class="empty-sub">${q ? '다른 검색어를 입력해보세요' : canWrite() ? '첫 번째 글을 작성해보세요' : ''}</div>
+      <div class="empty-sub">${q ? '다른 검색어를 입력해 보세요' : canWrite() ? '첫 번째 글을 작성해 보세요' : ''}</div>
     </div>`;
     $('pagi').innerHTML = ''; return;
   }
@@ -952,7 +952,7 @@ async function renderGallery() {
     con.innerHTML = `<div class="empty">
       <div class="empty-ico">🖼️</div>
       <div class="empty-title">${q ? '검색 결과가 없습니다' : '아직 갤러리 게시글이 없습니다'}</div>
-      <div class="empty-sub">${q ? '다른 검색어를 입력해보세요' : isAdmin() ? '첫 번째 사진을 올려보세요' : ''}</div>
+      <div class="empty-sub">${q ? '다른 검색어를 입력해 보세요' : isAdmin() ? '첫 번째 사진을 올려 보세요' : ''}</div>
     </div>`;
     $('pagi').innerHTML = ''; return;
   }
