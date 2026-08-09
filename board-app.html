@@ -7,7 +7,6 @@
   <meta name="description" content="주니어솔로몬 공지사항, 갤러리, Q&A, 수강후기 게시판">
   <meta name="theme-color" content="#1C2B4A">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <link rel="stylesheet" href="style.css">
   <style>
     @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
     /* ══ DESIGN TOKENS — 주니어솔로몬 CI (인디고 + 옐로) ══ */
@@ -75,7 +74,7 @@
     body {
       font-family: var(--font);
       font-size: 15px; line-height: 1.6;
-      background: var(--bg); color: var(--ink);
+      background: #fff; color: var(--ink);
       min-height: 100vh; -webkit-font-smoothing: antialiased;
     }
     @media (prefers-reduced-motion: reduce) {
@@ -89,12 +88,13 @@
 
     /* ══ Board tabs ══ */
     .board-tabs {
-      border-top: 1px solid var(--border);
-      background: var(--bg);
-      margin-top: var(--header-h); /* fixed 헤더 오프셋 */
+      border-top: 1px solid oklch(90% 0 0);
+      border-bottom: 1px solid oklch(90% 0 0);
+      background: #fff;
+      margin-top: 0;
     }
     .tabs-inner {
-      max-width: 1000px; margin: 0 auto; padding: 0 20px;
+      max-width: 1200px; margin: 0 auto; padding: 0 32px;
       display: flex; gap: 0; overflow-x: auto; scrollbar-width: none;
     }
     .tabs-inner::-webkit-scrollbar { display: none; }
@@ -108,7 +108,7 @@
       min-height: 44px;
     }
     .btab:hover:not(.on) { color: var(--ink-2); background: var(--surface); }
-    .btab.on { color: var(--primary); border-bottom-color: var(--primary); }
+    .btab.on { color: oklch(18% 0 0); border-bottom-color: oklch(62% 0.15 48); font-weight: 700; }
 
     /* ══ BUTTONS ══ */
     .btn {
@@ -502,57 +502,35 @@
 </head>
 <body>
 
-<a href="#main" class="skip-link">본문 바로가기</a>
-
 <!-- ══ 사이트 헤더 ══ -->
-<header class="header" id="header" role="banner">
-  <div class="header-inner">
-    <a href="index.html" class="logo" aria-label="주니어솔로몬 홈으로">
-      <img src="logo.svg" class="logo-img" alt="" aria-hidden="true" width="60" height="46">
-      <div><div class="logo-text">주니어솔로몬</div><div class="logo-sub">Jr. Solomon Academy</div></div>
+<header style="position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid oklch(90% 0 0);">
+  <div style="max-width:1200px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:32px;">
+    <a href="index.html" style="display:flex;align-items:center;color:inherit;text-decoration:none;">
+      <img src="logo.png" alt="주니어솔로몬" style="height:80px;width:auto;">
     </a>
-    <nav class="nav" role="navigation" aria-label="주메뉴">
-      <div class="nav-item">
-        <button class="nav-link" aria-haspopup="true" aria-expanded="false">학원소개 <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"/></svg></button>
-        <div class="dropdown" role="menu">
-          <a href="vision.html" role="menuitem">비전 &amp; 교육철학</a>
-          <a href="mission.html" role="menuitem">교육방향</a>
-          <a href="introduction.html" role="menuitem">선생님 소개</a>
-          <a href="facility.html" role="menuitem">시설 안내</a>
-        </div>
-      </div>
-      <a href="curriculum.html" class="nav-link">커리큘럼</a>
-      <a href="fee.html" class="nav-link">교습비</a>
-      <a href="board-app.html" class="nav-link active">커뮤니티</a>
-      <a href="contact.html" class="nav-link">오시는길</a>
+    <nav style="display:flex;align-items:center;gap:40px;">
+      <a href="vision.html" style="font-size:14.5px;font-weight:600;color:oklch(30% 0 0);text-decoration:none;">학원소개</a>
+      <a href="curriculum.html" style="font-size:14.5px;font-weight:600;color:oklch(30% 0 0);text-decoration:none;">프로그램</a>
+      <a href="board-app.html" style="font-size:14.5px;font-weight:700;color:oklch(18% 0 0);text-decoration:none;position:relative;padding-bottom:20px;">커뮤니티
+        <span style="position:absolute;left:0;right:0;bottom:0;height:2px;background:oklch(62% 0.15 48);"></span>
+      </a>
+      <a href="contact.html" style="font-size:14.5px;font-weight:600;color:oklch(30% 0 0);text-decoration:none;">오시는길</a>
     </nav>
-    <div id="nav" class="board-auth-nav"></div>
-    <div class="header-cta-stack">
-      <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="header-btn header-btn-naver">💬 네이버 톡톡</a>
-      <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" class="header-btn header-btn-kakao">🟡 카카오톡 채널</a>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div id="nav" class="board-auth-nav"></div>
+      <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" style="font-size:13.5px;font-weight:700;color:oklch(18% 0 0);text-decoration:none;border:1px solid oklch(18% 0 0);padding:10px 22px;white-space:nowrap;">무료 상담 신청</a>
     </div>
-    <button class="menu-toggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileNav" id="menuToggle"><span></span><span></span><span></span></button>
   </div>
 </header>
-<nav class="mobile-nav" id="mobileNav" aria-label="모바일 메뉴">
-  <a href="vision.html">비전 &amp; 교육철학</a>
-  <a href="mission.html">교육방향</a>
-  <a href="curriculum.html">커리큘럼</a>
-  <a href="introduction.html">선생님 소개</a>
-  <a href="facility.html">시설안내</a>
-  <a href="fee.html">교습비 안내</a>
-  <a href="edu-1.html">소포스에듀</a>
-  <a href="board-app.html#notice" class="active">공지사항</a>
-  <a href="board-app.html#gallery">갤러리</a>
-  <a href="board-app.html#qna">Q&amp;A</a>
-  <a href="board-app.html#review">수강후기</a>
-  <a href="contact.html">오시는길</a>
-  <a href="tel:027948123" class="m-tel">☎ 02-794-8123 전화상담</a>
-  <div class="m-cta-row">
-    <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="m-cta-naver">💬 네이버 톡톡</a>
-    <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" class="m-cta-kakao">🟡 카카오채널</a>
+
+<!-- ══ 히어로 ══ -->
+<section style="padding:100px 0 56px;text-align:center;">
+  <div style="max-width:760px;margin:0 auto;padding:0 32px;">
+    <p style="font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 20px;">Community</p>
+    <h1 style="font-size:40px;font-weight:800;letter-spacing:-0.02em;line-height:1.4;margin:0 0 24px;color:oklch(18% 0 0);font-family:'Pretendard Variable','Pretendard',-apple-system,sans-serif;">커뮤니티</h1>
+    <p style="font-size:16.5px;color:oklch(40% 0 0);line-height:1.9;margin:0;">공지사항, 갤러리, Q&amp;A, 수강후기를 확인하세요.</p>
   </div>
-</nav>
+</section>
 
 <!-- ══ 게시판 탭 ══ -->
 <div class="board-tabs" id="boardTabsBar">
@@ -670,17 +648,36 @@
 
 <div id="toast"></div>
 
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <div class="logo"><img src="logo.svg" class="logo-img" alt="" aria-hidden="true" width="60" height="46"><div><div class="logo-text">주니어솔로몬</div><div class="logo-sub">Jr. Solomon Academy</div></div></div>
-      <p>서울시 용산구 이촌로 200 LG프라자 4층 403호<br>대표전화: 02-794-8123 | 상담: 010-3212-8123<br>이메일: juniorsolomon@naver.com<br>중부교육지원청 제3336호</p>
+<footer style="border-top:1px solid oklch(90% 0 0);padding:56px 0 32px;background:#fff;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;">
+    <div>
+      <img src="logo.png" alt="주니어솔로몬" style="height:100px;width:auto;display:block;">
+      <p style="font-size:13px;color:oklch(50% 0 0);line-height:1.8;margin-top:8px;">서울 용산구 이촌로 200, LG프라자 4층 403호<br>☎ 02-794-8123</p>
     </div>
-    <div class="footer-col"><h4>학원소개</h4><ul><li><a href="vision.html">비전 &amp; 교육철학</a></li><li><a href="mission.html">교육방향</a></li><li><a href="introduction.html">선생님 소개</a></li><li><a href="facility.html">시설안내</a></li></ul></div>
-    <div class="footer-col"><h4>프로그램</h4><ul><li><a href="curriculum.html">커리큘럼</a></li><li><a href="edu-1.html">소포스에듀</a></li><li><a href="fee.html">교습비 안내</a></li></ul></div>
-    <div class="footer-col"><h4>커뮤니티</h4><ul><li><a href="board-app.html#notice">공지사항</a></li><li><a href="board-app.html#gallery">갤러리</a></li><li><a href="board-app.html#qna">Q&amp;A</a></li><li><a href="board-app.html#review">수강후기</a></li></ul></div>
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(60% 0 0);margin-bottom:14px;">학원소개</div>
+      <a href="vision.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);text-decoration:none;margin-bottom:10px;">비전 &amp; 교육철학</a>
+      <a href="mission.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);text-decoration:none;margin-bottom:10px;">교육 미션</a>
+      <a href="introduction.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);text-decoration:none;margin-bottom:10px;">선생님 소개</a>
+      <a href="facility.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);text-decoration:none;">시설 안내</a>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(60% 0 0);margin-bottom:14px;">프로그램</div>
+      <a href="curriculum.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);text-decoration:none;margin-bottom:10px;">커리큘럼</a>
+      <a href="fee.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);text-decoration:none;margin-bottom:10px;">교습비 안내</a>
+      <a href="contact.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);text-decoration:none;">오시는길</a>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(60% 0 0);margin-bottom:14px;">커뮤니티</div>
+      <a href="board-app.html#notice" style="display:block;font-size:13.5px;color:oklch(18% 0 0);font-weight:700;text-decoration:none;margin-bottom:10px;">공지사항</a>
+      <a href="board-app.html#gallery" style="display:block;font-size:13.5px;color:oklch(35% 0 0);text-decoration:none;margin-bottom:10px;">갤러리</a>
+      <a href="board-app.html#qna" style="display:block;font-size:13.5px;color:oklch(35% 0 0);text-decoration:none;margin-bottom:10px;">Q&amp;A</a>
+      <a href="board-app.html#review" style="display:block;font-size:13.5px;color:oklch(35% 0 0);text-decoration:none;">수강후기</a>
+    </div>
   </div>
-  <div class="footer-bottom"><span>© 2017–2026 주니어솔로몬. All rights reserved.</span><span>2022 한국브랜드소비자평가 대상</span></div>
+  <div style="max-width:1200px;margin:32px auto 0;padding:20px 32px 0;border-top:1px solid oklch(92% 0 0);font-size:12px;color:oklch(55% 0 0);">
+    대표: 장화연 · 사업자 511-96-33718 · 중부교육지원청 제3336호 · © 2017–2026 주니어솔로몬. All rights reserved.
+  </div>
 </footer>
 <button class="scroll-top" id="scrollTop" aria-label="맨 위로"><svg viewBox="0 0 20 20" fill="currentColor" width="20" height="20"><path fill-rule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04L10.75 5.612V16.25A.75.75 0 0 1 10 17Z"/></svg></button>
 

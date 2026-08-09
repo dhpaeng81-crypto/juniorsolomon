@@ -1,1223 +1,292 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#F7F3EC">
-  <title>주니어솔로몬 | 질문으로 시작되는 독서·철학·논술 전문 학원</title>
-  <meta name="description" content="2022 한국브랜드소비자평가 독서·논술 교육 부문 대상. 하브루타 질문 중심 독서·철학·논술 전문 학원. 서울 용산구 이촌동. ☎ 02-794-8123">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <link rel="stylesheet" href="style.css">
-
-  <style>
-    /* ── INDEX-SPECIFIC TOKENS — Direction A: 따뜻한 격조 ── */
-    :root {
-      /* Core palette */
-      --cream:         oklch(96% 0.014 80);
-      --cream-2:       oklch(93% 0.018 80);
-      --cream-3:       oklch(87% 0.022 78);
-      --navy:          oklch(22% 0.07 258);
-      --navy-mid:      oklch(30% 0.09 260);
-      --amber:         oklch(60% 0.12 72);
-      --amber-text:    oklch(42% 0.09 70);
-      --amber-light:   oklch(70% 0.13 76);
-      --amber-on-dark: oklch(80% 0.08 74);
-      --amber-xlight:  oklch(93% 0.05 80);
-      /* Ink */
-      --ink:           oklch(22% 0.07 258);
-      --ink-muted:     oklch(40% 0.020 62);
-      --ink-subtle:    oklch(44% 0.015 60);
-      /* Surfaces */
-      --canvas:        oklch(96% 0.014 80);
-      --surf-1:        oklch(93% 0.018 80);
-      --surf-2:        oklch(87% 0.022 78);
-      --border:        oklch(84% 0.020 78);
-      /* Legacy aliases → new system */
-      --purple:        oklch(60% 0.12 72);
-      --purple-deep:   oklch(22% 0.07 258);
-      --purple-mid:    oklch(30% 0.09 260);
-      --purple-light:  oklch(93% 0.05 80);
-      --purple-xlight: oklch(97% 0.025 80);
-      --yellow:        oklch(60% 0.12 72);
-      --yellow-deep:   oklch(18% 0.05 65);
-      --yellow-light:  oklch(93% 0.05 80);
-      --hero-dark:     oklch(22% 0.07 258);
-      /* Typography */
-      --serif: 'Gowun Batang', 'Apple SD Myungjo Neo', 'Nanum Myeongjo', Batang, Georgia, serif;
-      /* Shadows */
-      --shadow-sm:     0 1px 4px oklch(22% 0.07 258 / 0.06);
-      --shadow-md:     0 4px 16px oklch(22% 0.07 258 / 0.09);
-      --shadow-lg:     0 8px 32px oklch(22% 0.07 258 / 0.12);
-      --shadow-btn:    0 4px 14px oklch(60% 0.12 72 / 0.28);
-      --shadow-btnH:   0 8px 20px oklch(60% 0.12 72 / 0.38);
-      --r-sm: 6px; --r-md: 12px; --r-lg: 16px; --r-xl: 24px; --r-pill: 9999px;
-      --ease: cubic-bezier(0.16, 1, 0.3, 1);
-      --t-fast: 120ms; --t-base: 220ms; --t-slow: 350ms;
-      --font: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-      --util-h: 36px;
-      --header-h: 64px;
-    }
-
-    /* ── SCROLL REVEAL ── */
-    .anim { opacity: 0; transform: translateY(24px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
-    .anim.in  { opacity: 1; transform: translateY(0); }
-    .anim-d1  { transition-delay: 0.08s; }
-    .anim-d2  { transition-delay: 0.16s; }
-    .anim-d3  { transition-delay: 0.24s; }
-    .anim-d4  { transition-delay: 0.32s; }
-
-    /* ── HERO — Kairos 스타일: 다크 풀블리드 포토 히어로 ── */
-    .hero {
-      min-height: 100dvh;
-      background:
-        linear-gradient(to bottom, oklch(14% 0.04 258 / 0.70) 0%, oklch(16% 0.05 258 / 0.88) 100%),
-        url('img-facility-01.jpg') center / cover no-repeat;
-      display: flex; align-items: center; justify-content: center;
-      padding: calc(var(--util-h) + var(--header-h) + 60px) clamp(24px, 5vw, 80px) 110px;
-      position: relative; overflow: hidden;
-      text-align: center;
-    }
-    .hero::before { display: none; }
-    .hero-left { position: relative; z-index: 1; max-width: 700px; width: 100%; }
-    .hero-label {
-      display: block;
-      font-size: 12px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--amber-light); margin-bottom: 20px;
-      background: none; border: none; padding: 0;
-    }
-    .hero-title {
-      font-family: var(--serif);
-      font-size: clamp(42px, 6vw, 76px);
-      font-weight: 700; line-height: 1.08; letter-spacing: -0.025em;
-      color: #fff; text-wrap: balance;
-      margin-bottom: 24px;
-    }
-    .hero-title em { font-style: normal; color: var(--amber-light); }
-    .hero-sub {
-      font-size: 17px; color: rgba(255,255,255,0.74);
-      line-height: 1.82; margin-bottom: 40px;
-      max-width: 520px; margin-left: auto; margin-right: auto;
-    }
-    .hero-cta {
-      display: flex; flex-wrap: wrap; gap: 12px;
-      justify-content: center; margin-top: 0;
-    }
-    .hero-cta .btn-naver {
-      background: var(--amber); color: oklch(14% 0.04 258);
-      padding: 16px 36px; border-radius: var(--r-pill);
-      font-size: 16px; font-weight: 800; text-decoration: none;
-      display: inline-flex; align-items: center; gap: 8px;
-      box-shadow: 0 4px 22px oklch(60% 0.12 72 / 0.44);
-      transition: transform var(--t-base) var(--ease), box-shadow var(--t-fast);
-    }
-    .hero-cta .btn-naver:hover { transform: translateY(-2px); box-shadow: 0 8px 30px oklch(60% 0.12 72 / 0.54); }
-    .hero-cta .btn-kakao {
-      background: rgba(255,255,255,0.10); color: #fff;
-      border: 1.5px solid rgba(255,255,255,0.46);
-      padding: 16px 30px; border-radius: var(--r-pill);
-      font-size: 16px; font-weight: 700; text-decoration: none;
-      display: inline-flex; align-items: center; gap: 8px;
-      transition: background var(--t-fast), border-color var(--t-fast);
-    }
-    .hero-cta .btn-kakao:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.75); }
-    .hero-badge {
-      position: static; transform: none;
-      display: flex; gap: 18px; align-items: center;
-      font-size: 12px; color: rgba(255,255,255,0.55); white-space: nowrap;
-      flex-wrap: wrap; margin-top: 36px; justify-content: center;
-    }
-    .hero-badge span { display: flex; align-items: center; gap: 5px; }
-    .hero-badge .dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,0.30); }
-    .hero-badge a { color: rgba(255,255,255,0.55); text-decoration: none; }
-    .hero-badge a:hover { color: rgba(255,255,255,0.85); }
-    .hero-right { display: none !important; }
-    .hero-stats-card, .hero-stat, .hero-stat-num, .hero-stat-label, .scroll-hint { display: none; }
-    @keyframes bob { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
-
-    /* ── UTILITY BAR (inlined so it never depends on style.css cache) ── */
-    .util-bar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 101;
-      height: 36px; background: oklch(22% 0.07 258);
-      display: none; align-items: center; padding: 0 20px;
-    }
-    .util-bar-inner {
-      max-width: 1200px; margin: 0 auto; width: 100%;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .util-bar-tel {
-      font-size: 12px; font-weight: 600;
-      color: rgba(255,255,255,0.78); text-decoration: none;
-    }
-    .util-bar-tel:hover { color: #fff; }
-    .util-bar-links { display: flex; align-items: center; gap: 20px; }
-    .util-bar-link {
-      font-size: 12px; font-weight: 500;
-      color: rgba(255,255,255,0.55); text-decoration: none;
-      transition: color 120ms;
-    }
-    .util-bar-link:hover { color: oklch(80% 0.08 74); }
-
-    /* ── QUICK LINKS BAR (inlined) ── */
-    .quick-bar {
-      position: relative; z-index: 10;
-      padding: 0 20px; margin-top: -44px;
-    }
-    .quick-bar-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
-    }
-    .quick-item {
-      background: oklch(22% 0.07 258); border-radius: 16px;
-      padding: 20px 14px; text-align: center;
-      text-decoration: none; color: #fff;
-      box-shadow: 0 4px 20px oklch(14% 0.05 258 / 0.35);
-      transition: transform 220ms cubic-bezier(0.16,1,0.3,1), box-shadow 220ms, background 220ms;
-      display: flex; flex-direction: column; align-items: center; gap: 6px;
-    }
-    .quick-item:hover { transform: translateY(-3px); background: oklch(28% 0.09 260); box-shadow: 0 8px 28px oklch(14% 0.05 258 / 0.45); }
-    .quick-item-icon { color: oklch(72% 0.13 76); }
-    .quick-item-label { font-size: 14px; font-weight: 800; line-height: 1.2; color: #fff; }
-    .quick-item-sub   { font-size: 11px; color: rgba(255,255,255,0.58); }
-    @media (max-width: 640px) {
-      .quick-bar-inner { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-      .quick-bar { margin-top: -32px; }
-    }
-
-    /* ── UTIL BAR + HEADER offset ── */
-    @media (min-width: 768px) {
-      :root { --header-h: 84px; }
-      .util-bar { display: flex; }
-      .header { top: 36px !important; }
-      .mobile-nav { top: calc(36px + 84px) !important; }
-      section[id] { scroll-margin-top: calc(36px + 84px); }
-    }
-
-    /* ── Kairos-style section eyebrow labels ── */
-    .badge-pill {
-      display: block !important;
-      font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--amber-text);
-      background: none !important; border: none !important;
-      padding: 0 !important; border-radius: 0 !important;
-      margin-bottom: 10px;
-    }
-
-    /* ── 원장 인사말 ── */
-    .principal { background: var(--canvas); }
-    .principal-inner {
-      max-width: 1100px; margin: 0 auto; padding: clamp(80px,11vw,140px) 20px;
-      display: grid; grid-template-columns: 1fr; gap: 52px;
-    }
-    .principal-kicker {
-      display: block;
-      font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--amber-text);
-      background: none; border: none; padding: 0;
-      margin-bottom: 16px;
-    }
-    .principal-quote {
-      font-family: var(--serif);
-      font-size: clamp(36px, 5.5vw, 68px); font-weight: 700;
-      line-height: 1.12; letter-spacing: -0.025em; color: var(--ink);
-      text-wrap: balance; position: relative; padding-left: 0;
-    }
-    .principal-quote::before {
-      content: '\201C';
-      position: absolute; top: -0.15em; left: -0.22em;
-      font-size: 4em; line-height: 1;
-      color: var(--purple); opacity: 0.10;
-      font-family: Georgia, 'Times New Roman', serif;
-      pointer-events: none;
-    }
-    .principal-quote em { font-style: normal; color: var(--amber-text); }
-    .principal-right { display: flex; flex-direction: column; justify-content: center; gap: 20px; }
-    .principal-body {
-      font-size: 17px; color: var(--ink-muted); line-height: 1.9;
-    }
-    .principal-divider { height: 1px; background: var(--border); }
-    .principal-sig {
-      font-size: 15px; font-weight: 700; color: var(--ink);
-    }
-    .principal-sig span { font-size: 13px; font-weight: 400; color: var(--ink-muted); margin-left: 8px; }
-    .principal-pub {
-      display: flex; align-items: flex-start; gap: 10px;
-      margin-top: 20px; padding: 14px 16px;
-      background: var(--amber-xlight); border-radius: var(--r-md);
-      border: 1.5px solid var(--border); font-size: 13px;
-    }
-    .principal-pub-icon { font-size: 18px; flex-shrink: 0; }
-    .principal-pub-meta { font-size: 10px; font-weight: 700; letter-spacing: .10em; text-transform: uppercase; color: var(--amber-text); margin-bottom: 3px; }
-    .principal-pub-title { font-weight: 700; color: var(--ink); line-height: 1.4; }
-
-    /* ── 교육 철학 ── */
-    .philosophy { background: var(--surf-1); padding: clamp(80px,11vw,140px) 0; }
-    .philosophy .container { max-width: 1100px; }
-    .phil-grid {
-      display: grid; grid-template-columns: 1fr;
-      gap: 48px; margin-top: 48px;
-    }
-    .phil-principles { display: flex; flex-direction: column; gap: 12px; }
-    .principle-item {
-      display: flex; align-items: flex-start; gap: 20px;
-      padding: 24px 20px; border-radius: var(--r-lg);
-      background: var(--canvas);
-      border: 1px solid var(--border);
-      transition: border-color var(--t-base), box-shadow var(--t-base);
-    }
-    .principle-item:hover { border-color: var(--purple-light); box-shadow: var(--shadow-sm); }
-    .principle-num {
-      width: 40px; height: 40px; border-radius: var(--r-md); flex-shrink: 0;
-      background: var(--purple); color: oklch(15% 0.04 258);
-      font-size: 15px; font-weight: 900;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .principle-name { font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
-    .principle-desc { font-size: 14px; color: var(--ink-muted); line-height: 1.65; }
-    /* ── 교육 철학 — 소제목 레이블 (plain text, no pill) ── */
-    .phil-section-title {
-      display: block;
-      font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
-      color: var(--amber-text);
-      background: none; border: none; padding: 0;
-      margin-bottom: 16px;
-    }
-
-    /* ── 3대 원칙 카드 ── */
-    .phil-principles { display: grid; grid-template-columns: 1fr; gap: 10px; }
-    .principle-item {
-      display: flex; align-items: flex-start; gap: 18px;
-      padding: 22px 20px; border-radius: 16px;
-      background: #fff; border: 1px solid oklch(84% 0.020 78);
-      transition: transform 220ms cubic-bezier(0.16,1,0.3,1);
-    }
-    .principle-item:hover { transform: translateY(-2px); }
-    .principle-num {
-      width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
-      background: oklch(60% 0.12 72); color: oklch(15% 0.04 258);
-      font-size: 16px; font-weight: 900;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .principle-name { font-size: 17px; font-weight: 800; color: oklch(22% 0.07 258); margin-bottom: 5px; }
-    .principle-desc { font-size: 15px; color: oklch(40% 0.020 62); line-height: 1.65; }
-
-    /* ── 4단계 프로세스 ── */
-    .process-flow { display: flex; flex-direction: column; gap: 0; }
-    .process-step {
-      position: relative; padding: 24px 24px 24px 76px;
-      background: #fff; border: 1px solid oklch(84% 0.020 78);
-      border-radius: 16px; margin-bottom: 4px;
-    }
-    /* Hide the global ::after arrow (wrong background color) */
-    .process-step::after { display: none !important; }
-    .process-step::before {
-      content: attr(data-step);
-      position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
-      width: 40px; height: 40px; border-radius: 10px;
-      background: oklch(60% 0.12 72); color: oklch(15% 0.04 258);
-      font-size: 16px; font-weight: 900;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .process-label { font-size: 17px; font-weight: 800; color: oklch(22% 0.07 258); line-height: 1.2; }
-    .process-desc  { font-size: 15px; color: oklch(40% 0.020 62); margin-top: 5px; line-height: 1.65; }
-    .process-arrow {
-      text-align: center; color: oklch(60% 0.12 72); font-size: 18px;
-      height: 18px; line-height: 18px; margin: 2px 0;
-      opacity: 0.55;
-    }
-
-    /* ── 6대 인재상 (Clay feature card grid) ── */
-    .talent { background: var(--canvas); padding: clamp(80px,10vw,130px) 0; }
-    .talent-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-top: 56px;
-    }
-    @media (max-width: 1024px) { .talent-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 600px)  { .talent-grid { grid-template-columns: 1fr; gap: 12px; } }
-
-    /* ── 커리큘럼 ── */
-    .curriculum { background: var(--canvas); padding: clamp(72px,9vw,110px) 0; }
-    .level-list { display: flex; flex-direction: column; gap: 0; margin-top: 48px; }
-    .level-item {
-      display: grid; grid-template-columns: auto 1fr auto;
-      align-items: center; gap: 20px;
-      padding: 24px 0; border-bottom: 1px solid var(--border);
-      background: transparent; border-radius: 0;
-      text-decoration: none; color: inherit;
-      transition: padding var(--t-base), background var(--t-base);
-    }
-    .level-list .level-item:first-child { border-top: 1px solid var(--border); }
-    .level-item:hover { background: var(--surf-1); padding: 24px 20px; margin: 0 -20px; }
-    .level-badge {
-      width: 48px; height: 48px; border-radius: var(--r-md);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 10px; font-weight: 900; color: #fff; flex-shrink: 0;
-    }
-    .level-badge.l1 { background: oklch(48% 0.07 258); }
-    .level-badge.l2 { background: oklch(38% 0.08 258); }
-    .level-badge.l3 { background: oklch(32% 0.08 260); }
-    .level-badge.l4 { background: oklch(28% 0.08 260); }
-    .level-badge.l5 { background: var(--navy); }
-    .level-label { font-size: 16px; font-weight: 700; color: var(--ink); }
-    .level-desc  { font-size: 14px; color: var(--ink-muted); margin-top: 4px; line-height: 1.5; }
-    .level-age   { font-size: 13px; font-weight: 700; color: var(--amber-text); white-space: nowrap; }
-    .curriculum-cta { text-align: center; margin-top: 32px; }
-
-    /* ── 교사진 ── */
-    .teachers { background: var(--surf-1); padding: clamp(80px,11vw,140px) 0; }
-    .teacher-grid {
-      display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 40px;
-    }
-    .teacher-card {
-      background: var(--canvas); border-radius: var(--r-xl);
-      padding: 28px; border: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
-      display: flex; flex-direction: column; gap: 12px;
-    }
-    .teacher-card.principal-card {
-      border-color: var(--purple-light);
-      background: linear-gradient(135deg, var(--canvas) 0%, var(--purple-xlight) 100%);
-    }
-    .teacher-role {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--amber-text); background: var(--purple-light);
-      padding: 4px 10px; border-radius: var(--r-pill);
-    }
-    .teacher-name { font-size: 20px; font-weight: 900; color: var(--ink); }
-    .teacher-spec { font-size: 13px; font-weight: 600; color: var(--purple-deep); }
-    .teacher-desc { font-size: 14px; color: var(--ink-muted); line-height: 1.75; }
-    .teacher-divider { height: 1px; background: var(--border); }
-
-    /* ── 신뢰 지표 ── */
-    .trust { background: var(--navy); padding: clamp(64px,9vw,110px) 0; }
-    .trust-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: 1px; margin-top: 48px;
-      background: oklch(30% 0.07 260 / 0.5);
-      border-radius: var(--r-xl); overflow: hidden;
-      border: 1px solid oklch(30% 0.07 260 / 0.5);
-    }
-    .trust-item {
-      background: oklch(28% 0.08 260);
-      padding: 36px 28px; text-align: center;
-    }
-    .trust-num  { font-size: clamp(40px, 6vw, 60px); font-weight: 900; color: var(--amber-light); line-height: 1; letter-spacing: -0.03em; }
-    .trust-unit { font-size: 15px; color: rgba(255,255,255,0.80); font-weight: 600; margin-top: 6px; }
-    .trust-label{ font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 6px; }
-    .trust-badge {
-      grid-column: 1 / -1;
-      background: oklch(22% 0.07 258);
-      padding: 28px 24px; text-align: center;
-    }
-    .trust-badge-text { font-size: 16px; font-weight: 700; color: var(--amber-light); }
-    .trust-badge-sub  { font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 6px; }
-
-    /* ── 상담 CTA ── */
-    .consult { background: linear-gradient(150deg, var(--navy), oklch(28% 0.09 260)); padding: clamp(80px,11vw,140px) 0; text-align: center; }
-    .consult-title { font-size: clamp(24px, 4vw, 42px); font-weight: 800; color: #fff; line-height: 1.2; letter-spacing: -0.025em; text-wrap: balance; }
-    .consult-sub   { font-size: 16px; color: rgba(255,255,255,0.78); margin-top: 14px; }
-    .consult-cta   { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 36px; }
-    .btn-naver {
-      background: var(--navy); color: #fff;
-      padding: 16px 32px; border-radius: var(--r-pill);
-      font-size: 16px; font-weight: 800; text-decoration: none;
-      display: inline-flex; align-items: center; gap: 8px;
-      box-shadow: var(--shadow-btn);
-      transition: box-shadow var(--t-fast), transform var(--t-base) var(--ease), background var(--t-fast);
-    }
-    .btn-naver:hover { background: oklch(28% 0.08 260); box-shadow: var(--shadow-btnH); transform: translateY(-2px); }
-    .btn-kakao {
-      background: #FEE500; color: #3B1B1B;
-      padding: 16px 32px; border-radius: var(--r-pill);
-      font-size: 16px; font-weight: 800; text-decoration: none;
-      display: inline-flex; align-items: center; gap: 8px;
-      transition: opacity var(--t-fast), transform var(--t-base) var(--ease);
-    }
-    .btn-kakao:hover { opacity: 0.9; transform: translateY(-2px); }
-    .consult-info { font-size: 14px; color: rgba(255,255,255,0.62); margin-top: 24px; }
-
-    /* ── FOOTER ── */
-    .footer { background: var(--navy); padding: 56px 0 32px; }
-    .footer-inner {
-      max-width: 1200px; margin: 0 auto; padding: 0 20px;
-      display: grid; grid-template-columns: 1fr; gap: 40px;
-    }
-    .footer-brand .logo-text { color: #fff; font-size: 20px; }
-    .footer-brand .logo-sub  { color: rgba(255,255,255,0.62); }
-    .footer-tagline { font-size: 13px; color: rgba(255,255,255,0.60); margin-top: 12px; line-height: 1.6; }
-    .footer-social { display: flex; gap: 12px; margin-top: 16px; }
-    .footer-social a {
-      width: 36px; height: 36px; border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.15);
-      display: flex; align-items: center; justify-content: center;
-      color: rgba(255,255,255,0.62); text-decoration: none; font-size: 14px;
-      transition: border-color var(--t-fast), color var(--t-fast);
-    }
-    .footer-social a:hover { border-color: var(--amber); color: var(--amber-light); }
-    .footer-nav { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
-    .footer-col-title { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.60); margin-bottom: 12px; }
-    .footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.65); text-decoration: none; margin-bottom: 8px; transition: color var(--t-fast); }
-    .footer-col a:hover { color: rgba(255,255,255,0.8); }
-    .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.1);
-      margin-top: 40px; padding-top: 24px;
-      font-size: 12px; color: rgba(255,255,255,0.52); line-height: 1.8;
-    }
-
-    /* ── HEADER (index-specific overrides) — 크림 라이트 헤더 ── */
-    .header { position: fixed; inset: 0 0 auto; height: var(--header-h); z-index: 100;
-      background: oklch(96% 0.014 80 / 0.92); backdrop-filter: blur(12px) saturate(180%);
-      border-bottom: 1px solid var(--cream-3);
-      transition: background var(--t-slow); }
-    .header.scrolled { background: oklch(96% 0.014 80 / 0.98); }
-    .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 100%;
-      display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-    .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; flex-shrink: 0; }
-    .logo-img { height: 54px; width: auto; flex-shrink: 0; filter: none; transition: transform var(--t-base) var(--ease); }
-    .logo:hover .logo-img { transform: scale(1.04); }
-    /* 모바일: 세로 스택 */
-    .logo-wordmark { display: flex; flex-direction: column; gap: 2px; }
-    .logo-text { font-size: 20px; font-weight: 900; letter-spacing: -0.04em; color: var(--navy); line-height: 1; }
-    .logo-sub  { font-size: 11px; font-weight: 600; color: var(--ink-subtle); letter-spacing: 0.01em; }
-    /* PC: 로고 200% 확대 + 한 줄 배치 */
-    @media (min-width: 768px) {
-      .logo-img { height: 84px; }
-      .logo-wordmark { flex-direction: row; align-items: baseline; gap: 14px; }
-      .logo-text { font-size: 28px; }
-      .logo-sub  { font-size: 13px; margin-top: 0; }
-    }
-    .nav { display: none; align-items: center; gap: 4px; }
-    .nav-item { position: relative; }
-    .nav-link {
-      display: flex; align-items: center; gap: 4px; padding: 8px 12px; border-radius: var(--r-md);
-      font-size: 14px; font-weight: 600; color: var(--ink-muted);
-      text-decoration: none; cursor: pointer; border: none; background: transparent;
-      font-family: var(--font); white-space: nowrap;
-      transition: color var(--t-fast), background var(--t-fast);
-    }
-    .nav-link:hover { color: var(--navy); background: var(--cream-2); }
-    .nav-link svg { width: 14px; height: 14px; opacity: 0.5; transition: transform var(--t-base) var(--ease); }
-    .nav-item:hover .nav-link svg { transform: rotate(180deg); }
-    .dropdown {
-      position: absolute; top: calc(100% + 6px); left: 0; min-width: 158px;
-      background: var(--canvas); border: 1px solid var(--border);
-      border-radius: var(--r-md); box-shadow: var(--shadow-lg);
-      opacity: 0; visibility: hidden; transform: translateY(-6px) scale(0.97);
-      transition: opacity var(--t-base) var(--ease), visibility var(--t-base), transform var(--t-base) var(--ease);
-      z-index: 200;
-    }
-    .nav-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
-    .dropdown a { display: block; padding: 10px 16px; font-size: 13px; color: var(--ink-muted); text-decoration: none; transition: background var(--t-fast), color var(--t-fast); }
-    .dropdown a:hover { background: var(--surf-1); color: var(--amber); }
-
-    /* CTA stack */
-    .header-cta-stack { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
-    .header-btn { display: flex; align-items: center; gap: 5px; padding: 5px 13px;
-      font-size: 12px; border-radius: var(--r-pill); font-weight: 700;
-      text-decoration: none; line-height: 1; white-space: nowrap;
-      transition: opacity var(--t-fast), transform var(--t-fast); }
-    .header-btn:hover { opacity: 0.88; transform: scale(1.03); }
-    .header-btn-naver { background: var(--navy); color: #fff; }
-    .header-btn-kakao { background: #FEE500; color: #3B1B1B; }
-
-    /* Mobile toggle */
-    .menu-toggle { display: flex; flex-direction: column; gap: 5px; padding: 8px;
-      border: none; background: none; border-radius: var(--r-md); cursor: pointer; }
-    .menu-toggle span { display: block; width: 20px; height: 2px; background: var(--ink-muted); border-radius: 2px;
-      transition: transform var(--t-base) var(--ease), opacity var(--t-base); }
-    .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-    .menu-toggle.open span:nth-child(2) { opacity: 0; }
-    .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-    /* Mobile nav */
-    .mobile-nav {
-      display: none; position: fixed; inset: var(--header-h) 0 0;
-      background: oklch(18% 0.07 258 / 0.98); z-index: 99;
-      overflow-y: auto; padding: 24px 20px;
-      flex-direction: column; gap: 4px;
-    }
-    .mobile-nav.open { display: flex; }
-    .mobile-nav a { display: block; padding: 14px 16px; font-size: 16px; font-weight: 600;
-      color: oklch(80% 0.04 260); text-decoration: none; border-radius: var(--r-md);
-      border-bottom: 1px solid oklch(30% 0.06 260 / 0.5);
-      transition: background var(--t-fast), color var(--t-fast); }
-    .mobile-nav a:hover { background: oklch(100% 0 0 / 0.05); color: #fff; }
-    .mobile-nav .m-tel { margin-top: 20px; padding: 16px; background: var(--amber);
-      border-radius: var(--r-lg); font-size: 17px; font-weight: 800; color: var(--navy);
-      text-align: center; text-decoration: none; display: block; }
-    .mobile-nav .m-cta-row { display: flex; gap: 10px; margin-top: 10px; }
-    .mobile-nav .m-cta-row a { flex: 1; text-align: center; padding: 14px 8px;
-      border-radius: var(--r-lg); font-size: 14px; font-weight: 800;
-      text-decoration: none; border-bottom: none; }
-    .mobile-nav .m-cta-naver { background: var(--navy); color: #fff; }
-    .mobile-nav .m-cta-kakao  { background: #FEE500; color: #3B1B1B; }
-
-    /* ── RESPONSIVE ── */
-    @media (min-width: 640px) {
-      .trust-grid  { grid-template-columns: repeat(4, 1fr); }
-      .trust-badge { grid-column: 1 / -1; }
-    }
-    @media (min-width: 768px) {
-      .principal-inner { grid-template-columns: 7fr 5fr; align-items: start; gap: 80px; }
-      .teacher-grid { grid-template-columns: repeat(2, 1fr); }
-      .footer-inner { grid-template-columns: 1.2fr 1fr; }
-      .footer-nav   { grid-template-columns: repeat(3, 1fr); }
-      .talent-card { gap: 40px; }
-      .talent-num { width: 72px; font-size: 56px; }
-    }
-    @media (min-width: 1024px) {
-      .nav { display: flex; }
-      .menu-toggle { display: none; }
-      .phil-grid { grid-template-columns: 1fr 1fr; }
-      .teacher-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-
-    /* ── SCROLL MARGIN ── */
-    section[id] { scroll-margin-top: var(--header-h); }
-
-    /* ── FOCUS VISIBLE ── */
-    :focus-visible {
-      outline: 2px solid var(--purple);
-      outline-offset: 3px;
-      border-radius: 4px;
-    }
-    .nav-link:focus-visible,
-    .level-item:focus-visible,
-    .header-btn:focus-visible { outline-offset: 2px; }
-
-    /* ── REDUCED MOTION ── */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-      .anim { opacity: 1; transform: none; }
-      .scroll-hint { animation: none; }
-      html { scroll-behavior: auto; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>주니어솔로몬 – 독서철학논술 전문학원</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+  body { margin: 0; font-family: 'Pretendard Variable','Pretendard',-apple-system,sans-serif; background: #fff; color: oklch(18% 0 0); line-height: 1.7; }
+  a { text-decoration: none; color: oklch(46% 0.14 55); }
+  a:hover { color: oklch(38% 0.14 55); }
+</style>
 </head>
 <body>
-<a href="#main" class="skip-link">본문 바로가기</a>
+<div style="min-width:1320px;">
 
-<!-- ══════════════════ UTILITY BAR ══════════════════ -->
-<div class="util-bar" role="complementary" aria-label="연락처 정보">
-  <div class="util-bar-inner">
-    <a href="tel:027948123" class="util-bar-tel">☎ 02-794-8123 전화 상담</a>
-    <div class="util-bar-links">
-      <a href="fee.html" class="util-bar-link">교습비 안내</a>
-      <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="util-bar-link">네이버 톡톡</a>
-      <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" class="util-bar-link">카카오채널</a>
+  <header style="position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid oklch(90% 0 0);">
+    <div style="max-width:1200px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:32px;">
+      <a href="index.html" style="display:flex;align-items:center;color:inherit;">
+        <img src="logo.png" alt="주니어솔로몬" style="height:80px;width:auto;">
+      </a>
+      <nav style="display:flex;align-items:center;gap:40px;">
+        <a href="vision.html" style="font-size:14.5px;font-weight:600;color:oklch(30% 0 0);">학원소개</a>
+        <a href="curriculum.html" style="font-size:14.5px;font-weight:600;color:oklch(30% 0 0);">프로그램</a>
+        <a href="board-app.html" style="font-size:14.5px;font-weight:600;color:oklch(30% 0 0);">커뮤니티</a>
+        <a href="contact.html" style="font-size:14.5px;font-weight:600;color:oklch(30% 0 0);">오시는길</a>
+      </nav>
+      <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" style="font-size:13.5px;font-weight:700;color:oklch(18% 0 0);border:1px solid oklch(18% 0 0);padding:10px 22px;">무료 상담 신청</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section style="padding:110px 0 100px;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-100px;right:6%;width:600px;height:600px;background:radial-gradient(circle,oklch(88% 0.08 55 / 0.5),transparent 70%);pointer-events:none;"></div>
+    <div style="max-width:760px;margin:0 auto;padding:0 32px;position:relative;">
+      <p style="font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 20px;">Reading · Philosophy · Writing Academy</p>
+      <h1 style="font-size:46px;font-weight:800;letter-spacing:-0.02em;line-height:1.35;margin:0 0 24px;">아이의 생각이<br>깊어지는 시간</h1>
+      <p style="font-size:17px;color:oklch(40% 0 0);line-height:1.9;margin:0 0 40px;">단순한 독서를 넘어, 스스로 사고하고 표현하는 힘을 키웁니다.<br>주니어솔로몬의 검증된 커리큘럼이 아이의 가능성을 열어줍니다.</p>
+      <div style="display:flex;gap:14px;justify-content:center;">
+        <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" style="background:oklch(18% 0 0);color:#fff;padding:15px 30px;font-size:14.5px;font-weight:700;">무료 상담 신청하기</a>
+        <a href="curriculum.html" style="border:1px solid oklch(18% 0 0);color:oklch(18% 0 0);padding:15px 30px;font-size:14.5px;font-weight:700;">커리큘럼 보기 →</a>
+      </div>
+      <div style="display:flex;gap:16px;justify-content:center;margin-top:36px;font-size:12.5px;color:oklch(52% 0 0);flex-wrap:wrap;">
+        <span>설립 2017</span><span>·</span><span>2022 독서·논술 교육 부문 대상</span><span>·</span><span>중앙일보 특집 보도</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK LINKS -->
+  <div style="border-top:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
+    <div style="max-width:1000px;margin:0 auto;padding:0;display:grid;grid-template-columns:repeat(4,1fr);">
+      <a href="contact.html" style="padding:28px 20px;text-align:center;border-right:1px solid oklch(90% 0 0);color:inherit;">
+        <div style="font-size:22px;margin-bottom:8px;">📞</div>
+        <div style="font-size:14px;font-weight:700;color:oklch(18% 0 0);">입학 상담</div>
+        <div style="font-size:12px;color:oklch(52% 0 0);margin-top:3px;">02-794-8123</div>
+      </a>
+      <a href="curriculum.html" style="padding:28px 20px;text-align:center;border-right:1px solid oklch(90% 0 0);color:inherit;">
+        <div style="font-size:22px;margin-bottom:8px;">📘</div>
+        <div style="font-size:14px;font-weight:700;color:oklch(18% 0 0);">커리큘럼</div>
+        <div style="font-size:12px;color:oklch(52% 0 0);margin-top:3px;">7세 ~ 중등</div>
+      </a>
+      <a href="introduction.html" style="padding:28px 20px;text-align:center;border-right:1px solid oklch(90% 0 0);color:inherit;">
+        <div style="font-size:22px;margin-bottom:8px;">👩‍🏫</div>
+        <div style="font-size:14px;font-weight:700;color:oklch(18% 0 0);">선생님 소개</div>
+        <div style="font-size:12px;color:oklch(52% 0 0);margin-top:3px;">5인 전문 교사진</div>
+      </a>
+      <a href="contact.html" style="padding:28px 20px;text-align:center;color:inherit;">
+        <div style="font-size:22px;margin-bottom:8px;">📍</div>
+        <div style="font-size:14px;font-weight:700;color:oklch(18% 0 0);">오시는 길</div>
+        <div style="font-size:12px;color:oklch(52% 0 0);margin-top:3px;">용산구 이촌동</div>
+      </a>
     </div>
   </div>
+
+  <!-- 원장 인사말 -->
+  <section style="padding:100px 0;">
+    <div style="max-width:1000px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:start;">
+      <div>
+        <p style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 18px;">원장 인사말</p>
+        <h2 style="font-size:34px;font-weight:800;letter-spacing:-0.02em;line-height:1.35;margin:0;">"지식은 쌓이는 것이지만,<br>지혜는 깨어나는 것입니다"</h2>
+      </div>
+      <div>
+        <p style="font-size:15.5px;color:oklch(35% 0 0);line-height:1.9;margin:0 0 24px;">세상에 이미 많은 학원이 있습니다. 저는 그 위에 또 하나의 학원을 보태고 싶지 않았습니다. 아이 안에 이미 존재하는 사유의 불씨를 깨우고, 스스로 생각하고 판단하며 책임질 수 있는 사람으로 성장하도록 돕는 것 — 그것이 주니어솔로몬이 지향하는 교육입니다.</p>
+        <div style="height:1px;background:oklch(88% 0 0);margin:24px 0;"></div>
+        <p style="font-size:14.5px;font-weight:700;">장화연 원장 <span style="font-size:13px;font-weight:400;color:oklch(50% 0 0);">주니어솔로몬 설립자</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 교육 철학 -->
+  <section style="padding:100px 0;border-top:1px solid oklch(90% 0 0);">
+    <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
+      <p style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 14px;">교육 철학</p>
+      <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.02em;margin:0 0 48px;">3대 원칙 × 4단계 프로세스</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;">
+        <div>
+          <p style="font-size:12px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(52% 0 0);margin:0 0 18px;">3대 교육 원칙</p>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid oklch(90% 0 0);">
+            <div style="display:flex;gap:16px;padding:20px 0;border-bottom:1px solid oklch(90% 0 0);">
+              <div style="font-size:14px;font-weight:800;color:oklch(56% 0.14 50);width:22px;flex-shrink:0;">1</div>
+              <div><div style="font-size:15px;font-weight:700;margin-bottom:4px;">질문중심교육</div><div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.65;">답을 외우는 대신, 스스로 질문을 만드는 힘을 기릅니다</div></div>
+            </div>
+            <div style="display:flex;gap:16px;padding:20px 0;border-bottom:1px solid oklch(90% 0 0);">
+              <div style="font-size:14px;font-weight:800;color:oklch(56% 0.14 50);width:22px;flex-shrink:0;">2</div>
+              <div><div style="font-size:15px;font-weight:700;margin-bottom:4px;">소수정예피드백</div><div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.65;">한 명 한 명에게 집중하는 맞춤형 피드백으로 깊이 있는 성장</div></div>
+            </div>
+            <div style="display:flex;gap:16px;padding:20px 0;">
+              <div style="font-size:14px;font-weight:800;color:oklch(56% 0.14 50);width:22px;flex-shrink:0;">3</div>
+              <div><div style="font-size:15px;font-weight:700;margin-bottom:4px;">인성과지성</div><div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.65;">지식보다 태도, 점수보다 사람됨을 함께 키웁니다</div></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(52% 0 0);margin:0 0 18px;">4단계 학습 프로세스</p>
+          <div style="display:flex;flex-direction:column;gap:0;">
+            <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:14px;font-weight:800;color:oklch(56% 0.14 50);">01</span><span style="font-size:15px;font-weight:700;">독서</span></div>
+            <div style="font-size:13.5px;color:oklch(45% 0 0);margin:6px 0 18px 30px;line-height:1.6;">다양한 인문·철학 도서를 깊이 읽으며 배경지식과 감수성 축적</div>
+            <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:14px;font-weight:800;color:oklch(56% 0.14 50);">02</span><span style="font-size:15px;font-weight:700;">창의질문</span></div>
+            <div style="font-size:13.5px;color:oklch(45% 0 0);margin:6px 0 18px 30px;line-height:1.6;">읽은 내용을 바탕으로 스스로 질문을 만들고 사고를 확장</div>
+            <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:14px;font-weight:800;color:oklch(56% 0.14 50);">03</span><span style="font-size:15px;font-weight:700;">하브루타토론</span></div>
+            <div style="font-size:13.5px;color:oklch(45% 0 0);margin:6px 0 18px 30px;line-height:1.6;">짝과 함께 질문을 주고받으며 논리와 공감 능력을 동시에 훈련</div>
+            <div style="display:flex;align-items:baseline;gap:14px;"><span style="font-size:14px;font-weight:800;color:oklch(56% 0.14 50);">04</span><span style="font-size:15px;font-weight:700;">논술글쓰기</span></div>
+            <div style="font-size:13.5px;color:oklch(45% 0 0);margin:6px 0 0 30px;line-height:1.6;">토론에서 정리된 생각을 자신만의 언어로 완성도 높게 표현</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6대 인재상 -->
+  <section style="padding:100px 0;border-top:1px solid oklch(90% 0 0);">
+    <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
+      <p style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 14px;">6대 인재상</p>
+      <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.02em;margin:0 0 48px;">주니어솔로몬이 키우는 여섯 가지 인재</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid oklch(90% 0 0);border-left:1px solid oklch(90% 0 0);">
+        <div style="padding:28px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
+          <div style="font-size:12px;font-weight:800;color:oklch(70% 0 0);margin-bottom:12px;">01</div>
+          <div style="font-size:16px;font-weight:700;margin-bottom:6px;">평생독서인</div>
+          <div style="font-size:12px;font-weight:600;color:oklch(56% 0.14 50);margin-bottom:10px;">Lifelong Reader</div>
+          <div style="font-size:13.5px;color:oklch(42% 0 0);line-height:1.7;">책을 즐거움으로 삼아 스스로 읽고 생각하는 습관을 평생의 자산으로 만듭니다.</div>
+        </div>
+        <div style="padding:28px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
+          <div style="font-size:12px;font-weight:800;color:oklch(70% 0 0);margin-bottom:12px;">02</div>
+          <div style="font-size:16px;font-weight:700;margin-bottom:6px;">논리적 표현자</div>
+          <div style="font-size:12px;font-weight:600;color:oklch(56% 0.14 50);margin-bottom:10px;">Logical Communicator</div>
+          <div style="font-size:13.5px;color:oklch(42% 0 0);line-height:1.7;">자신의 생각을 조리 있게 말하고 쓰는 능력으로 어디서든 인정받습니다.</div>
+        </div>
+        <div style="padding:28px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
+          <div style="font-size:12px;font-weight:800;color:oklch(70% 0 0);margin-bottom:12px;">03</div>
+          <div style="font-size:16px;font-weight:700;margin-bottom:6px;">공감 능력자</div>
+          <div style="font-size:12px;font-weight:600;color:oklch(56% 0.14 50);margin-bottom:10px;">Empathetic Listener</div>
+          <div style="font-size:13.5px;color:oklch(42% 0 0);line-height:1.7;">타인의 감정을 이해하고 함께하는 마음이 진정한 인재의 출발점입니다.</div>
+        </div>
+        <div style="padding:28px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
+          <div style="font-size:12px;font-weight:800;color:oklch(70% 0 0);margin-bottom:12px;">04</div>
+          <div style="font-size:16px;font-weight:700;margin-bottom:6px;">탐구하는 질문자</div>
+          <div style="font-size:12px;font-weight:600;color:oklch(56% 0.14 50);margin-bottom:10px;">Inquiring Thinker</div>
+          <div style="font-size:13.5px;color:oklch(42% 0 0);line-height:1.7;">궁금함을 질문으로 발전시키는 탐구 정신이 학문과 삶을 풍요롭게 합니다.</div>
+        </div>
+        <div style="padding:28px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
+          <div style="font-size:12px;font-weight:800;color:oklch(70% 0 0);margin-bottom:12px;">05</div>
+          <div style="font-size:16px;font-weight:700;margin-bottom:6px;">창의적 사고자</div>
+          <div style="font-size:12px;font-weight:600;color:oklch(56% 0.14 50);margin-bottom:10px;">Creative Thinker</div>
+          <div style="font-size:13.5px;color:oklch(42% 0 0);line-height:1.7;">기존 틀에 얽매이지 않는 유연한 사고로 새로운 가능성을 열어갑니다.</div>
+        </div>
+        <div style="padding:28px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
+          <div style="font-size:12px;font-weight:800;color:oklch(70% 0 0);margin-bottom:12px;">06</div>
+          <div style="font-size:16px;font-weight:700;margin-bottom:6px;">사회에 기여하는 인재</div>
+          <div style="font-size:12px;font-weight:600;color:oklch(56% 0.14 50);margin-bottom:10px;">Social Contributor</div>
+          <div style="font-size:13.5px;color:oklch(42% 0 0);line-height:1.7;">배움을 나누고 세상을 더 좋게 만드는 리더십으로 공동체를 이끕니다.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 커리큘럼 미리보기 -->
+  <section style="padding:100px 0;border-top:1px solid oklch(90% 0 0);">
+    <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
+      <p style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 14px;">커리큘럼</p>
+      <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.02em;margin:0 0 40px;">7세부터 중등까지 5단계 맞춤 과정</h2>
+      <div style="display:flex;flex-direction:column;border-top:1px solid oklch(90% 0 0);">
+        <a href="curriculum.html#level1" style="display:flex;align-items:center;gap:20px;padding:20px 4px;border-bottom:1px solid oklch(90% 0 0);color:inherit;">
+          <div style="width:42px;height:42px;border-radius:50%;border:1.5px solid oklch(18% 0 0);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;">7세</div>
+          <div style="flex:1;">
+            <div style="font-size:15.5px;font-weight:700;">7세반</div>
+            <div style="font-size:13px;color:oklch(48% 0 0);margin-top:2px;">그림책 철학, 감성독서, 표현놀이</div>
+          </div>
+          <div style="font-size:12px;font-weight:700;color:oklch(56% 0.14 50);white-space:nowrap;">만 4~7세</div>
+        </a>
+        <a href="curriculum.html#level2" style="display:flex;align-items:center;gap:20px;padding:20px 4px;border-bottom:1px solid oklch(90% 0 0);color:inherit;">
+          <div style="width:42px;height:42px;border-radius:50%;border:1.5px solid oklch(18% 0 0);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;">초1·2</div>
+          <div style="flex:1;">
+            <div style="font-size:15.5px;font-weight:700;">초등 1~2학년반</div>
+            <div style="font-size:13px;color:oklch(48% 0 0);margin-top:2px;">독서습관, 질문만들기, 기초글쓰기</div>
+          </div>
+          <div style="font-size:12px;font-weight:700;color:oklch(56% 0.14 50);white-space:nowrap;">초1-2</div>
+        </a>
+        <a href="curriculum.html#level3" style="display:flex;align-items:center;gap:20px;padding:20px 4px;border-bottom:1px solid oklch(90% 0 0);color:inherit;">
+          <div style="width:42px;height:42px;border-radius:50%;border:1.5px solid oklch(18% 0 0);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;">초3·4</div>
+          <div style="flex:1;">
+            <div style="font-size:15.5px;font-weight:700;">초등 3~4학년반</div>
+            <div style="font-size:13px;color:oklch(48% 0 0);margin-top:2px;">하브루타토론, 논리적글쓰기, 인문독서</div>
+          </div>
+          <div style="font-size:12px;font-weight:700;color:oklch(56% 0.14 50);white-space:nowrap;">초3-4</div>
+        </a>
+        <a href="curriculum.html#level4" style="display:flex;align-items:center;gap:20px;padding:20px 4px;border-bottom:1px solid oklch(90% 0 0);color:inherit;">
+          <div style="width:42px;height:42px;border-radius:50%;border:1.5px solid oklch(18% 0 0);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;">초5·6</div>
+          <div style="flex:1;">
+            <div style="font-size:15.5px;font-weight:700;">초등 5~6학년반</div>
+            <div style="font-size:13px;color:oklch(48% 0 0);margin-top:2px;">철학토론, 심화논술, 중등준비</div>
+          </div>
+          <div style="font-size:12px;font-weight:700;color:oklch(56% 0.14 50);white-space:nowrap;">초5-6</div>
+        </a>
+        <a href="curriculum.html#level5" style="display:flex;align-items:center;gap:20px;padding:20px 4px;border-bottom:1px solid oklch(90% 0 0);color:inherit;">
+          <div style="width:42px;height:42px;border-radius:50%;border:1.5px solid oklch(18% 0 0);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;">중등</div>
+          <div style="flex:1;">
+            <div style="font-size:15.5px;font-weight:700;">중등부</div>
+            <div style="font-size:13px;color:oklch(48% 0 0);margin-top:2px;">수능국어, 생기부글쓰기, 내신전략</div>
+          </div>
+          <div style="font-size:12px;font-weight:700;color:oklch(56% 0.14 50);white-space:nowrap;">중1-3</div>
+        </a>
+      </div>
+      <div style="text-align:center;margin-top:32px;">
+        <a href="curriculum.html" style="background:oklch(18% 0 0);color:#fff;padding:14px 30px;font-size:14px;font-weight:700;display:inline-block;">전체 커리큘럼 보기 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 신뢰 지표 -->
+  <section style="padding:80px 0;border-top:1px solid oklch(90% 0 0);background:oklch(18% 0 0);">
+    <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);border:1px solid oklch(30% 0 0);">
+        <div style="padding:36px 24px;text-align:center;border-right:1px solid oklch(30% 0 0);">
+          <div style="font-size:38px;font-weight:800;color:#fff;letter-spacing:-0.02em;">2017</div>
+          <div style="font-size:13px;color:oklch(72% 0 0);margin-top:6px;">설립 연도</div>
+        </div>
+        <div style="padding:36px 24px;text-align:center;border-right:1px solid oklch(30% 0 0);">
+          <div style="font-size:38px;font-weight:800;color:#fff;letter-spacing:-0.02em;">9년+</div>
+          <div style="font-size:13px;color:oklch(72% 0 0);margin-top:6px;">교육 노하우</div>
+        </div>
+        <div style="padding:36px 24px;text-align:center;border-right:1px solid oklch(30% 0 0);">
+          <div style="font-size:38px;font-weight:800;color:#fff;letter-spacing:-0.02em;">5단계</div>
+          <div style="font-size:13px;color:oklch(72% 0 0);margin-top:6px;">맞춤 커리큘럼</div>
+        </div>
+        <div style="padding:36px 24px;text-align:center;">
+          <div style="font-size:38px;font-weight:800;color:oklch(72% 0.14 50);letter-spacing:-0.02em;">대상</div>
+          <div style="font-size:13px;color:oklch(72% 0 0);margin-top:6px;">2022 한국브랜드소비자평가</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="padding:100px 0;text-align:center;">
+    <div style="max-width:640px;margin:0 auto;padding:0 32px;">
+      <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.02em;margin:0;">우리 아이의 첫 번째 질문을<br>함께 만들어 드립니다</h2>
+      <p style="font-size:15.5px;color:oklch(40% 0 0);margin-top:18px;">교육 철학과 커리큘럼에 대해 더 궁금하신 점은 언제든 상담해 주세요.</p>
+      <div style="display:flex;gap:14px;justify-content:center;margin-top:36px;">
+        <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" style="border:1px solid oklch(18% 0 0);color:oklch(18% 0 0);padding:14px 30px;font-size:14.5px;font-weight:700;">네이버 톡톡 상담</a>
+        <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" style="background:oklch(18% 0 0);color:#fff;padding:14px 30px;font-size:14.5px;font-weight:700;">카카오톡 채널</a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid oklch(90% 0 0);padding:56px 0 32px;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;">
+      <div>
+        <img src="logo.png" alt="주니어솔로몬" style="height:100px;width:auto;display:block;">
+        <p style="font-size:13px;color:oklch(50% 0 0);line-height:1.8;margin-top:8px;">서울 용산구 이촌로 200, LG프라자 4층 403호<br>☎ 02-794-8123 · 월~금 14:00~21:00 / 토 09:00~18:00</p>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(60% 0 0);margin-bottom:14px;">학원소개</div>
+        <a href="vision.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);margin-bottom:10px;">비전 &amp; 교육철학</a>
+        <a href="mission.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);margin-bottom:10px;">교육방향</a>
+        <a href="introduction.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);margin-bottom:10px;">선생님 소개</a>
+        <a href="facility.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);">시설 안내</a>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(60% 0 0);margin-bottom:14px;">프로그램</div>
+        <a href="curriculum.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);margin-bottom:10px;">커리큘럼</a>
+        <a href="fee.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);margin-bottom:10px;">교습비 안내</a>
+        <a href="contact.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);">오시는길</a>
+      </div>
+    </div>
+    <div style="max-width:1200px;margin:32px auto 0;padding:20px 32px 0;border-top:1px solid oklch(92% 0 0);font-size:12px;color:oklch(55% 0 0);">
+      대표: 장화연 · 사업자 511-96-33718 · 중부교육지원청 제3336호 · © 2017–2026 주니어솔로몬. All rights reserved.
+    </div>
+  </footer>
+
 </div>
-
-<!-- ══════════════════ HEADER ══════════════════ -->
-<header class="header" id="header" role="banner">
-  <div class="header-inner">
-    <a href="index.html" class="logo" aria-label="주니어솔로몬 홈으로">
-      <img src="logo.svg" class="logo-img" alt="" aria-hidden="true" width="60" height="46">
-      <div class="logo-wordmark">
-        <div class="logo-text">주니어솔로몬</div>
-        <div class="logo-sub">Jr. Solomon Academy</div>
-      </div>
-    </a>
-
-    <nav class="nav" role="navigation" aria-label="주메뉴">
-      <div class="nav-item">
-        <button class="nav-link" aria-haspopup="true" aria-expanded="false">
-          학원소개
-          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"/></svg>
-        </button>
-        <div class="dropdown" role="menu">
-          <a href="vision.html" role="menuitem">비전 &amp; 교육철학</a>
-          <a href="mission.html" role="menuitem">교육방향</a>
-          <a href="introduction.html" role="menuitem">선생님 소개</a>
-          <a href="facility.html" role="menuitem">시설 안내</a>
-        </div>
-      </div>
-      <div class="nav-item">
-        <button class="nav-link" aria-haspopup="true" aria-expanded="false">
-          프로그램
-          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"/></svg>
-        </button>
-        <div class="dropdown" role="menu">
-          <a href="curriculum.html" role="menuitem">커리큘럼</a>
-          <a href="edu-1.html" role="menuitem">소포스에듀</a>
-          <a href="fee.html" role="menuitem">교습비 안내</a>
-        </div>
-      </div>
-      <div class="nav-item">
-        <button class="nav-link" aria-haspopup="true" aria-expanded="false">
-          커뮤니티
-          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"/></svg>
-        </button>
-        <div class="dropdown" role="menu">
-          <a href="board-notice.html" role="menuitem">공지사항</a>
-          <a href="board-gallery.html" role="menuitem">갤러리</a>
-          <a href="board-qna.html" role="menuitem">Q&amp;A</a>
-          <a href="board-review.html" role="menuitem">수강후기</a>
-        </div>
-      </div>
-      <a href="contact.html" class="nav-link">오시는길</a>
-    </nav>
-
-    <div class="header-cta-stack">
-      <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="header-btn header-btn-naver">💬 네이버 톡톡</a>
-      <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" class="header-btn header-btn-kakao">🟡 카카오톡 채널</a>
-    </div>
-
-    <button class="menu-toggle" aria-label="메뉴 열기" aria-expanded="false" id="menuToggle">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</header>
-
-<!-- Mobile nav -->
-<nav class="mobile-nav" id="mobileNav" aria-label="모바일 메뉴">
-  <a href="vision.html">비전 &amp; 교육철학</a>
-  <a href="mission.html">교육방향</a>
-  <a href="introduction.html">선생님 소개</a>
-  <a href="facility.html">시설 안내</a>
-  <a href="curriculum.html">커리큘럼</a>
-  <a href="edu-1.html">소포스에듀</a>
-  <a href="fee.html">교습비 안내</a>
-  <a href="board-notice.html">공지사항</a>
-  <a href="board-gallery.html">갤러리</a>
-  <a href="board-qna.html">Q&amp;A</a>
-  <a href="board-review.html">수강후기</a>
-  <a href="contact.html">오시는길</a>
-  <a href="tel:027948123" class="m-tel">☎ 02-794-8123</a>
-  <div class="m-cta-row">
-    <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="m-cta-naver">💬 네이버 톡톡</a>
-    <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" class="m-cta-kakao">🟡 카카오채널</a>
-  </div>
-</nav>
-
-<main id="main">
-
-<!-- ══════════════════ 1. HERO ══════════════════ -->
-<section class="hero" aria-label="메인 히어로">
-  <div class="hero-left">
-    <p class="hero-label anim">Reading · Philosophy · Writing Academy</p>
-    <h1 class="hero-title anim anim-d1">
-      아이의 생각이<br>
-      <em>깊어지는</em> 시간
-    </h1>
-    <p class="hero-sub anim anim-d2">
-      단순한 독서를 넘어, 스스로 사고하고 표현하는 힘을 키웁니다.<br>
-      주니어솔로몬의 검증된 커리큘럼이 아이의 가능성을 열어줍니다.
-    </p>
-    <div class="hero-cta anim anim-d3">
-      <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="btn-naver">
-        무료 상담 신청하기
-      </a>
-      <a href="curriculum.html" class="btn-kakao">
-        커리큘럼 보기 →
-      </a>
-    </div>
-    <div class="hero-badge anim anim-d4" aria-label="주요 인증 및 수상">
-      <span>설립 2017</span>
-      <span class="dot"></span>
-      <span>2022 독서·논술 교육 부문 대상</span>
-      <span class="dot"></span>
-      <a href="https://www.joongang.co.kr/article/25121798#home" target="_blank" rel="noopener noreferrer">중앙일보 특집 ↗</a>
-      <span class="dot"></span>
-      <a href="article-worldview.html">WORLDVIEW 기고 ↗</a>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════ QUICK LINKS BAR ══════════════════ -->
-<div class="quick-bar" aria-label="빠른 메뉴">
-  <div class="quick-bar-inner">
-    <a href="contact.html" class="quick-item anim">
-      <span class="quick-item-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.62 6.62l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
-      </span>
-      <span class="quick-item-label">입학 상담</span>
-      <span class="quick-item-sub">02-794-8123</span>
-    </a>
-    <a href="curriculum.html" class="quick-item anim anim-d1">
-      <span class="quick-item-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-      </span>
-      <span class="quick-item-label">커리큘럼</span>
-      <span class="quick-item-sub">7세 ~ 중등</span>
-    </a>
-    <a href="introduction.html" class="quick-item anim anim-d2">
-      <span class="quick-item-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-      </span>
-      <span class="quick-item-label">선생님 소개</span>
-      <span class="quick-item-sub">5인 전문 교사진</span>
-    </a>
-    <a href="contact.html#map" class="quick-item anim anim-d3">
-      <span class="quick-item-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      </span>
-      <span class="quick-item-label">오시는 길</span>
-      <span class="quick-item-sub">용산구 이촌동</span>
-    </a>
-  </div>
-</div>
-
-<!-- ══════════════════ 2. 원장 인사말 ══════════════════ -->
-<section class="principal" id="about" aria-labelledby="principal-heading">
-  <div class="principal-inner">
-    <div class="anim">
-      <p class="principal-kicker">원장 인사말</p>
-      <h2 id="principal-heading" class="principal-quote">
-        "지식은 쌓이는 것이지만,<br><em style="font-style:normal;color:var(--amber-text)">지혜는 깨어나는 것입니다</em>"
-      </h2>
-    </div>
-    <div class="principal-right anim anim-d1">
-      <p class="principal-body">
-        세상에 이미 많은 학원이 있습니다. 저는 그 위에 또 하나의 학원을 보태고 싶지 않았습니다.
-        아이 안에 이미 존재하는 사유의 불씨를 깨우고, 스스로 생각하고 판단하며
-        책임질 수 있는 사람으로 성장하도록 돕는 것 — 그것이 주니어솔로몬이 지향하는 교육입니다.
-      </p>
-      <div class="principal-pub">
-        <div class="principal-pub-icon">✍️</div>
-        <div>
-          <div class="principal-pub-meta">기고 논문 · WORLDVIEW 2019.10</div>
-          <a href="article-worldview.html" class="principal-pub-title" style="text-decoration:none;color:inherit;">
-            독서란 인생이라는 정원에 꽃과 나무를 심는 일 →
-          </a>
-        </div>
-      </div>
-      <div class="principal-divider" style="margin-top:20px;"></div>
-      <p class="principal-sig">장화연 원장<span>주니어솔로몬 설립자</span></p>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════ 3. 교육 철학 ══════════════════ -->
-<section class="philosophy" id="philosophy" aria-labelledby="phil-heading">
-  <div class="container">
-    <p class="badge-pill anim" style="margin-bottom:12px;">교육 철학</p>
-    <h2 id="phil-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
-      3대 원칙<br>× 4단계 프로세스
-    </h2>
-    <span class="sec-rule anim anim-d1" aria-hidden="true"></span>
-    <div class="phil-grid">
-      <div class="anim anim-d1">
-        <p class="phil-section-title">3대 교육 원칙</p>
-        <div class="phil-principles">
-          <div class="principle-item">
-            <div class="principle-num">1</div>
-            <div>
-              <div class="principle-name">질문중심교육</div>
-              <div class="principle-desc">답을 외우는 대신, 스스로 질문을 만드는 힘을 기릅니다</div>
-            </div>
-          </div>
-          <div class="principle-item">
-            <div class="principle-num">2</div>
-            <div>
-              <div class="principle-name">소수정예피드백</div>
-              <div class="principle-desc">한 명 한 명에게 집중하는 맞춤형 피드백으로 깊이 있는 성장</div>
-            </div>
-          </div>
-          <div class="principle-item">
-            <div class="principle-num">3</div>
-            <div>
-              <div class="principle-name">인성과지성</div>
-              <div class="principle-desc">지식보다 태도, 점수보다 사람됨을 함께 키웁니다</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="anim anim-d2">
-        <p class="phil-section-title">4단계 학습 프로세스</p>
-        <div class="process-flow">
-          <div class="process-step" data-step="1">
-            <div class="process-label">독서</div>
-            <div class="process-desc">다양한 인문·철학 도서를 깊이 읽으며 배경지식과 감수성 축적</div>
-          </div>
-          <div class="process-arrow" aria-hidden="true">↓</div>
-          <div class="process-step" data-step="2">
-            <div class="process-label">창의질문</div>
-            <div class="process-desc">읽은 내용을 바탕으로 스스로 질문을 만들고 사고를 확장</div>
-          </div>
-          <div class="process-arrow" aria-hidden="true">↓</div>
-          <div class="process-step" data-step="3">
-            <div class="process-label">하브루타토론</div>
-            <div class="process-desc">짝과 함께 질문을 주고받으며 논리와 공감 능력을 동시에 훈련</div>
-          </div>
-          <div class="process-arrow" aria-hidden="true">↓</div>
-          <div class="process-step" data-step="4">
-            <div class="process-label">논술글쓰기</div>
-            <div class="process-desc">토론에서 정리된 생각을 자신만의 언어로 완성도 높게 표현</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════ 4. 6대 인재상 ══════════════════ -->
-<section class="talent" id="talent" aria-labelledby="talent-heading">
-  <div class="container">
-    <p class="badge-pill anim" style="margin-bottom:12px;">6대 인재상</p>
-    <h2 id="talent-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
-      주니어솔로몬이 키우는<br>여섯 가지 인재
-    </h2>
-    <span class="sec-rule anim anim-d1" aria-hidden="true"></span>
-    <div class="talent-grid" style="margin-top:40px;">
-      <div class="clay-card clay-card-navy anim anim-d1">
-        <div class="clay-card-num">01</div>
-        <div class="clay-card-title">평생독서인</div>
-        <div class="clay-card-en">Lifelong Reader</div>
-        <div class="clay-card-desc">책을 즐거움으로 삼아 스스로 읽고 생각하는 습관을 평생의 자산으로 만듭니다.</div>
-      </div>
-      <div class="clay-card clay-card-soft anim anim-d2">
-        <div class="clay-card-num">02</div>
-        <div class="clay-card-title">논리적 표현자</div>
-        <div class="clay-card-en">Logical Communicator</div>
-        <div class="clay-card-desc">자신의 생각을 조리 있게 말하고 쓰는 능력으로 어디서든 인정받습니다.</div>
-      </div>
-      <div class="clay-card clay-card-amber anim anim-d3">
-        <div class="clay-card-num">03</div>
-        <div class="clay-card-title">공감 능력자</div>
-        <div class="clay-card-en">Empathetic Listener</div>
-        <div class="clay-card-desc">타인의 감정을 이해하고 함께하는 마음이 진정한 인재의 출발점입니다.</div>
-      </div>
-      <div class="clay-card clay-card-soft anim anim-d1">
-        <div class="clay-card-num">04</div>
-        <div class="clay-card-title">탐구하는 질문자</div>
-        <div class="clay-card-en">Inquiring Thinker</div>
-        <div class="clay-card-desc">궁금함을 질문으로 발전시키는 탐구 정신이 학문과 삶을 풍요롭게 합니다.</div>
-      </div>
-      <div class="clay-card clay-card-mid anim anim-d2">
-        <div class="clay-card-num">05</div>
-        <div class="clay-card-title">창의적 사고자</div>
-        <div class="clay-card-en">Creative Thinker</div>
-        <div class="clay-card-desc">기존 틀에 얽매이지 않는 유연한 사고로 새로운 가능성을 열어갑니다.</div>
-      </div>
-      <div class="clay-card clay-card-amber anim anim-d3">
-        <div class="clay-card-num">06</div>
-        <div class="clay-card-title">사회에 기여하는 인재</div>
-        <div class="clay-card-en">Socially Responsible Leader</div>
-        <div class="clay-card-desc">배움을 나누고 세상을 더 좋게 만드는 리더십으로 공동체를 이끕니다.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════ 5. 커리큘럼 레벨 ══════════════════ -->
-<section class="curriculum" id="curriculum" aria-labelledby="curriculum-heading">
-  <div class="container">
-    <p class="badge-pill anim" style="margin-bottom:12px;">커리큘럼</p>
-    <h2 id="curriculum-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
-      7세부터 중등까지<br>5단계 맞춤 과정
-    </h2>
-    <span class="sec-rule anim anim-d1" aria-hidden="true"></span>
-    <div class="level-list" style="margin-top:40px;">
-      <a href="curriculum.html#level1" class="level-item anim anim-d1">
-        <div class="level-badge l1">7세</div>
-        <div>
-          <div class="level-label">7세반 <span style="font-size:12px;font-weight:400;color:var(--ink-muted);">(만 4~7세)</span></div>
-          <div class="level-desc">그림책 철학, 감성독서, 표현놀이</div>
-        </div>
-        <div class="level-age" style="font-size:11px;">만 4~7세</div>
-      </a>
-      <a href="curriculum.html#level2" class="level-item anim anim-d2">
-        <div class="level-badge l2">초1·2</div>
-        <div>
-          <div class="level-label">초등 1~2학년반</div>
-          <div class="level-desc">독서습관, 질문만들기, 기초글쓰기</div>
-        </div>
-        <div class="level-age">초1-2</div>
-      </a>
-      <a href="curriculum.html#level3" class="level-item anim anim-d3">
-        <div class="level-badge l3">초3·4</div>
-        <div>
-          <div class="level-label">초등 3~4학년반</div>
-          <div class="level-desc">하브루타토론, 논리적글쓰기, 인문독서</div>
-        </div>
-        <div class="level-age">초3-4</div>
-      </a>
-      <a href="curriculum.html#level4" class="level-item anim anim-d1">
-        <div class="level-badge l4">초5·6</div>
-        <div>
-          <div class="level-label">초등 5~6학년반</div>
-          <div class="level-desc">철학토론, 심화논술, 중등준비</div>
-        </div>
-        <div class="level-age">초5-6</div>
-      </a>
-      <a href="curriculum.html#level5" class="level-item anim anim-d2">
-        <div class="level-badge l5">중등</div>
-        <div>
-          <div class="level-label">중등부</div>
-          <div class="level-desc">수능국어, 생기부글쓰기, 내신전략</div>
-        </div>
-        <div class="level-age">중1-3</div>
-      </a>
-    </div>
-    <div class="curriculum-cta anim anim-d3">
-      <a href="curriculum.html" class="btn-naver" style="font-size:15px;padding:14px 28px;">전체 커리큘럼 보기 →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════ 6. 교사진 ══════════════════ -->
-<section class="teachers" id="teachers" aria-labelledby="teachers-heading">
-  <div class="container">
-    <p class="badge-pill anim" style="margin-bottom:12px;">교사진</p>
-    <h2 id="teachers-heading" style="font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--ink);letter-spacing:-0.04em;text-wrap:balance;line-height:1.1;" class="anim anim-d1">
-      아이의 생각을 깊게 하는<br>다섯 명의 선생님
-    </h2>
-    <span class="sec-rule anim anim-d1" aria-hidden="true"></span>
-    <div class="teacher-grid" style="margin-top:40px;">
-      <!-- 원장 -->
-      <div class="teacher-card principal-card anim anim-d1">
-        <span class="teacher-role">원장</span>
-        <div class="teacher-name">장화연</div>
-        <div class="teacher-spec">설립자 · 어린이철학교육 전문</div>
-        <div class="teacher-divider"></div>
-        <p class="teacher-desc">
-          어린이철학교육을 통한 '생각하는 인재' 양성을 교육 철학으로 삼고 있습니다.
-          원장님을 직접 만나고자 찾아오는 학생이 매우 많을 만큼 깊은 신뢰를 받고 있습니다.
-        </p>
-      </div>
-      <!-- 박효정 -->
-      <div class="teacher-card anim anim-d2">
-        <span class="teacher-role">수석 지도교사</span>
-        <div class="teacher-name">박효정</div>
-        <div class="teacher-spec">논술 · 수능국어 전문</div>
-        <div class="teacher-divider"></div>
-        <p class="teacher-desc">
-          대치·분당 10년+ 경력. 논술과 수능 국어 전문가로 초~고 글쓰기 전 단계
-          커리큘럼을 직접 설계합니다.
-        </p>
-      </div>
-      <!-- 하정빈 -->
-      <div class="teacher-card anim anim-d3">
-        <span class="teacher-role">독서·철학</span>
-        <div class="teacher-name">하정빈</div>
-        <div class="teacher-spec">하브루타 · 창의질문 전문</div>
-        <div class="teacher-divider"></div>
-        <p class="teacher-desc">
-          이해→질문→글쓰기 교수법을 바탕으로 창의질문 훈련 프로그램을
-          개발·운영하고 있습니다.
-        </p>
-      </div>
-      <!-- 손수영 -->
-      <div class="teacher-card anim anim-d1">
-        <span class="teacher-role">유아반 (7세)</span>
-        <div class="teacher-name">손수영</div>
-        <div class="teacher-spec">그림책 철학 · 감성독서</div>
-        <div class="teacher-divider"></div>
-        <p class="teacher-desc">
-          7세반 전담 교사. 놀이 중심 하브루타로 아이들의 표현력과
-          감수성을 자연스럽게 이끌어냅니다.
-        </p>
-      </div>
-      <!-- 이대건 (소포스에듀) -->
-      <div class="teacher-card anim anim-d2">
-        <span class="teacher-role" style="background:var(--yellow-light);color:var(--yellow-deep);">소포스에듀</span>
-        <div class="teacher-name">이대건</div>
-        <div class="teacher-spec">수능 문학·문법·내신 전문</div>
-        <div class="teacher-divider"></div>
-        <p class="teacher-desc">
-          서울대 졸업. 미래탐구·대치명인·대치메이드 강의 경력.
-          수능 문학독서·문법·내신을 전문적으로 지도합니다.
-        </p>
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:32px;" class="anim anim-d3">
-      <a href="introduction.html" class="btn-naver" style="font-size:15px;padding:14px 28px;">선생님 상세 소개 →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════ 7. 신뢰 지표 ══════════════════ -->
-<section class="trust" id="trust" aria-label="주요 수상 및 이력">
-  <div class="container">
-    <p style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber-on-dark);margin-bottom:10px;text-align:center;" class="anim">신뢰와 경험</p>
-    <h2 style="font-size:clamp(32px,4.5vw,48px);font-weight:800;color:#fff;letter-spacing:-0.04em;text-align:center;text-wrap:balance;margin-bottom:0;line-height:1.1;" class="anim anim-d1">
-      이촌동 학부모가 선택한 이유
-    </h2>
-    <div class="trust-grid anim anim-d2">
-      <div class="trust-item">
-        <div class="trust-num">2017</div>
-        <div class="trust-unit">년</div>
-        <div class="trust-label">개원</div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-num">9+</div>
-        <div class="trust-unit">년</div>
-        <div class="trust-label">교육 경력</div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-num">5</div>
-        <div class="trust-unit">명</div>
-        <div class="trust-label">전문 교사진</div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-num">5</div>
-        <div class="trust-unit">개</div>
-        <div class="trust-label">레벨 커리큘럼</div>
-      </div>
-      <div class="trust-badge">
-        <div class="trust-badge-text">🏆 2022 한국브랜드소비자평가 독서·논술 교육 부문 대상</div>
-        <div class="trust-badge-sub"><a href="https://www.joongang.co.kr/article/25121798#home" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">중앙일보 특집 기사 게재 ↗</a> · 중부교육지원청 제3336호</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════ 8. 상담 CTA ══════════════════ -->
-<section class="consult" id="contact-cta" aria-labelledby="consult-heading">
-  <div class="container">
-    <h2 id="consult-heading" class="consult-title anim">
-      우리 아이의 첫 질문을<br>함께 시작해볼까요?
-    </h2>
-    <p class="consult-sub anim anim-d1">
-      월~금 14:00~21:00 · 토 09:00~18:00<br>
-      서울 용산구 이촌로 200, LG프라자 4층 403호
-    </p>
-    <div class="consult-cta anim anim-d2">
-      <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="btn-naver">
-        💬 네이버 톡톡으로 상담하기
-      </a>
-      <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" class="btn-kakao">
-        🟡 카카오톡 채널 문의
-      </a>
-    </div>
-    <p class="consult-info anim anim-d3">전화 상담: <a href="tel:027948123" style="color:inherit;">02-794-8123</a></p>
-  </div>
-</section>
-
-</main>
-
-<!-- ══════════════════ FOOTER ══════════════════ -->
-<footer class="footer" role="contentinfo">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <a href="index.html" class="logo" aria-label="주니어솔로몬 홈으로">
-        <img src="logo.svg" class="logo-img" alt="" aria-hidden="true" width="60" height="46">
-        <div>
-          <div class="logo-text">주니어솔로몬</div>
-          <div class="logo-sub">Jr. Solomon Academy</div>
-        </div>
-      </a>
-      <p class="footer-tagline">
-        "모든 아이는 솔로몬의 지혜를 품을 수 있습니다"<br>
-        지혜가 샘솟는 독서·철학·논술 전문 학원
-      </p>
-      <div class="footer-social" aria-label="소셜 채널">
-        <a href="https://www.instagram.com/juniorsolomon" target="_blank" rel="noopener noreferrer" aria-label="인스타그램">📷</a>
-        <a href="https://blog.naver.com/juniorsolomon" target="_blank" rel="noopener noreferrer" aria-label="네이버 블로그">N</a>
-        <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" aria-label="카카오톡 채널">K</a>
-        <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" aria-label="네이버 톡톡">💬</a>
-      </div>
-    </div>
-    <div class="footer-nav">
-      <div class="footer-col">
-        <div class="footer-col-title">학원소개</div>
-        <a href="vision.html">비전 &amp; 교육철학</a>
-        <a href="mission.html">교육방향</a>
-        <a href="introduction.html">선생님 소개</a>
-        <a href="facility.html">시설 안내</a>
-      </div>
-      <div class="footer-col">
-        <div class="footer-col-title">프로그램</div>
-        <a href="curriculum.html">커리큘럼</a>
-        <a href="edu-1.html">소포스에듀</a>
-        <a href="fee.html">교습비 안내</a>
-      </div>
-      <div class="footer-col">
-        <div class="footer-col-title">커뮤니티</div>
-        <a href="board-notice.html">공지사항</a>
-        <a href="board-gallery.html">갤러리</a>
-        <a href="board-qna.html">Q&amp;A</a>
-        <a href="board-review.html">수강후기</a>
-        <a href="contact.html">오시는길</a>
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="footer-bottom">
-      서울특별시 용산구 이촌로 200, LG프라자 4층 403호 &nbsp;|&nbsp;
-      대표: 장화연 &nbsp;|&nbsp; 사업자등록번호: 511-96-33718<br>
-      중부교육지원청 학원설립운영등록 제3336호 &nbsp;|&nbsp;
-      ☎ 02-794-8123<br>
-      운영시간: 월~금 14:00~21:00 / 토 09:00~18:00 / 일·공휴일 휴무<br>
-      © 2017–2026 주니어솔로몬. All rights reserved.
-    </div>
-  </div>
-</footer>
-
-<!-- 스크롤 탑 -->
-<button id="scrollTop" aria-label="맨 위로" style="
-  position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;
-  background:var(--purple);color:#fff;border:none;cursor:pointer;
-  box-shadow:var(--shadow-md);opacity:0;pointer-events:none;
-  transition:opacity var(--t-base),transform var(--t-base) var(--ease);
-  display:flex;align-items:center;justify-content:center;z-index:50;font-size:18px;">
-  ↑
-</button>
-
-<script>
-(function () {
-  'use strict';
-
-  /* Header scroll */
-  const header = document.getElementById('header');
-  window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 40);
-  }, { passive: true });
-
-  /* Mobile menu */
-  const toggle = document.getElementById('menuToggle');
-  const mobileNav = document.getElementById('mobileNav');
-  toggle.addEventListener('click', () => {
-    const isOpen = mobileNav.classList.toggle('open');
-    toggle.classList.toggle('open', isOpen);
-    toggle.setAttribute('aria-expanded', isOpen);
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  });
-  mobileNav.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      mobileNav.classList.remove('open');
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    });
-  });
-
-  /* Dropdown keyboard/click */
-  document.querySelectorAll('.nav-item button.nav-link').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      document.querySelectorAll('.nav-item button.nav-link').forEach(b => b.setAttribute('aria-expanded', 'false'));
-      btn.setAttribute('aria-expanded', !expanded);
-    });
-  });
-  document.addEventListener('click', e => {
-    if (!e.target.closest('.nav-item')) {
-      document.querySelectorAll('.nav-item button.nav-link').forEach(b => b.setAttribute('aria-expanded', 'false'));
-    }
-  });
-
-  /* Scroll reveal */
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.anim').forEach(el => observer.observe(el));
-
-  /* Scroll top */
-  const scrollBtn = document.getElementById('scrollTop');
-  window.addEventListener('scroll', () => {
-    const show = window.scrollY > 400;
-    scrollBtn.style.opacity = show ? '1' : '0';
-    scrollBtn.style.pointerEvents = show ? 'auto' : 'none';
-  }, { passive: true });
-  scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-})();
-</script>
 </body>
 </html>

@@ -1,566 +1,209 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#1C2B4A">
-  <title>교습비 안내 | 주니어솔로몬</title>
-  <meta name="description" content="주니어솔로몬 학원 교습비 안내. 레벨별 수업 구성과 교재비 안내. 자세한 교습비는 상담 후 안내드립니다. 서울 용산구 이촌동.">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .anim { opacity:0; transform:translateY(20px); transition:opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1); }
-    .anim.in  { opacity:1; transform:translateY(0); }
-    .anim-d1  { transition-delay:.08s; }
-    .anim-d2  { transition-delay:.16s; }
-    .anim-d3  { transition-delay:.24s; }
-    @media (prefers-reduced-motion:reduce) { .anim { opacity:1; transform:none; } }
-
-    /* PAGE HERO */
-    .page-hero {
-      padding: calc(var(--header-h) + 56px) 0 56px;
-      background: linear-gradient(150deg, oklch(18% .05 258) 0%, oklch(22% .07 258) 60%, oklch(28% .09 258) 100%);
-      position: relative; overflow: hidden;
-    }
-    .page-hero::before {
-      content:''; position:absolute; inset:0; pointer-events:none;
-      background: radial-gradient(ellipse 60% 70% at 80% 40%, oklch(60% .12 72 / .14), transparent);
-    }
-    .breadcrumb { display:flex; align-items:center; gap:6px; font-size:13px; color:oklch(80% .02 78); margin-bottom:20px; flex-wrap:wrap; }
-    .breadcrumb a { color:oklch(80% .02 78); text-decoration:none; }
-    .breadcrumb a:hover { color:oklch(85% .025 80); }
-    .breadcrumb span { color:oklch(85% .015 78); }
-    .page-hero h1 { font-size:clamp(28px,5vw,68px); font-weight:800; color:#fff; letter-spacing:-.03em; line-height:1.1; text-wrap:balance; }
-    .page-hero p  { font-size:clamp(15px,1.8vw,17px); color:oklch(76% .015 80); margin-top:14px; line-height:1.75; max-width:520px; text-wrap:balance; }
-
-    /* FEE TABLE SECTION */
-    .fee-section { padding: 5rem 2rem; background: var(--canvas); }
-    .fee-table-wrap { overflow-x: auto; margin-top: 2rem; border-radius: 16px; border: 1.5px solid var(--border); }
-    .fee-table {
-      width: 100%; border-collapse: collapse; min-width: 560px;
-    }
-    .fee-table thead tr { background: var(--purple-deep); }
-    .fee-table th {
-      padding: 14px 20px; font-size: 12px; font-weight: 700;
-      letter-spacing: .05em; text-transform: uppercase;
-      color: oklch(88% .015 80); text-align: left;
-    }
-    .fee-table th:first-child { border-radius: 0; }
-    .fee-table td {
-      padding: 16px 20px; font-size: 14px; color: var(--ink-muted);
-      border-bottom: 1.5px solid var(--border); vertical-align: middle;
-    }
-    .fee-table tr:last-child td { border-bottom: none; }
-    .fee-table tr:hover td { background: var(--purple-xlight); }
-    .level-pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 12px; font-weight: 800; padding: 4px 12px;
-      border-radius: 100px; white-space: nowrap;
-    }
-    .pill-l1 { background: var(--purple-xlight); color: var(--purple); border: 1.5px solid var(--purple-light); }
-    .pill-l2 { background: oklch(93% .05 78); color: oklch(55% .12 72); border: 1.5px solid oklch(88% .04 78); }
-    .pill-l3 { background: oklch(91% .05 78); color: oklch(42% .09 70); border: 1.5px solid oklch(85% .04 78); }
-    .pill-l4 { background: oklch(88% .05 78); color: oklch(38% .09 70); border: 1.5px solid oklch(80% .04 78); }
-    .pill-l5 { background: var(--purple-light); color: var(--purple-deep); border: 1.5px solid var(--purple-mid); }
-    .fee-consult {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 13px; font-weight: 700; color: var(--amber-text);
-    }
-    .fee-consult::before {
-      content: ''; display: inline-block; width: 6px; height: 6px;
-      border-radius: 50%; background: var(--amber); flex-shrink: 0;
-    }
-    .fee-note {
-      margin-top: 1rem; padding: 1rem 1.25rem;
-      background: var(--yellow-light);
-      border: 1.5px solid oklch(88% .13 97 / .5);
-      border-radius: 10px;
-      font-size: 13px; color: var(--purple-deep); line-height: 1.75;
-    }
-    .fee-note strong { color: var(--yellow-deep); }
-
-    /* 수업 구성 */
-    .class-structure { padding: 5rem 2rem; background: var(--surf-1); }
-    .structure-grid {
-      display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-top: 2.5rem;
-    }
-    @media (min-width: 640px) { .structure-grid { grid-template-columns: 1fr 1fr; } }
-    @media (min-width: 1024px) { .structure-grid { grid-template-columns: repeat(4,1fr); } }
-    .structure-card {
-      background: var(--surf-0); border: 1.5px solid var(--border);
-      border-radius: 14px; padding: 1.75rem 1.5rem;
-      display: flex; flex-direction: column; gap: .75rem;
-    }
-    .structure-icon { font-size: 1.75rem; }
-    .structure-time {
-      font-size: 11px; font-weight: 700; letter-spacing: .07em;
-      text-transform: uppercase; color: var(--amber-text);
-    }
-    .structure-title { font-size: 1rem; font-weight: 700; color: var(--purple-deep); }
-    .structure-desc { font-size: .85rem; color: var(--text-2); line-height: 1.7; }
-
-    /* 교재비 */
-    .material-section { padding: 5rem 2rem; background: var(--canvas); }
-    .material-cards {
-      display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-top: 2.5rem;
-    }
-    @media (min-width: 640px) { .material-cards { grid-template-columns: 1fr 1fr; } }
-    .material-card {
-      border-radius: 14px; padding: 2rem;
-      display: flex; flex-direction: column; gap: .75rem;
-    }
-    .material-card.primary {
-      background: var(--purple-xlight);
-      border: 1.5px solid var(--purple-light);
-    }
-    .material-card.secondary {
-      background: var(--yellow-light);
-      border: 1.5px solid oklch(88% .13 97 / .5);
-    }
-    .material-card-icon { font-size: 1.75rem; }
-    .material-card-title { font-size: 1.05rem; font-weight: 700; color: var(--purple-deep); }
-    .material-card-desc { font-size: .88rem; color: var(--text-2); line-height: 1.75; }
-
-    /* 납부 안내 */
-    .payment-section { padding: 5rem 2rem; background: var(--surf-1); }
-    .payment-list {
-      max-width: 720px; margin: 2rem 0 0;
-      display: flex; flex-direction: column; gap: 1rem;
-    }
-    .payment-item {
-      display: flex; gap: 1rem; align-items: flex-start;
-      padding: 1.25rem 1.5rem;
-      background: var(--surf-0); border: 1.5px solid var(--border);
-      border-radius: 12px;
-    }
-    .payment-item-icon {
-      font-size: 1.3rem; flex-shrink: 0; margin-top: .1rem;
-    }
-    .payment-item-label {
-      font-size: .78rem; font-weight: 700; letter-spacing: .06em;
-      text-transform: uppercase; color: var(--amber-text); margin-bottom: .3rem;
-    }
-    .payment-item-text {
-      font-size: .9rem; color: var(--text-2); line-height: 1.75;
-    }
-    .legal-notice {
-      margin-top: 2rem; padding: 1.25rem 1.5rem;
-      background: oklch(97% .01 220); border: 1.5px solid oklch(90% .01 220);
-      border-radius: 12px; font-size: .82rem; color: oklch(40% .02 220);
-      line-height: 1.75;
-    }
-    .legal-notice strong { color: oklch(40% .03 220); }
-
-    /* CONSULT */
-    .consult { background: var(--purple-deep); padding: 72px 0; text-align: center; }
-    .consult-title { font-size:clamp(22px,3.5vw,36px); font-weight:800; color:#fff; letter-spacing:-.025em; text-wrap:balance; }
-    .consult-sub { font-size:15px; color:oklch(82% .015 80); margin-top:12px; }
-    .consult-cta { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:32px; }
-    .btn-naver {
-      background:oklch(60% .12 72); color:#fff; padding:15px 30px; border-radius:var(--r-pill);
-      font-size:15px; font-weight:800; text-decoration:none; display:inline-flex; align-items:center; gap:8px;
-      transition:opacity var(--t-fast),transform var(--t-base) cubic-bezier(.16,1,.3,1);
-    }
-    .btn-naver:hover { opacity:.88; transform:translateY(-2px); }
-    .btn-kakao {
-      background:#FEE500; color:#3B1B1B; padding:15px 30px; border-radius:var(--r-pill);
-      font-size:15px; font-weight:800; text-decoration:none; display:inline-flex; align-items:center; gap:8px;
-      transition:opacity var(--t-fast),transform var(--t-base) cubic-bezier(.16,1,.3,1);
-    }
-    .btn-kakao:hover { opacity:.9; transform:translateY(-2px); }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>교습비 안내 – 주니어솔로몬</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+  body { margin: 0; font-family: 'Pretendard Variable','Pretendard',-apple-system,sans-serif; background: #fff; color: oklch(18% 0 0); line-height: 1.7; }
+  a { text-decoration: none; color: oklch(46% 0.14 55); }
+  a:hover { color: oklch(38% 0.14 55); }
+</style>
 </head>
 <body>
-<a href="#main" class="skip-link">본문 바로가기</a>
+<div style="min-width:1320px;">
 
-<!-- HEADER -->
-<header class="header" id="header" role="banner">
-  <div class="header-inner">
-    <a href="index.html" class="logo" aria-label="주니어솔로몬 홈으로">
-      <img src="logo.svg" class="logo-img" alt="" aria-hidden="true" width="60" height="46">
-      <div><div class="logo-text">주니어솔로몬</div><div class="logo-sub">Jr. Solomon Academy</div></div>
-    </a>
-    <nav class="nav" role="navigation" aria-label="주메뉴">
-      <div class="nav-item">
-        <button class="nav-link" aria-haspopup="true" aria-expanded="false">
-          학원소개
-          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"/></svg>
-        </button>
-        <div class="dropdown" role="menu">
-          <a href="vision.html" role="menuitem">비전 &amp; 교육철학</a>
-          <a href="mission.html" role="menuitem">교육방향</a>
-          <a href="introduction.html" role="menuitem">선생님 소개</a>
-          <a href="facility.html" role="menuitem">시설 안내</a>
-        </div>
-      </div>
-      <div class="nav-item">
-        <button class="nav-link active" aria-haspopup="true" aria-expanded="false">
-          프로그램
-          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"/></svg>
-        </button>
-        <div class="dropdown" role="menu">
-          <a href="curriculum.html" role="menuitem">커리큘럼</a>
-          <a href="edu-1.html" role="menuitem">소포스에듀</a>
-          <a href="fee.html" class="active" role="menuitem">교습비 안내</a>
-        </div>
-      </div>
-      <div class="nav-item">
-        <button class="nav-link" aria-haspopup="true" aria-expanded="false">
-          커뮤니티
-          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"/></svg>
-        </button>
-        <div class="dropdown" role="menu">
-          <a href="board-notice.html" role="menuitem">공지사항</a>
-          <a href="board-gallery.html" role="menuitem">갤러리</a>
-          <a href="board-qna.html" role="menuitem">Q&amp;A</a>
-          <a href="board-review.html" role="menuitem">수강후기</a>
-        </div>
-      </div>
-      <a href="contact.html" class="nav-link">오시는길</a>
-    </nav>
-    <div class="header-cta-stack">
-      <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="header-btn header-btn-naver">💬 네이버 톡톡</a>
-      <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" class="header-btn header-btn-kakao">🟡 카카오톡 채널</a>
-    </div>
-    <button class="menu-toggle" aria-label="메뉴 열기" aria-expanded="false" id="menuToggle">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</header>
-
-<nav class="mobile-nav" id="mobileNav" aria-label="모바일 메뉴">
-  <a href="vision.html">비전 &amp; 교육철학</a>
-  <a href="mission.html">교육방향</a>
-  <a href="introduction.html">선생님 소개</a>
-  <a href="facility.html">시설 안내</a>
-  <a href="curriculum.html">커리큘럼</a>
-  <a href="edu-1.html">소포스에듀</a>
-  <a href="fee.html" aria-current="page">교습비 안내</a>
-  <a href="board-notice.html">공지사항</a>
-  <a href="board-gallery.html">갤러리</a>
-  <a href="board-qna.html">Q&amp;A</a>
-  <a href="board-review.html">수강후기</a>
-  <a href="contact.html">오시는길</a>
-  <a href="tel:027948123" class="m-tel">☎ 02-794-8123</a>
-  <div class="m-cta-row">
-    <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="m-cta-naver">💬 네이버 톡톡</a>
-    <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" class="m-cta-kakao">🟡 카카오채널</a>
-  </div>
-</nav>
-
-<!-- PAGE HERO -->
-<section class="page-hero" aria-labelledby="page-title">
-  <div class="container">
-    <nav class="breadcrumb" aria-label="현재 위치">
-      <a href="index.html">홈</a><span aria-hidden="true">›</span>
-      <a href="curriculum.html">프로그램</a><span aria-hidden="true">›</span>
-      <span aria-current="page">교습비 안내</span>
-    </nav>
-    <h1 id="page-title" class="anim">투명하고 합리적인<br>교습비 안내</h1>
-    <p class="anim anim-d1">
-      레벨별 수업 구성과 교재비를 안내드립니다.<br>
-      정확한 교습비는 상담을 통해 확인해 주세요.
-    </p>
-  </div>
-</section>
-
-<main id="main">
-
-  <!-- ① 교습비 테이블 -->
-  <section class="fee-section" aria-labelledby="fee-table-title">
-    <div class="container">
-      <div class="center anim">
-        <span class="sec-label">레벨별 교습비</span>
-        <h2 class="sec-title" id="fee-table-title">수업 구성 및 교습비</h2>
-        <p class="sec-sub">중부교육지원청 등록 기준에 따라 운영됩니다</p>
-      </div>
-
-      <div class="fee-table-wrap anim anim-d1">
-        <table class="fee-table" aria-label="레벨별 교습비 안내">
-          <thead>
-            <tr>
-              <th scope="col">레벨</th>
-              <th scope="col">대상</th>
-              <th scope="col">주요 교과</th>
-              <th scope="col">주 횟수</th>
-              <th scope="col">교습비</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="level-pill pill-l1">7세반</span><br><span style="font-size:11px;color:var(--ink-subtle);">만 4~7세</span></td>
-              <td>유아~초등 입문</td>
-              <td>그림책 철학 · 오감체험</td>
-              <td>주 1~2회</td>
-              <td><span class="fee-consult">상담 후 안내</span></td>
-            </tr>
-            <tr>
-              <td><span class="level-pill pill-l2">초1·2반</span></td>
-              <td>초등 1~2학년</td>
-              <td>그림책 철학 · 예술통합 · 기초글쓰기</td>
-              <td>주 1~2회</td>
-              <td><span class="fee-consult">상담 후 안내</span></td>
-            </tr>
-            <tr>
-              <td><span class="level-pill pill-l3">초3·4반</span></td>
-              <td>초등 3~4학년</td>
-              <td>철학 토론 · 단편소설 · 역사 위인</td>
-              <td>주 1~2회</td>
-              <td><span class="fee-consult">상담 후 안내</span></td>
-            </tr>
-            <tr>
-              <td><span class="level-pill pill-l4">초5·6반</span></td>
-              <td>초등 5~6학년</td>
-              <td>철학 심화 · 장편소설 · 한국사·비문학</td>
-              <td>주 1~2회</td>
-              <td><span class="fee-consult">상담 후 안내</span></td>
-            </tr>
-            <tr>
-              <td><span class="level-pill pill-l5">중등부</span></td>
-              <td>중학교 1~3학년</td>
-              <td>동서양고전 · 세계사 · 시사이슈 논술</td>
-              <td>주 1~2회</td>
-              <td><span class="fee-consult">상담 후 안내</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p class="fee-note anim anim-d2">
-        <strong>안내:</strong> 정확한 교습비는 아이의 현재 수준과 수업 횟수에 따라 달라질 수 있습니다.
-        네이버 톡톡 또는 카카오톡 채널로 문의 주시면 상세히 안내해 드립니다.
-      </p>
-    </div>
-  </section>
-
-  <!-- ② 수업 구성 요약 -->
-  <section class="class-structure" aria-labelledby="structure-title">
-    <div class="container">
-      <div class="center anim">
-        <span class="sec-label">수업 구성</span>
-        <h2 class="sec-title" id="structure-title">한 회 수업은 이렇게 구성됩니다</h2>
-        <p class="sec-sub">2시간 수업 + 2시간 독서로 완성되는 주니어솔로몬만의 학습 사이클</p>
-      </div>
-      <div class="structure-grid">
-        <div class="structure-card anim anim-d1">
-          <div class="structure-icon" aria-hidden="true">📖</div>
-          <div class="structure-time">0 ~ 30분</div>
-          <div class="structure-title">깊이 읽기</div>
-          <div class="structure-desc">교재를 함께 읽으며 주제·배경·작가 의도를 다층적으로 탐구합니다.</div>
-        </div>
-        <div class="structure-card anim anim-d2">
-          <div class="structure-icon" aria-hidden="true">💬</div>
-          <div class="structure-time">30 ~ 60분</div>
-          <div class="structure-title">질문 만들기</div>
-          <div class="structure-desc">스스로 창의질문을 만들며 수동적 독자에서 능동적 사고자로 전환됩니다.</div>
-        </div>
-        <div class="structure-card anim anim-d3">
-          <div class="structure-icon" aria-hidden="true">🤝</div>
-          <div class="structure-time">60 ~ 90분</div>
-          <div class="structure-title">하브루타 토론</div>
-          <div class="structure-desc">짝과 서로의 질문을 교환하고 토론하며 생각의 폭을 넓힙니다.</div>
-        </div>
-        <div class="structure-card anim anim-d3">
-          <div class="structure-icon" aria-hidden="true">✍️</div>
-          <div class="structure-time">90 ~ 120분</div>
-          <div class="structure-title">논술 · 피드백</div>
-          <div class="structure-desc">생각을 논리적 글로 완성하고 선생님의 개별 피드백을 받습니다.</div>
-        </div>
-      </div>
-      <p style="text-align:center;margin-top:1.5rem;font-size:.88rem;color:var(--text-2);" class="anim anim-d3">
-        수업 후 <strong style="color:var(--purple-deep);">2시간 자율 독서</strong> 시간이 별도로 운영됩니다.
-      </p>
-    </div>
-  </section>
-
-  <!-- ③ 교재비 안내 -->
-  <section class="material-section" aria-labelledby="material-title">
-    <div class="container">
-      <div class="center anim">
-        <span class="sec-label">교재 안내</span>
-        <h2 class="sec-title" id="material-title">교재비 안내</h2>
-        <p class="sec-sub">자체 개발 교재와 단계별 문제집으로 수업이 진행됩니다</p>
-      </div>
-      <div class="material-cards">
-        <div class="material-card primary anim anim-d1">
-          <div class="material-card-icon" aria-hidden="true">📒</div>
-          <div class="material-card-title">자체교재</div>
-          <div class="material-card-desc">
-            주니어솔로몬이 직접 개발한 커리큘럼 교재입니다. 레벨별 독서 텍스트, 철학 주제, 하브루타 질문지, 논술 워크시트가 통합되어 있습니다.
-          </div>
-        </div>
-        <div class="material-card secondary anim anim-d2">
-          <div class="material-card-icon" aria-hidden="true">📗</div>
-          <div class="material-card-title">문제집</div>
-          <div class="material-card-desc">
-            레벨별 독해 심화 문제집을 병행하여 사용합니다. 교재비는 학기 시작 시 별도로 안내드리며, 상담 시 정확한 금액을 확인하실 수 있습니다.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ④ 납부 안내 -->
-  <section class="payment-section" aria-labelledby="payment-title">
-    <div class="container">
-      <div class="center anim">
-        <span class="sec-label">납부 안내</span>
-        <h2 class="sec-title" id="payment-title">수강료 납부 방법</h2>
-        <p class="sec-sub">투명한 납부 안내를 드립니다</p>
-      </div>
-
-      <div class="payment-list">
-        <div class="payment-item anim anim-d1">
-          <div class="payment-item-icon" aria-hidden="true">📅</div>
-          <div>
-            <div class="payment-item-label">납부일</div>
-            <div class="payment-item-text">매월 1일 ~ 5일 이내 납부 원칙. 납부일이 공휴일인 경우 전날 납부.</div>
-          </div>
-        </div>
-        <div class="payment-item anim anim-d1">
-          <div class="payment-item-icon" aria-hidden="true">🏦</div>
-          <div>
-            <div class="payment-item-label">납부 방법</div>
-            <div class="payment-item-text">계좌이체 또는 카드 결제. 자세한 계좌번호는 입학 안내 시 전달드립니다.</div>
-          </div>
-        </div>
-        <div class="payment-item anim anim-d2">
-          <div class="payment-item-icon" aria-hidden="true">🔄</div>
-          <div>
-            <div class="payment-item-label">환불 규정</div>
-            <div class="payment-item-text">
-              학원 수강료 반환은 「학원의 설립·운영 및 과외교습에 관한 법률」 시행령 제18조에 따릅니다.<br>
-              수강 개시 전 전액 환불 / 수강 개시 후 1개월 이내: 남은 수업 일수 비율로 환불 / 수강 개시 후 1개월 초과: 환불 불가
-            </div>
-          </div>
-        </div>
-        <div class="payment-item anim anim-d3">
-          <div class="payment-item-icon" aria-hidden="true">📋</div>
-          <div>
-            <div class="payment-item-label">교습비 게시</div>
-            <div class="payment-item-text">
-              교습비는 원내 게시판에 게시되어 있으며, 중부교육지원청 등록 기준(제3336호)에 따라 운영됩니다.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="legal-notice anim anim-d3">
-        <strong>법적 고지:</strong> 본 학원의 교습비는 「학원의 설립·운영 및 과외교습에 관한 법률」에 따라 관할 교육청에 등록된 금액을 초과하여 징수하지 않습니다. 등록번호: 중부교육지원청 제3336호.
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<!-- CONSULT CTA -->
-<section class="consult" aria-labelledby="consult-heading">
-  <div class="container">
-    <h2 id="consult-heading" class="consult-title anim">
-      정확한 교습비는 상담으로 확인하세요
-    </h2>
-    <p class="consult-sub anim anim-d1">
-      아이의 수준과 수업 횟수에 맞는 정확한 안내를 드립니다. 부담 없이 문의해 주세요.
-    </p>
-    <div class="consult-cta anim anim-d2">
-      <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" class="btn-naver">💬 네이버 톡톡 상담</a>
-      <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" class="btn-kakao">🟡 카카오톡 채널</a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer" role="contentinfo">
-  <div class="footer-inner container" style="display:grid;grid-template-columns:1fr;gap:40px;padding-top:48px;padding-bottom:32px;">
-    <div style="display:grid;grid-template-columns:1fr;gap:32px;">
-      <div>
-        <a href="index.html" class="logo" style="margin-bottom:12px;display:inline-flex;">
-          <img src="logo.svg" class="logo-img" alt="" aria-hidden="true" width="40" height="40">
-          <div style="margin-left:10px;">
-            <div class="logo-text" style="color:#fff;font-size:17px;">주니어솔로몬</div>
-            <div class="logo-sub" style="color:oklch(82% .015 80);">Jr. Solomon Academy</div>
-          </div>
+  <header style="position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid oklch(90% 0 0);">
+    <div style="max-width:1200px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:32px;">
+      <a href="index.html" style="display:flex;align-items:center;color:inherit;">
+        <img src="logo.png" alt="주니어솔로몬" style="height:80px;width:auto;">
+      </a>
+      <nav style="display:flex;align-items:center;gap:40px;">
+        <a href="vision.html" style="font-size:14.5px;font-weight:600;color:oklch(30% 0 0);">학원소개</a>
+        <a href="curriculum.html" style="font-size:14.5px;font-weight:700;color:oklch(18% 0 0);position:relative;padding-bottom:20px;">프로그램
+          <span style="position:absolute;left:0;right:0;bottom:0;height:2px;background:oklch(62% 0.15 48);"></span>
         </a>
-        <p style="font-size:13px;color:oklch(85% .015 78);line-height:1.7;margin-top:12px;">
-          "모든 아이는 솔로몬의 지혜를 품을 수 있습니다"<br>
-          서울 용산구 이촌로 200, LG프라자 4층 403호<br>
-          ☎ 02-794-8123 · 월~금 14:00~21:00 / 토 09:00~18:00
-        </p>
-      </div>
-      <nav aria-label="푸터 메뉴" style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;">
-        <div>
-          <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:oklch(85% .015 78);margin-bottom:10px;">학원소개</div>
-          <a href="vision.html" style="display:block;font-size:13px;color:oklch(82% .015 80);text-decoration:none;margin-bottom:7px;">비전 &amp; 교육철학</a>
-          <a href="mission.html" style="display:block;font-size:13px;color:oklch(82% .015 80);text-decoration:none;margin-bottom:7px;">교육방향</a>
-          <a href="introduction.html" style="display:block;font-size:13px;color:oklch(82% .015 80);text-decoration:none;margin-bottom:7px;">선생님 소개</a>
-          <a href="facility.html" style="display:block;font-size:13px;color:oklch(82% .015 80);text-decoration:none;">시설 안내</a>
-        </div>
-        <div>
-          <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:oklch(85% .015 78);margin-bottom:10px;">프로그램</div>
-          <a href="curriculum.html" style="display:block;font-size:13px;color:oklch(82% .015 80);text-decoration:none;margin-bottom:7px;">커리큘럼</a>
-          <a href="edu-1.html" style="display:block;font-size:13px;color:oklch(82% .015 80);text-decoration:none;margin-bottom:7px;">소포스에듀</a>
-          <a href="fee.html" style="display:block;font-size:13px;color:oklch(85% .025 80);text-decoration:none;font-weight:700;margin-bottom:7px;">교습비 안내</a>
-          <a href="contact.html" style="display:block;font-size:13px;color:oklch(82% .015 80);text-decoration:none;">오시는길</a>
-        </div>
+        <a href="board-app.html" style="font-size:14.5px;font-weight:600;color:oklch(30% 0 0);">커뮤니티</a>
+        <a href="contact.html" style="font-size:14.5px;font-weight:600;color:oklch(30% 0 0);">오시는길</a>
       </nav>
+      <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" style="font-size:13.5px;font-weight:700;color:oklch(18% 0 0);border:1px solid oklch(18% 0 0);padding:10px 22px;">무료 상담 신청</a>
     </div>
-    <div style="border-top:1px solid oklch(28% .06 258);padding-top:20px;font-size:12px;color:oklch(82% .015 80);line-height:1.8;">
-      대표: 장화연 · 사업자 511-96-33718 · 중부교육지원청 제3336호<br>
-      © 2017–2026 주니어솔로몬. All rights reserved.
+  </header>
+
+  <section style="padding:100px 0 90px;text-align:center;">
+    <div style="max-width:760px;margin:0 auto;padding:0 32px;">
+      <p style="font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 20px;">Fee</p>
+      <h1 style="font-size:40px;font-weight:800;letter-spacing:-0.02em;line-height:1.4;margin:0 0 24px;">투명하고 합리적인<br>교습비 안내</h1>
+      <p style="font-size:16.5px;color:oklch(40% 0 0);line-height:1.9;margin:0;">레벨별 수업 구성과 교재비를 안내드립니다.<br>정확한 교습비는 상담을 통해 확인해 주세요.</p>
     </div>
-  </div>
-</footer>
+  </section>
 
-<button class="scroll-top" id="scrollTop" aria-label="페이지 맨 위로 이동">
-  <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04L10.75 5.612V16.25A.75.75 0 0 1 10 17Z" clip-rule="evenodd"/></svg>
-</button>
+  <!-- 교습비 테이블 -->
+  <section style="padding:80px 0;border-top:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(92% 0 0);">
+    <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
+      <p style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 14px;">레벨별 교습비</p>
+      <h2 style="font-size:26px;font-weight:800;letter-spacing:-0.02em;margin:0 0 40px;">수업 구성 및 교습비</h2>
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="border-bottom:1.5px solid oklch(18% 0 0);">
+            <th style="text-align:left;padding:12px 16px;font-size:12px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:oklch(45% 0 0);">레벨</th>
+            <th style="text-align:left;padding:12px 16px;font-size:12px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:oklch(45% 0 0);">대상</th>
+            <th style="text-align:left;padding:12px 16px;font-size:12px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:oklch(45% 0 0);">주요 교과</th>
+            <th style="text-align:left;padding:12px 16px;font-size:12px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:oklch(45% 0 0);">주 횟수</th>
+            <th style="text-align:left;padding:12px 16px;font-size:12px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:oklch(45% 0 0);">교습비</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid oklch(90% 0 0);">
+            <td style="padding:16px;font-size:14.5px;font-weight:700;">7세반</td>
+            <td style="padding:16px;font-size:14px;color:oklch(38% 0 0);">만 4~7세</td>
+            <td style="padding:16px;font-size:14px;color:oklch(38% 0 0);">그림책 철학 · 오감체험</td>
+            <td style="padding:16px;font-size:14px;color:oklch(38% 0 0);">주 1~2회</td>
+            <td style="padding:16px;font-size:13.5px;font-weight:600;color:oklch(56% 0.14 50);">상담 후 안내</td>
+          </tr>
+          <tr style="border-bottom:1px solid oklch(90% 0 0);">
+            <td style="padding:16px;font-size:14.5px;font-weight:700;">초1·2반</td>
+            <td style="padding:16px;font-size:14px;color:oklch(38% 0 0);">초등 1~2학년</td>
+            <td style="padding:16px;font-size:14px;color:oklch(38% 0 0);">그림책 철학 · 기초글쓰기</td>
+            <td style="padding:16px;font-size:14px;color:oklch(38% 0 0);">주 1~2회</td>
+            <td style="padding:16px;font-size:13.5px;font-weight:600;color:oklch(56% 0.14 50);">상담 후 안내</td>
+          </tr>
+          <tr style="border-bottom:1px solid oklch(90% 0 0);">
+            <td style="padding:16px;font-size:14.5px;font-weight:700;">초3·4반</td>
+            <td style="padding:16px;font-size:14px;color:oklch(38% 0 0);">초등 3~4학년</td>
+            <td style="padding:16px;font-size:14px;color:oklch(38% 0 0);">철학 토론 · 단편소설</td>
+            <td style="padding:16px;font-size:14px;color:oklch(38% 0 0);">주 1~2회</td>
+            <td style="padding:16px;font-size:13.5px;font-weight:600;color:oklch(56% 0.14 50);">상담 후 안내</td>
+          </tr>
+          <tr style="border-bottom:1px solid oklch(90% 0 0);">
+            <td style="padding:16px;font-size:14.5px;font-weight:700;">초5·6반</td>
+            <td style="padding:16px;font-size:14px;color:oklch(38% 0 0);">초등 5~6학년</td>
+            <td style="padding:16px;font-size:14px;color:oklch(38% 0 0);">철학 심화 · 장편소설</td>
+            <td style="padding:16px;font-size:14px;color:oklch(38% 0 0);">주 1~2회</td>
+            <td style="padding:16px;font-size:13.5px;font-weight:600;color:oklch(56% 0.14 50);">상담 후 안내</td>
+          </tr>
+          <tr style="border-bottom:1px solid oklch(90% 0 0);">
+            <td style="padding:16px;font-size:14.5px;font-weight:700;">중등부</td>
+            <td style="padding:16px;font-size:14px;color:oklch(38% 0 0);">중학교 1~3학년</td>
+            <td style="padding:16px;font-size:14px;color:oklch(38% 0 0);">동서양고전 · 세계사 · 논술</td>
+            <td style="padding:16px;font-size:14px;color:oklch(38% 0 0);">주 1~2회</td>
+            <td style="padding:16px;font-size:13.5px;font-weight:600;color:oklch(56% 0.14 50);">상담 후 안내</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:13px;color:oklch(45% 0 0);line-height:1.75;margin-top:24px;"><strong>안내:</strong> 정확한 교습비는 아이의 현재 수준과 수업 횟수에 따라 달라질 수 있습니다. 네이버 톡톡 또는 카카오톡 채널로 문의 주시면 상세히 안내해 드립니다.</p>
+    </div>
+  </section>
 
-<script>
-(function () {
-  var header = document.getElementById('header');
-  window.addEventListener('scroll', function () {
-    header.classList.toggle('scrolled', window.scrollY > 40);
-    document.getElementById('scrollTop').classList.toggle('visible', window.scrollY > 400);
-  }, { passive: true });
+  <!-- 수업 구성 -->
+  <section style="padding:80px 0;border-bottom:1px solid oklch(92% 0 0);">
+    <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
+      <p style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 14px;">수업 구성</p>
+      <h2 style="font-size:26px;font-weight:800;letter-spacing:-0.02em;margin:0 0 40px;">한 회 수업은 이렇게 구성됩니다</h2>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid oklch(90% 0 0);border-left:1px solid oklch(90% 0 0);">
+        <div style="padding:24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
+          <div style="font-size:11px;font-weight:700;color:oklch(56% 0.14 50);margin-bottom:10px;">0~30분</div>
+          <div style="font-size:14.5px;font-weight:700;margin-bottom:6px;">깊이 읽기</div>
+          <div style="font-size:12.5px;color:oklch(42% 0 0);line-height:1.65;">주제·배경·작가 의도를 다층적으로 탐구</div>
+        </div>
+        <div style="padding:24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
+          <div style="font-size:11px;font-weight:700;color:oklch(56% 0.14 50);margin-bottom:10px;">30~60분</div>
+          <div style="font-size:14.5px;font-weight:700;margin-bottom:6px;">질문 만들기</div>
+          <div style="font-size:12.5px;color:oklch(42% 0 0);line-height:1.65;">창의질문을 만들며 능동적 사고자로 전환</div>
+        </div>
+        <div style="padding:24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
+          <div style="font-size:11px;font-weight:700;color:oklch(56% 0.14 50);margin-bottom:10px;">60~90분</div>
+          <div style="font-size:14.5px;font-weight:700;margin-bottom:6px;">하브루타 토론</div>
+          <div style="font-size:12.5px;color:oklch(42% 0 0);line-height:1.65;">짝과 질문을 교환하며 생각의 폭을 넓힘</div>
+        </div>
+        <div style="padding:24px;border-bottom:1px solid oklch(90% 0 0);">
+          <div style="font-size:11px;font-weight:700;color:oklch(56% 0.14 50);margin-bottom:10px;">90~120분</div>
+          <div style="font-size:14.5px;font-weight:700;margin-bottom:6px;">논술 · 피드백</div>
+          <div style="font-size:12.5px;color:oklch(42% 0 0);line-height:1.65;">논리적 글로 완성하고 개별 피드백</div>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:13.5px;color:oklch(42% 0 0);margin-top:20px;">수업 후 <strong>2시간 자율 독서</strong> 시간이 별도로 운영됩니다.</p>
+    </div>
+  </section>
 
-  document.getElementById('scrollTop').addEventListener('click', function () {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  <!-- 교재비 -->
+  <section style="padding:80px 0;border-bottom:1px solid oklch(92% 0 0);">
+    <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
+      <p style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 14px;">교재 안내</p>
+      <h2 style="font-size:26px;font-weight:800;letter-spacing:-0.02em;margin:0 0 40px;">교재비 안내</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div style="border:1px solid oklch(88% 0 0);padding:26px;">
+          <div style="font-size:22px;margin-bottom:12px;">📒</div>
+          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">자체교재</div>
+          <div style="font-size:13.5px;color:oklch(42% 0 0);line-height:1.75;">주니어솔로몬이 직접 개발한 커리큘럼 교재입니다. 레벨별 독서 텍스트, 철학 주제, 하브루타 질문지, 논술 워크시트가 통합되어 있습니다.</div>
+        </div>
+        <div style="border:1px solid oklch(88% 0 0);padding:26px;">
+          <div style="font-size:22px;margin-bottom:12px;">📗</div>
+          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">문제집</div>
+          <div style="font-size:13.5px;color:oklch(42% 0 0);line-height:1.75;">레벨별 독해 심화 문제집을 병행하여 사용합니다. 교재비는 학기 시작 시 별도로 안내드립니다.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  var toggle = document.getElementById('menuToggle');
-  var mobileNav = document.getElementById('mobileNav');
-  toggle.addEventListener('click', function () {
-    var open = mobileNav.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', open);
-    toggle.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
-    document.body.style.overflow = open ? 'hidden' : '';
-  });
-  mobileNav.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', function () {
-      mobileNav.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-      toggle.setAttribute('aria-label', '메뉴 열기');
-      document.body.style.overflow = '';
-    });
-  });
+  <!-- 납부 안내 -->
+  <section style="padding:80px 0;">
+    <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
+      <p style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 14px;">납부 안내</p>
+      <h2 style="font-size:26px;font-weight:800;letter-spacing:-0.02em;margin:0 0 40px;">수강료 납부 방법</h2>
+      <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid oklch(90% 0 0);">
+        <div style="display:flex;gap:16px;padding:20px 0;border-bottom:1px solid oklch(90% 0 0);">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:oklch(56% 0.14 50);width:100px;flex-shrink:0;">납부일</div>
+          <div style="font-size:14px;color:oklch(38% 0 0);line-height:1.75;">매월 1일 ~ 5일 이내 납부 원칙. 납부일이 공휴일인 경우 전날 납부.</div>
+        </div>
+        <div style="display:flex;gap:16px;padding:20px 0;border-bottom:1px solid oklch(90% 0 0);">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:oklch(56% 0.14 50);width:100px;flex-shrink:0;">납부 방법</div>
+          <div style="font-size:14px;color:oklch(38% 0 0);line-height:1.75;">계좌이체 또는 카드 결제. 자세한 계좌번호는 입학 안내 시 전달드립니다.</div>
+        </div>
+        <div style="display:flex;gap:16px;padding:20px 0;border-bottom:1px solid oklch(90% 0 0);">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:oklch(56% 0.14 50);width:100px;flex-shrink:0;">환불 규정</div>
+          <div style="font-size:14px;color:oklch(38% 0 0);line-height:1.75;">「학원의 설립·운영 및 과외교습에 관한 법률」 시행령 제18조에 따릅니다. 수강 개시 전 전액 환불 / 개시 후 1개월 이내 비율 환불 / 1개월 초과 시 환불 불가.</div>
+        </div>
+      </div>
+      <div style="border:1px solid oklch(90% 0 0);padding:16px 20px;font-size:12.5px;color:oklch(45% 0 0);line-height:1.75;margin-top:24px;">
+        <strong>법적 고지:</strong> 본 학원의 교습비는 관할 교육청에 등록된 금액을 초과하여 징수하지 않습니다. 등록번호: 중부교육지원청 제3336호.
+      </div>
+    </div>
+  </section>
 
-  document.querySelectorAll('.nav-item button.nav-link').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var exp = btn.getAttribute('aria-expanded') === 'true';
-      document.querySelectorAll('.nav-item button.nav-link').forEach(function (b) { b.setAttribute('aria-expanded', 'false'); });
-      btn.setAttribute('aria-expanded', !exp);
-    });
-  });
-  document.addEventListener('click', function (e) {
-    if (!e.target.closest('.nav-item'))
-      document.querySelectorAll('.nav-item button.nav-link').forEach(function (b) { b.setAttribute('aria-expanded', 'false'); });
-  });
+  <section style="padding:90px 0;text-align:center;border-top:1px solid oklch(90% 0 0);">
+    <div style="max-width:640px;margin:0 auto;padding:0 32px;">
+      <h2 style="font-size:28px;font-weight:800;letter-spacing:-0.02em;margin:0;">정확한 교습비는<br>상담으로 확인하세요</h2>
+      <div style="display:flex;gap:14px;justify-content:center;margin-top:36px;">
+        <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" style="border:1px solid oklch(18% 0 0);color:oklch(18% 0 0);padding:14px 30px;font-size:14.5px;font-weight:700;">네이버 톡톡 상담</a>
+        <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" style="background:oklch(18% 0 0);color:#fff;padding:14px 30px;font-size:14.5px;font-weight:700;">카카오톡 채널</a>
+      </div>
+    </div>
+  </section>
 
-  var obs = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.anim').forEach(function (el) { obs.observe(el); });
-})();
-</script>
+  <footer style="border-top:1px solid oklch(90% 0 0);padding:56px 0 32px;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;">
+      <div>
+        <img src="logo.png" alt="주니어솔로몬" style="height:100px;width:auto;display:block;">
+        <p style="font-size:13px;color:oklch(50% 0 0);line-height:1.8;margin-top:8px;">서울 용산구 이촌로 200, LG프라자 4층 403호<br>☎ 02-794-8123</p>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(60% 0 0);margin-bottom:14px;">학원소개</div>
+        <a href="vision.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);margin-bottom:10px;">비전 &amp; 교육철학</a>
+        <a href="introduction.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);">선생님 소개</a>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(60% 0 0);margin-bottom:14px;">프로그램</div>
+        <a href="curriculum.html" style="display:block;font-size:13.5px;color:oklch(35% 0 0);margin-bottom:10px;">커리큘럼</a>
+        <a href="fee.html" style="display:block;font-size:13.5px;color:oklch(18% 0 0);font-weight:700;">교습비 안내</a>
+      </div>
+    </div>
+    <div style="max-width:1200px;margin:32px auto 0;padding:20px 32px 0;border-top:1px solid oklch(92% 0 0);font-size:12px;color:oklch(55% 0 0);">
+      대표: 장화연 · 사업자 511-96-33718 · 중부교육지원청 제3336호 · © 2017–2026 주니어솔로몬. All rights reserved.
+    </div>
+  </footer>
+
+</div>
 </body>
 </html>
