@@ -124,6 +124,118 @@ img { max-width: 100%; }
   div[style*="position:sticky"] { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
 
+/* ══ 데스크탑 드롭다운 ══════════════════════════════════ */
+
+/* nav <a>를 감싸는 wrapper */
+.nav-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* 드롭다운 화살표 (CSS 삼각형) */
+.nav-chev {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translate(-1px, -3px);
+  margin-left: 6px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  vertical-align: middle;
+}
+.nav-wrap.dd-open .nav-chev {
+  transform: rotate(-135deg) translate(-1px, 2px);
+}
+
+/* 드롭다운 패널 */
+.nav-dd {
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border: 1px solid oklch(90% 0 0);
+  box-shadow: 0 8px 24px oklch(0% 0 0 / 0.09);
+  min-width: 168px;
+  z-index: 200;
+}
+.nav-wrap.dd-open .nav-dd { display: block; }
+
+.nav-dd a {
+  display: block;
+  padding: 13px 20px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: oklch(32% 0 0);
+  text-decoration: none;
+  border-bottom: 1px solid oklch(93% 0 0);
+  white-space: nowrap;
+  transition: background 0.12s, color 0.12s;
+}
+.nav-dd a:last-child { border-bottom: none; }
+.nav-dd a:hover {
+  background: oklch(97.5% 0.005 55);
+  color: oklch(18% 0 0);
+}
+
+/* ══ 모바일 아코디언 (패널 내부) ══ */
+
+.mob-group { width: 100%; }
+
+.mob-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid oklch(92% 0 0);
+  padding: 18px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: oklch(18% 0 0);
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.mob-chev {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid oklch(55% 0 0);
+  border-bottom: 2px solid oklch(55% 0 0);
+  transform: rotate(45deg) translate(-1px, -4px);
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+.mob-group.mob-open .mob-chev {
+  transform: rotate(-135deg) translate(-1px, 3px);
+}
+
+.mob-sub {
+  display: none;
+  flex-direction: column;
+  background: oklch(97.5% 0 0);
+  border-bottom: 1px solid oklch(92% 0 0);
+}
+.mob-group.mob-open .mob-sub { display: flex; }
+
+.mob-sub a {
+  display: block !important;
+  padding: 14px 24px !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  color: oklch(38% 0 0) !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid oklch(94% 0 0) !important;
+}
+.mob-sub a:last-child { border-bottom: none !important; }
+
 /* ══ 모바일 햄버거 메뉴 ══════════════════════════════════ */
 
 /* 기본: 데스크탑에서 숨김 */
