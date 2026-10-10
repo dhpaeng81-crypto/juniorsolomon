@@ -264,8 +264,34 @@
       aspect-ratio: 4/3; background: var(--surface-2);
       overflow: hidden; position: relative;
     }
-    .gcard-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s var(--ease); display: block; }
+    .gcard-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s var(--ease); display: block; flex-shrink: 0; }
     .gcard:hover .gcard-thumb img { transform: scale(1.05); }
+    /* 캐러셀 */
+    .gcar-track { display: flex; width: 100%; height: 100%; transition: transform .32s cubic-bezier(.4,0,.2,1); will-change: transform; }
+    .gcar-track img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; display: block; pointer-events: none; }
+    .gcard:hover .gcar-track img { transform: none; }
+    .gcar-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: oklch(0.1 0 0 / .55); color: #fff;
+      border: none; cursor: pointer; width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; z-index: 3; opacity: 0;
+      transition: opacity .2s, background .2s; border-radius: 0;
+      line-height: 1; padding: 0;
+    }
+    .gcard:hover .gcar-btn { opacity: 1; }
+    .gcar-btn:hover { background: oklch(0.1 0 0 / .8); }
+    .gcar-prev { left: 0; }
+    .gcar-next { right: 0; }
+    .gcar-dots {
+      position: absolute; bottom: 7px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 5px; z-index: 3;
+    }
+    .gcar-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: oklch(1 0 0 / .45); transition: background .2s, transform .2s;
+    }
+    .gcar-dot.on { background: #fff; transform: scale(1.25); }
     .gcard-thumb video { width: 100%; height: 100%; object-fit: cover; display: block; }
     .gcard-placeholder {
       width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
@@ -971,24 +997,34 @@ async function renderGallery() {
 
   con.innerHTML = `<div class="gcards">${slice.map(p => {
     const urls = p.image_urls || [];
-    const thumb = urls[0] || '';
-    const more = urls.length > 1 ? `<div class="gcard-badge">+${urls.length - 1}</div>` : '';
-    const thumbHtml = thumb
-      ? `<img src="${esc(thumb)}" loading="lazy" alt="${esc(p.title)}">`
-      : `<div class="gcard-placeholder">📷</div>`;
     const glc = glMap[p.id]||0, gcc = gcMap[p.id]||0;
-    return `<div class="gcard" onclick="openPost('gallery','${p.id}')">
+    const pid = p.id;
+
+    let thumbHtml;
+    if (!urls.length) {
+      thumbHtml = `<div class="gcard-placeholder">📷</div>`;
+    } else if (urls.length === 1) {
+      thumbHtml = `<img src="${esc(urls[0])}" loading="lazy" alt="${esc(p.title)}">`;
+    } else {
+      const trackImgs = urls.map(u => `<img src="${esc(u)}" loading="lazy" alt="${esc(p.title)}">`).join('');
+      const dots = urls.map((_,i) => `<span class="gcar-dot${i===0?' on':''}"></span>`).join('');
+      thumbHtml = `
+        <div class="gcar-track" id="gct-${pid}">${trackImgs}</div>
+        <button class="gcar-btn gcar-prev" onclick="gcarMove(event,'${pid}',-1)">&#8249;</button>
+        <button class="gcar-btn gcar-next" onclick="gcarMove(event,'${pid}',1)">&#8250;</button>
+        <div class="gcar-dots" id="gcd-${pid}">${dots}</div>`;
+    }
+
+    return `<div class="gcard" onclick="openPost('gallery','${pid}')" data-pid="${pid}" data-total="${urls.length}" data-idx="0">
       <div class="gcard-thumb">
-        ${thumbHtml}${more}
+        ${thumbHtml}
         <div class="gcard-overlay"><div class="gcard-overlay-ico">🔍</div></div>
       </div>
       <div class="gcard-info">
         <div class="gcard-title">${esc(p.title)}</div>
-        <div class="gcard-meta">
-          <span>📅 ${fmtDate(p.created_at)}</span>
-        </div>
+        <div class="gcard-meta"><span>📅 ${fmtDate(p.created_at)}</span></div>
         <div class="gcard-foot">
-          ${urls.length ? `<span class="media-cnt">🖼 ${urls.length}</span>` : ''}
+          ${urls.length > 1 ? `<span class="media-cnt">🖼 ${urls.length}</span>` : ''}
           ${glc ? `<span class="media-cnt">❤️ ${glc}</span>` : ''}
           ${gcc ? `<span class="media-cnt">💬 ${gcc}</span>` : ''}
         </div>
@@ -996,6 +1032,39 @@ async function renderGallery() {
     </div>`;
   }).join('')}</div>`;
   renderPagi(total);
+  initGcarTouch();
+}
+
+// ── 갤러리 캐러셀 ──────────────────────────────────────────────
+function gcarMove(e, pid, dir) {
+  e.stopPropagation();
+  const card = document.querySelector(`.gcard[data-pid="${pid}"]`);
+  if (!card) return;
+  const total = parseInt(card.dataset.total) || 1;
+  let idx = parseInt(card.dataset.idx) || 0;
+  idx = (idx + dir + total) % total;
+  card.dataset.idx = idx;
+  const track = document.getElementById('gct-' + pid);
+  if (track) track.style.transform = `translateX(-${idx * 100}%)`;
+  const dotsEl = document.getElementById('gcd-' + pid);
+  if (dotsEl) dotsEl.querySelectorAll('.gcar-dot').forEach((d, i) => d.classList.toggle('on', i === idx));
+}
+
+function initGcarTouch() {
+  document.querySelectorAll('.gcard[data-total]').forEach(card => {
+    const total = parseInt(card.dataset.total) || 1;
+    if (total < 2) return;
+    let sx = 0, sy = 0;
+    card.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+    card.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - sx;
+      const dy = e.changedTouches[0].clientY - sy;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+        gcarMove(e, card.dataset.pid, dx < 0 ? 1 : -1);
+        e.stopPropagation();
+      }
+    });
+  });
 }
 
 function renderPagi(total) {
