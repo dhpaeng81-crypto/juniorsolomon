@@ -8,6 +8,7 @@
       { text: '교육 미션',       href: 'mission.html' },
       { text: '선생님 소개',     href: 'introduction.html' },
       { text: '시설 안내',       href: 'facility.html' },
+      { text: '강사 채용',       href: 'recruit.html' },
     ],
     '프로그램': [
       { text: '커리큘럼',    href: 'curriculum.html' },
