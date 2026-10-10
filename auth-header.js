@@ -227,14 +227,18 @@
       function updateMobAuth(displayName) {
         var panel = document.getElementById('mobile-nav-panel');
         if (!panel) return;
-        var existing = panel.querySelector('.mob-auth-divider');
-        if (existing) existing.parentNode.removeChild(existing);
-        var next = existing;
-        while (next) { var tmp = next.nextSibling; next.parentNode && next.parentNode.removeChild(next); next = tmp; }
+        // 기존 auth 요소 전부 제거 (divider 이후 형제 노드 포함)
+        var divider = panel.querySelector('.mob-auth-divider');
+        if (divider) {
+          var toRemove = [divider];
+          var cur = divider.nextSibling;
+          while (cur) { toRemove.push(cur); cur = cur.nextSibling; }
+          toRemove.forEach(function(el) { el.parentNode && el.parentNode.removeChild(el); });
+        }
 
-        var divider = document.createElement('div');
-        divider.className = 'mob-auth-divider';
-        panel.appendChild(divider);
+        var newDivider = document.createElement('div');
+        newDivider.className = 'mob-auth-divider';
+        panel.appendChild(newDivider);
 
         if (displayName) {
           var info = document.createElement('div');
