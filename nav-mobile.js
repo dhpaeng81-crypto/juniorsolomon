@@ -12,7 +12,7 @@
     ],
     '프로그램': [
       { text: '커리큘럼',    href: 'curriculum.html' },
-      { text: '교습비 안내', href: 'fee.html' },
+      { text: '수업운영 안내', href: 'fee.html' },
     ],
   };
 
