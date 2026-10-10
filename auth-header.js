@@ -9,21 +9,21 @@
     #header-auth { display:flex; align-items:center; gap:8px; }
 
     .ah-btn {
-      font-size:13px; font-weight:600; cursor:pointer;
+      font-size:12px; font-weight:600; cursor:pointer;
       background:none; border:none; font-family:inherit;
-      padding:7px 14px; line-height:1;
+      padding:5px 12px; line-height:1;
       transition: background 0.15s, color 0.15s;
     }
     .ah-login {
-      color: oklch(32% 0 0);
-      border: 1px solid oklch(80% 0 0);
+      color: oklch(38% 0 0);
+      border: 1px solid oklch(78% 0 0);
     }
-    .ah-login:hover { background: oklch(96% 0 0); }
+    .ah-login:hover { background: oklch(93% 0 0); }
     .ah-signup {
       color: #fff;
-      background: oklch(18% 0 0);
+      background: oklch(56% 0.14 50);
     }
-    .ah-signup:hover { background: oklch(28% 0 0); }
+    .ah-signup:hover { background: oklch(48% 0.14 50); }
 
     /* 로그인 드롭다운 */
     #ah-login-wrap { position:relative; }
