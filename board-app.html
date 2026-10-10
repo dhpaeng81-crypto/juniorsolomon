@@ -1293,7 +1293,11 @@ async function submitPost() {
     for (const m of pendFiles.filter(m => !m.existing && m.file)) {
       const ext = m.file.name.split('.').pop();
       const path = `${currentUser.id}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-      const { error: upErr } = await sb.storage.from('gallery').upload(path, m.file, { upsert: false });
+      const { error: upErr } = await sb.storage.from('gallery').upload(path, m.file, {
+        upsert: false,
+        cacheControl: '3600',
+        contentType: m.file.type || 'image/jpeg',
+      });
       if (upErr) { toast('이미지 업로드 실패: ' + upErr.message, 'err'); continue; }
       const { data: { publicUrl } } = sb.storage.from('gallery').getPublicUrl(path);
       imageUrls.push(publicUrl);
