@@ -157,16 +157,13 @@
       var children = SUBMENUS[item.label];
 
       if (children) {
-        // 아코디언 그룹
+        // 항상 펼쳐진 섹션
         var group = document.createElement('div');
         group.className = 'mob-group';
 
-        var trigger = document.createElement('button');
-        trigger.className = 'mob-trigger';
-        var chev = document.createElement('span');
-        chev.className = 'mob-chev';
-        trigger.appendChild(document.createTextNode(item.label));
-        trigger.appendChild(chev);
+        var label = document.createElement('div');
+        label.className = 'mob-label';
+        label.textContent = item.label;
 
         var sub = document.createElement('div');
         sub.className = 'mob-sub';
@@ -177,15 +174,7 @@
           sub.appendChild(link);
         });
 
-        trigger.addEventListener('click', function () {
-          var isOpen = group.classList.contains('mob-open');
-          panel.querySelectorAll('.mob-group.mob-open').forEach(function (g) {
-            g.classList.remove('mob-open');
-          });
-          if (!isOpen) group.classList.add('mob-open');
-        });
-
-        group.appendChild(trigger);
+        group.appendChild(label);
         group.appendChild(sub);
         panel.appendChild(group);
       } else {

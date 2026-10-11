@@ -182,57 +182,37 @@ img { max-width: 100%; }
   color: oklch(18% 0 0);
 }
 
-/* ══ 모바일 아코디언 (패널 내부) ══ */
+/* ══ 모바일 메뉴 섹션 (항상 펼쳐짐) ══ */
 
-.mob-group { width: 100%; }
-
-.mob-trigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.mob-group {
   width: 100%;
-  background: none;
-  border: none;
   border-bottom: 1px solid oklch(92% 0 0);
-  padding: 18px 0;
-  font-size: 20px;
-  font-weight: 700;
-  color: oklch(18% 0 0);
-  font-family: inherit;
-  cursor: pointer;
-  text-align: left;
+  padding-bottom: 8px;
+  margin-bottom: 4px;
 }
 
-.mob-chev {
-  display: inline-block;
-  width: 9px;
-  height: 9px;
-  border-right: 2px solid oklch(55% 0 0);
-  border-bottom: 2px solid oklch(55% 0 0);
-  transform: rotate(45deg) translate(-1px, -4px);
-  flex-shrink: 0;
-  transition: transform 0.25s ease;
-}
-.mob-group.mob-open .mob-chev {
-  transform: rotate(-135deg) translate(-1px, 3px);
+.mob-label {
+  padding: 18px 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: oklch(56% 0.14 50);
 }
 
 .mob-sub {
-  display: none;
+  display: flex;
   flex-direction: column;
-  background: oklch(97.5% 0 0);
-  border-bottom: 1px solid oklch(92% 0 0);
 }
-.mob-group.mob-open .mob-sub { display: flex; }
 
 .mob-sub a {
   display: block !important;
-  padding: 14px 24px !important;
-  font-size: 15px !important;
-  font-weight: 500 !important;
-  color: oklch(38% 0 0) !important;
+  padding: 11px 12px !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: oklch(18% 0 0) !important;
   text-decoration: none !important;
-  border-bottom: 1px solid oklch(94% 0 0) !important;
+  border-bottom: none !important;
 }
 .mob-sub a:last-child { border-bottom: none !important; }
 
