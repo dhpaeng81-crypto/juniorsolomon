@@ -141,18 +141,18 @@
       });
       wrap.appendChild(dd);
 
-      // 클릭으로 토글
-      a.addEventListener('click', function (e) {
-        e.preventDefault();
-        var wasOpen = wrap.classList.contains('dd-open');
+      // 호버로 열기/닫기 (150ms 딜레이로 흔들림 방지)
+      var leaveTimer;
+      wrap.addEventListener('mouseenter', function () {
+        clearTimeout(leaveTimer);
         closeAllDropdowns();
-        if (!wasOpen) wrap.classList.add('dd-open');
+        wrap.classList.add('dd-open');
       });
-    });
-
-    // 외부 클릭 시 닫기
-    document.addEventListener('click', function (e) {
-      if (!e.target.closest('.nav-wrap')) closeAllDropdowns();
+      wrap.addEventListener('mouseleave', function () {
+        leaveTimer = setTimeout(function () {
+          wrap.classList.remove('dd-open');
+        }, 150);
+      });
     });
   }
 
