@@ -10,6 +10,38 @@
   body { margin: 0; font-family: 'Pretendard Variable','Pretendard',-apple-system,sans-serif; background: #fff; color: oklch(18% 0 0); line-height: 1.7; }
   a { text-decoration: none; color: oklch(46% 0.14 55); }
   a:hover { color: oklch(38% 0.14 55); }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .overview-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+  .overview-table th { padding: 12px 14px; font-size: 11.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: oklch(45% 0 0); background: oklch(97% 0 0); border-bottom: 1.5px solid oklch(18% 0 0); border-right: 1px solid oklch(90% 0 0); text-align: left; }
+  .overview-table th:last-child { border-right: none; }
+  .overview-table td { padding: 14px 14px; font-size: 13.5px; color: oklch(35% 0 0); border-bottom: 1px solid oklch(90% 0 0); border-right: 1px solid oklch(92% 0 0); vertical-align: top; line-height: 1.65; }
+  .overview-table td:last-child { border-right: none; }
+  .overview-table tr:last-child td { border-bottom: none; }
+  .overview-table .course-name { font-weight: 800; color: oklch(18% 0 0); font-size: 14px; }
+  .overview-table .course-sub { font-weight: 500; font-size: 12px; color: oklch(56% 0.14 50); display: block; margin-top: 2px; }
+  .level-grid { border-top: 1px solid oklch(90% 0 0); border-left: 1px solid oklch(90% 0 0); }
+  .level-row { display: grid; grid-template-columns: 56px 1fr 100px 1fr; border-bottom: 1px solid oklch(90% 0 0); border-right: 1px solid oklch(90% 0 0); }
+  .level-row.header { background: oklch(97.5% 0 0); }
+  .level-cell { padding: 12px 14px; font-size: 13px; color: oklch(38% 0 0); border-right: 1px solid oklch(92% 0 0); line-height: 1.65; }
+  .level-cell:last-child { border-right: none; }
+  .level-cell.label { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: oklch(50% 0 0); padding-top: 13px; }
+  .level-cell.sl { font-weight: 800; color: oklch(18% 0 0); font-size: 13.5px; }
+  .book-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .book-list li { font-size: 13.5px; color: oklch(38% 0 0); line-height: 1.65; padding-left: 14px; position: relative; }
+  .book-list li::before { content: '·'; position: absolute; left: 0; color: oklch(56% 0.14 50); font-weight: 700; }
+  .flow-table { width: 100%; border-collapse: collapse; }
+  .flow-table td { padding: 11px 16px; font-size: 13.5px; border-bottom: 1px solid oklch(92% 0 0); vertical-align: top; line-height: 1.65; }
+  .flow-table td.flow-label { width: 140px; font-weight: 700; font-size: 12px; letter-spacing: 0.05em; color: oklch(56% 0.14 50); padding-top: 12px; }
+  .flow-table tr:last-child td { border-bottom: none; }
+  .section-label { font-size: 13px; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase; color: oklch(56% 0.14 50); margin: 0 0 10px; display: block; }
+  .origin-quote { font-size: 14px; color: oklch(50% 0 0); line-height: 1.8; font-style: italic; border-left: 2px solid oklch(56% 0.14 50); padding-left: 16px; margin: 0 0 24px; }
+  @media (max-width: 640px) {
+    .level-row { grid-template-columns: 48px 1fr; }
+    .level-row > .level-cell:nth-child(3),
+    .level-row > .level-cell:nth-child(4) { display: none; }
+    .level-row.header > .level-cell:nth-child(3),
+    .level-row.header > .level-cell:nth-child(4) { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -38,57 +70,144 @@
     </div>
   </header>
 
+  <!-- HERO -->
   <section id="top" style="padding:100px 0 90px;text-align:center;position:relative;overflow:hidden;">
     <div style="position:absolute;top:-80px;right:8%;width:520px;height:520px;background:radial-gradient(circle,oklch(88% 0.08 55 / 0.5),transparent 70%);pointer-events:none;"></div>
     <div style="max-width:760px;margin:0 auto;padding:0 32px;position:relative;">
-      <p style="font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 20px;">Program</p>
-      <h1 style="font-size:40px;font-weight:800;letter-spacing:-0.02em;line-height:1.4;margin:0 0 24px;">7세부터 중등까지<br>단계별 맞춤 성장</h1>
-      <p style="font-size:16.5px;color:oklch(40% 0 0);line-height:1.9;margin:0;">아이의 나이와 수준에 딱 맞는 커리큘럼으로<br>독서·철학·하브루타·논술을 단계적으로 완성합니다.</p>
+      <p style="font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 20px;">Solomon Literacy</p>
+      <h1 style="font-size:40px;font-weight:800;letter-spacing:-0.02em;line-height:1.4;margin:0 0 24px;">학년이 아니라<br>리터러시로 성장합니다</h1>
+      <p style="font-size:16.5px;color:oklch(40% 0 0);line-height:1.9;margin:0;">주니어솔로몬은 한국어로 읽고 생각하는 힘, 곧 솔로몬 리터러시(SL)를 기준으로<br>반을 편성합니다. SL 0단계부터 14단계까지, 다섯 과정으로 나아갑니다.</p>
     </div>
   </section>
 
   <!-- INFO BAR -->
   <div style="border-top:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
     <div style="max-width:1200px;margin:0 auto;padding:22px 32px;display:flex;gap:0;align-items:center;justify-content:center;flex-wrap:wrap;">
-      <span style="font-size:14px;color:oklch(35% 0 0);padding:0 24px;border-right:1px solid oklch(88% 0 0);"><strong>수업 시간</strong> · 2시간 수업 + 2시간 독서</span>
-      <span style="font-size:14px;color:oklch(35% 0 0);padding:0 24px;border-right:1px solid oklch(88% 0 0);"><strong>교재</strong> · 자체교재 + 문제집</span>
-      <span style="font-size:14px;color:oklch(35% 0 0);padding:0 24px;"><strong>입학 가능</strong> · 만 4세 이상</span>
+      <span style="font-size:14px;color:oklch(35% 0 0);padding:0 24px;border-right:1px solid oklch(88% 0 0);"><strong>입학 가능</strong> · 유아(연령 무관)부터 중학생까지</span>
+      <span style="font-size:14px;color:oklch(35% 0 0);padding:0 24px;border-right:1px solid oklch(88% 0 0);"><strong>배정 기준</strong> · 학년이 아닌 리터러시(SL) 진단</span>
+      <span style="font-size:14px;color:oklch(35% 0 0);padding:0 24px;"><strong>교재</strong> · MOSA:IQ · Q:RIUM · 고원재 자체교재</span>
+    </div>
+  </div>
+
+  <!-- OVERVIEW TABLE -->
+  <div style="padding:64px 0;border-bottom:1px solid oklch(90% 0 0);">
+    <div style="max-width:1100px;margin:0 auto;padding:0 32px;">
+      <p style="text-align:center;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 8px;">5 Courses</p>
+      <h2 style="text-align:center;font-size:26px;font-weight:800;letter-spacing:-0.02em;margin:0 0 40px;">한눈에 보는 다섯 과정</h2>
+      <div class="table-wrap">
+        <table class="overview-table">
+          <thead>
+            <tr>
+              <th>과정</th>
+              <th>레벨</th>
+              <th>참고 학년</th>
+              <th>주로 읽는 글</th>
+              <th>글쓰기 분량</th>
+              <th>수업의 중심</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="course-name">천지인</span><span class="course-sub">한글 과정</span></td>
+              <td>SL 0–2</td>
+              <td>연령 무관</td>
+              <td>자모 · 낱말 · 짧은 문장</td>
+              <td>낱말 · 짧은 문장</td>
+              <td>소리와 글자 잇기</td>
+            </tr>
+            <tr>
+              <td><span class="course-name">에덴</span><span class="course-sub">그림책 철학 과정</span></td>
+              <td>SL 3–5</td>
+              <td>초 1–2<br><small style="color:oklch(55% 0 0)">(유아 7세 포함)</small></td>
+              <td>그림책 · 역사 그림책</td>
+              <td>그림 + 1–5문장</td>
+              <td>보고 묻고 말하기</td>
+            </tr>
+            <tr>
+              <td><span class="course-name">오디세이</span><span class="course-sub">이야기 철학 과정</span></td>
+              <td>SL 6–8</td>
+              <td>초 3–4</td>
+              <td>세계 단편 · 인물 이야기 · 한국 수필과 동시</td>
+              <td>600–1,600자</td>
+              <td>인물의 선택 따라가기</td>
+            </tr>
+            <tr>
+              <td><span class="course-name">아고라</span><span class="course-sub">인문 철학 과정</span></td>
+              <td>SL 9–11</td>
+              <td>초 5–6</td>
+              <td>세계 장편 · 한국사·세계사 · 한국 소설과 근대시</td>
+              <td>1,200–2,000자</td>
+              <td>시대 읽기 · 관점 토론</td>
+            </tr>
+            <tr>
+              <td><span class="course-name">아카데미아</span><span class="course-sub">고전 철학 과정</span></td>
+              <td>SL 12–14</td>
+              <td>중 1 이상</td>
+              <td>동서양 고전</td>
+              <td>1,600–2,400자</td>
+              <td>개념 분석 · 논술</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:12px;color:oklch(55% 0 0);margin-top:16px;">※ 참고 학년은 국내 학교 기준 평균적인 읽기 수준입니다. 실제 배정은 진단과 상담으로 정합니다.</p>
+    </div>
+  </div>
+
+  <!-- PLACEMENT CRITERIA -->
+  <div style="padding:64px 0;background:oklch(97.5% 0.003 55);border-bottom:1px solid oklch(90% 0 0);">
+    <div style="max-width:900px;margin:0 auto;padding:0 32px;">
+      <p style="font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 8px;">Placement</p>
+      <h2 style="font-size:24px;font-weight:800;letter-spacing:-0.02em;margin:0 0 32px;">어떤 기준으로 반을 정하나요?</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+        <div style="background:#fff;padding:28px 24px;border:1px solid oklch(90% 0 0);">
+          <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0.14 50);margin-bottom:10px;">읽기 수준이 먼저</div>
+          <p style="font-size:13.5px;color:oklch(38% 0 0);line-height:1.75;margin:0;">같은 학년 안에서도 읽기의 출발점은 두세 학년씩 차이가 납니다. 국제학교에 다니는 학생도 한국어 리터러시로 과정을 정합니다.</p>
+        </div>
+        <div style="background:#fff;padding:28px 24px;border:1px solid oklch(90% 0 0);">
+          <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0.14 50);margin-bottom:10px;">연령대를 함께 봅니다</div>
+          <p style="font-size:13.5px;color:oklch(38% 0 0);line-height:1.75;margin:0;">읽기 수준이 같아도 생각의 깊이와 관심사는 나이에 따라 다릅니다. 같은 과정 안에서도 연령대를 함께 고려해 반을 배정합니다.</p>
+        </div>
+        <div style="background:#fff;padding:28px 24px;border:1px solid oklch(90% 0 0);">
+          <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0.14 50);margin-bottom:10px;">한 과정 안의 세 단계</div>
+          <p style="font-size:13.5px;color:oklch(38% 0 0);line-height:1.75;margin:0;">각 과정은 세 단계로 나뉩니다. 도움을 받아 할 수 있는 단계에서 혼자 할 수 있는 단계, 다음 과정으로 넘어갈 준비가 된 단계로 성장합니다.</p>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- PROGRESSION TRACK -->
-  <div style="padding:56px 0;">
-    <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
-      <p style="text-align:center;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 32px;">5단계 성장 경로</p>
-      <div style="display:flex;align-items:flex-start;justify-content:center;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:170px;text-align:center;">
-          <div style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;border:1.5px solid oklch(18% 0 0);">L1</div>
-          <div style="font-size:13.5px;font-weight:700;">7세반</div>
-          <div style="font-size:11.5px;color:oklch(50% 0 0);">만 4~7세</div>
+  <div style="padding:48px 0;border-bottom:1px solid oklch(90% 0 0);">
+    <div style="max-width:1100px;margin:0 auto;padding:0 32px;">
+      <div style="display:flex;align-items:flex-start;justify-content:center;flex-wrap:wrap;gap:0;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:180px;text-align:center;padding:0 8px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0.14 50);">SL 0–2</div>
+          <div style="font-size:16px;font-weight:800;">천지인</div>
+          <div style="font-size:12.5px;color:oklch(50% 0 0);">한글 과정 · 깨우침</div>
         </div>
-        <div style="width:24px;height:1px;background:oklch(85% 0 0);margin-top:20px;"></div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:170px;text-align:center;">
-          <div style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;border:1.5px solid oklch(18% 0 0);">L2</div>
-          <div style="font-size:13.5px;font-weight:700;">초등 1~2학년반</div>
-          <div style="font-size:11.5px;color:oklch(50% 0 0);">초등학교 1~2학년</div>
+        <div style="display:flex;align-items:center;padding-top:16px;color:oklch(70% 0 0);font-size:18px;">→</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:180px;text-align:center;padding:0 8px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0.14 50);">SL 3–5</div>
+          <div style="font-size:16px;font-weight:800;">에덴</div>
+          <div style="font-size:12.5px;color:oklch(50% 0 0);">그림책 철학 · 발견</div>
         </div>
-        <div style="width:24px;height:1px;background:oklch(85% 0 0);margin-top:20px;"></div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:170px;text-align:center;">
-          <div style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;border:1.5px solid oklch(18% 0 0);">L3</div>
-          <div style="font-size:13.5px;font-weight:700;">초등 3~4학년반</div>
-          <div style="font-size:11.5px;color:oklch(50% 0 0);">초등학교 3~4학년</div>
+        <div style="display:flex;align-items:center;padding-top:16px;color:oklch(70% 0 0);font-size:18px;">→</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:180px;text-align:center;padding:0 8px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0.14 50);">SL 6–8</div>
+          <div style="font-size:16px;font-weight:800;">오디세이</div>
+          <div style="font-size:12.5px;color:oklch(50% 0 0);">이야기 철학 · 탐험</div>
         </div>
-        <div style="width:24px;height:1px;background:oklch(85% 0 0);margin-top:20px;"></div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:170px;text-align:center;">
-          <div style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;border:1.5px solid oklch(18% 0 0);">L4</div>
-          <div style="font-size:13.5px;font-weight:700;">초등 5~6학년반</div>
-          <div style="font-size:11.5px;color:oklch(50% 0 0);">초등학교 5~6학년</div>
+        <div style="display:flex;align-items:center;padding-top:16px;color:oklch(70% 0 0);font-size:18px;">→</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:180px;text-align:center;padding:0 8px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0.14 50);">SL 9–11</div>
+          <div style="font-size:16px;font-weight:800;">아고라</div>
+          <div style="font-size:12.5px;color:oklch(50% 0 0);">인문 철학 · 대화</div>
         </div>
-        <div style="width:24px;height:1px;background:oklch(85% 0 0);margin-top:20px;"></div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:170px;text-align:center;">
-          <div style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;border:1.5px solid oklch(18% 0 0);">L5</div>
-          <div style="font-size:13.5px;font-weight:700;">중등부</div>
-          <div style="font-size:11.5px;color:oklch(50% 0 0);">중학교 1~3학년</div>
+        <div style="display:flex;align-items:center;padding-top:16px;color:oklch(70% 0 0);font-size:18px;">→</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:180px;text-align:center;padding:0 8px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0.14 50);">SL 12–14</div>
+          <div style="font-size:16px;font-weight:800;">아카데미아</div>
+          <div style="font-size:12.5px;color:oklch(50% 0 0);">고전 철학 · 사유</div>
         </div>
       </div>
     </div>
@@ -97,241 +216,370 @@
   <!-- TAB NAV -->
   <div style="background:#fff;border-bottom:1px solid oklch(90% 0 0);position:sticky;top:113px;z-index:50;">
     <div style="max-width:1200px;margin:0 auto;padding:0 32px;display:flex;justify-content:center;gap:36px;overflow-x:auto;">
-      <a href="#level1" style="display:flex;align-items:center;padding:15px 0;font-size:13.5px;font-weight:700;color:oklch(18% 0 0);border-bottom:2px solid oklch(62% 0.15 48);white-space:nowrap;">7세반</a>
-      <a href="#level2" style="display:flex;align-items:center;padding:15px 0;font-size:13.5px;font-weight:700;color:oklch(50% 0 0);border-bottom:2px solid transparent;white-space:nowrap;">초1~2반</a>
-      <a href="#level3" style="display:flex;align-items:center;padding:15px 0;font-size:13.5px;font-weight:700;color:oklch(50% 0 0);border-bottom:2px solid transparent;white-space:nowrap;">초3~4반</a>
-      <a href="#level4" style="display:flex;align-items:center;padding:15px 0;font-size:13.5px;font-weight:700;color:oklch(50% 0 0);border-bottom:2px solid transparent;white-space:nowrap;">초5~6반</a>
-      <a href="#level5" style="display:flex;align-items:center;padding:15px 0;font-size:13.5px;font-weight:700;color:oklch(50% 0 0);border-bottom:2px solid transparent;white-space:nowrap;">중등부</a>
+      <a href="#cheonjiin" style="display:flex;align-items:center;padding:15px 0;font-size:13.5px;font-weight:700;color:oklch(18% 0 0);border-bottom:2px solid oklch(62% 0.15 48);white-space:nowrap;">천지인</a>
+      <a href="#eden" style="display:flex;align-items:center;padding:15px 0;font-size:13.5px;font-weight:700;color:oklch(50% 0 0);border-bottom:2px solid transparent;white-space:nowrap;">에덴</a>
+      <a href="#odyssey" style="display:flex;align-items:center;padding:15px 0;font-size:13.5px;font-weight:700;color:oklch(50% 0 0);border-bottom:2px solid transparent;white-space:nowrap;">오디세이</a>
+      <a href="#agora" style="display:flex;align-items:center;padding:15px 0;font-size:13.5px;font-weight:700;color:oklch(50% 0 0);border-bottom:2px solid transparent;white-space:nowrap;">아고라</a>
+      <a href="#academia" style="display:flex;align-items:center;padding:15px 0;font-size:13.5px;font-weight:700;color:oklch(50% 0 0);border-bottom:2px solid transparent;white-space:nowrap;">아카데미아</a>
       <a href="#sophos" style="display:flex;align-items:center;padding:15px 0;font-size:13.5px;font-weight:700;color:oklch(50% 0 0);border-bottom:2px solid transparent;white-space:nowrap;">소포스에듀</a>
     </div>
   </div>
 
-  <!-- LEVEL 1 -->
-  <section id="level1" style="padding:90px 0;border-bottom:1px solid oklch(92% 0 0);">
+  <!-- CHEONJIIN -->
+  <section id="cheonjiin" style="padding:90px 0;border-bottom:1px solid oklch(92% 0 0);">
     <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
-      <span style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);">Level 1 — 7세</span>
-      <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.02em;margin:8px 0 8px;">7세반</h2>
-      <p style="font-size:15px;font-weight:600;color:oklch(45% 0 0);margin:0 0 28px;">대상: 만 4~7세 (유치원~초등 입문)</p>
-      <p style="font-size:16px;color:oklch(35% 0 0);line-height:1.9;max-width:760px;margin:0 0 40px;">아이가 처음으로 '왜?'라는 질문을 품는 시기입니다. 만 4세부터 수업이 가능하며, 엄선된 그림책 한 권을 함께 읽으면서 이야기 속 인물의 감정·선택·가치관을 철학적으로 탐구합니다. 오감을 활용한 체험 활동으로 생각하는 즐거움을 놀이처럼 자연스럽게 익힙니다.</p>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid oklch(90% 0 0);border-left:1px solid oklch(90% 0 0);margin-bottom:36px;">
-        <div style="padding:26px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <div style="font-size:22px;margin-bottom:12px;">📚</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">그림책 철학</div>
-          <div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.7;">엄선된 그림책으로 철학적 주제를 감성적으로 접하고 질문하는 습관을 만듭니다.</div>
-        </div>
-        <div style="padding:26px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <div style="font-size:22px;margin-bottom:12px;">🎨</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">오감 체험</div>
-          <div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.7;">보고·듣고·만지는 활동으로 책 속 이야기를 몸으로 체험하고 표현합니다.</div>
-        </div>
-        <div style="padding:26px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <div style="font-size:22px;margin-bottom:12px;">💬</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">철학적 대화</div>
-          <div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.7;">아이의 '왜?'를 받아주는 소크라테스식 문답으로 사고의 씨앗을 심습니다.</div>
+      <span class="section-label">CHEONJIIN · SL 0–2 · 깨우침</span>
+      <h2 style="font-size:32px;font-weight:800;letter-spacing:-0.02em;margin:8px 0 16px;">천지인 <span style="font-size:20px;font-weight:500;color:oklch(45% 0 0);">한글 과정</span></h2>
+      <p class="origin-quote">하늘(·)·땅(ㅡ)·사람(ㅣ). 『훈민정음』 모음 기본자에 담긴 창제 원리에서 이름을 가져왔습니다.</p>
+      <p style="font-size:16px;color:oklch(35% 0 0);line-height:1.9;max-width:760px;margin:0 0 40px;">한글을 처음 만나는 과정입니다. 국제학교에 다니며 한국어 읽기가 낯선 학생, 이제 막 글자에 관심을 보이는 유아가 이곳에서 출발합니다. 글자를 외우게 하기보다 한글이 만들어진 원리를 따라 소리와 글자를 잇게 합니다.</p>
+
+      <div style="margin-bottom:40px;">
+        <p style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 14px;">레벨 기준과 글쓰기 분량</p>
+        <div class="level-grid">
+          <div class="level-row header">
+            <div class="level-cell label">레벨</div>
+            <div class="level-cell label">이런 모습을 보입니다</div>
+            <div class="level-cell label">참고 학년</div>
+            <div class="level-cell label">글쓰기 분량</div>
+          </div>
+          <div class="level-row">
+            <div class="level-cell sl">SL0</div>
+            <div class="level-cell">한글을 아직 모릅니다.</div>
+            <div class="level-cell">연령 무관</div>
+            <div class="level-cell">자모 따라 쓰기, 자기 이름 쓰기</div>
+          </div>
+          <div class="level-row">
+            <div class="level-cell sl">SL1</div>
+            <div class="level-cell">자모와 받침 없는 글자를 알고, 더듬더듬 읽습니다.</div>
+            <div class="level-cell">연령 무관</div>
+            <div class="level-cell">받침 없는 낱말 쓰기</div>
+          </div>
+          <div class="level-row">
+            <div class="level-cell sl">SL2</div>
+            <div class="level-cell">받침 있는 글자까지 읽고, 짧은 문장을 소리 내어 읽습니다.</div>
+            <div class="level-cell">연령 무관</div>
+            <div class="level-cell">받침 있는 낱말과 짧은 문장 받아쓰기</div>
+          </div>
         </div>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:36px;">
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">그림책 읽기</span>
-        <span style="color:oklch(70% 0 0);font-size:14px;">→</span>
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">감정 나누기</span>
-        <span style="color:oklch(70% 0 0);font-size:14px;">→</span>
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">질문 만들기</span>
-        <span style="color:oklch(70% 0 0);font-size:14px;">→</span>
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">자유 표현</span>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:40px;">
+        <div>
+          <p style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 14px;">이런 책을 읽습니다</p>
+          <ul class="book-list">
+            <li>천지인 한글 교재 (자모표 · 낱말 · 문장 단계)</li>
+            <li>받침 없는 낱말에서 받침 있는 낱말로 넘어가는 쉬운 그림책</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 14px;">수업은 이렇게 진행됩니다</p>
+          <div style="border-top:1px solid oklch(90% 0 0);">
+            <table class="flow-table">
+              <tr><td class="flow-label">소리 듣기</td><td>글자의 소리를 듣고 따라 말합니다.</td></tr>
+              <tr><td class="flow-label">원리 알기</td><td>·ㅡㅣ가 모여 모음이 되는 원리를 손으로 만들어 봅니다.</td></tr>
+              <tr><td class="flow-label">따라 쓰기</td><td>회색 글씨 → 점선 → 혼자 쓰기 순서로 씁니다.</td></tr>
+              <tr><td class="flow-label">소리 내어 읽기</td><td>낱말과 짧은 문장을 소리 내어 읽습니다.</td></tr>
+            </table>
+          </div>
+        </div>
       </div>
-      <div style="border:1px solid oklch(88% 0 0);padding:28px 32px;max-width:680px;">
-        <p style="font-size:12px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 14px;">이 단계를 마치면</p>
-        <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;">
-          <li style="font-size:14px;color:oklch(30% 0 0);line-height:1.7;">그림책을 읽으며 스스로 "왜?"를 묻는 질문 습관 형성</li>
-          <li style="font-size:14px;color:oklch(30% 0 0);line-height:1.7;">이야기 속 인물의 감정과 이유를 자기 언어로 표현</li>
-          <li style="font-size:14px;color:oklch(30% 0 0);line-height:1.7;">생각을 그림·말로 자신감 있게 나타내는 표현력의 기초</li>
-        </ul>
-      </div>
-      <p style="font-size:13px;color:oklch(52% 0 0);margin-top:22px;">담당: 손수영 선생님</p>
+      <p style="font-size:13px;color:oklch(52% 0 0);">담당: 손수영 선생님 · 출발점은 한글 리터러시 진단평가(3단계)로 확인합니다.</p>
     </div>
   </section>
 
-  <!-- LEVEL 2 -->
-  <section id="level2" style="padding:90px 0;border-bottom:1px solid oklch(92% 0 0);">
+  <!-- EDEN -->
+  <section id="eden" style="padding:90px 0;border-bottom:1px solid oklch(92% 0 0);">
     <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
-      <span style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);">Level 2 — 초1·2</span>
-      <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.02em;margin:8px 0 8px;">초등 1~2학년반</h2>
-      <p style="font-size:15px;font-weight:600;color:oklch(45% 0 0);margin:0 0 28px;">대상: 초등학교 1~2학년</p>
-      <p style="font-size:16px;color:oklch(35% 0 0);line-height:1.9;max-width:760px;margin:0 0 40px;">그림책에서 이야기책으로 넘어가며 표현력이 폭발적으로 성장하는 시기입니다. 예술 통합 활동으로 읽고 느낀 것을 그림·만들기·글쓰기 등 다양한 방식으로 드러내고, 소크라테스식 질문으로 깊이 생각하는 경험을 쌓습니다.</p>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid oklch(90% 0 0);border-left:1px solid oklch(90% 0 0);margin-bottom:36px;">
-        <div style="padding:26px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <div style="font-size:22px;margin-bottom:12px;">📚</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">그림책 철학</div>
-          <div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.7;">그림책을 통해 철학적 주제를 탐구하고 질문을 만드는 훈련을 이어갑니다.</div>
-        </div>
-        <div style="padding:26px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <div style="font-size:22px;margin-bottom:12px;">🎨</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">예술 통합</div>
-          <div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.7;">책 속 이야기를 그림·만들기·음악으로 표현하며 감성과 창의력을 함께 키웁니다.</div>
-        </div>
-        <div style="padding:26px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <div style="font-size:22px;margin-bottom:12px;">✏️</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">기초 글쓰기</div>
-          <div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.7;">일기·독서 감상문·짧은 이야기 쓰기로 '내 생각을 글로 쓰는' 첫 경험을 만듭니다.</div>
-        </div>
-      </div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:36px;">
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">독서</span>
-        <span style="color:oklch(70% 0 0);font-size:14px;">→</span>
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">질문 만들기</span>
-        <span style="color:oklch(70% 0 0);font-size:14px;">→</span>
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">짝 토론</span>
-        <span style="color:oklch(70% 0 0);font-size:14px;">→</span>
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">짧은 글쓰기</span>
-      </div>
-      <div style="border:1px solid oklch(88% 0 0);padding:28px 32px;max-width:680px;">
-        <p style="font-size:12px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 14px;">이 단계를 마치면</p>
-        <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;">
-          <li style="font-size:14px;color:oklch(30% 0 0);line-height:1.7;">일기·독서 감상문을 스스로 쓰는 기초 문장력</li>
-          <li style="font-size:14px;color:oklch(30% 0 0);line-height:1.7;">짝과 내 생각을 나누고 다른 의견을 경청하는 습관</li>
-          <li style="font-size:14px;color:oklch(30% 0 0);line-height:1.7;">그림책에서 이야기책으로 확장되는 독서 폭</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+      <span class="section-label">EDEN · SL 3–5 · 발견</span>
+      <h2 style="font-size:32px;font-weight:800;letter-spacing:-0.02em;margin:8px 0 16px;">에덴 <span style="font-size:20px;font-weight:500;color:oklch(45% 0 0);">그림책 철학 과정</span></h2>
+      <p class="origin-quote">성경의 첫 동산. 사람이 처음으로 생명에 이름을 붙인 곳(창세기 2:19–20)입니다. 보고, 이름 붙이고, 묻는 일이 이 과정의 출발점입니다.</p>
+      <p style="font-size:16px;color:oklch(35% 0 0);line-height:1.9;max-width:760px;margin:0 0 40px;">그림책 한 권을 깊이 읽는 과정입니다. "주인공은 누구였나요?"에서 "왜 그렇게 했을까?"로, "무슨 일이 일어났나요?"에서 "나라면 어떻게 했을까?"로 질문의 방향을 바꿉니다. 책은 답을 확인하는 자료가 아니라 생각을 시작하게 하는 매개체가 됩니다.</p>
 
-  <!-- LEVEL 3 -->
-  <section id="level3" style="padding:90px 0;border-bottom:1px solid oklch(92% 0 0);">
-    <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
-      <span style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);">Level 3 — 초3·4</span>
-      <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.02em;margin:8px 0 8px;">초등 3~4학년반</h2>
-      <p style="font-size:15px;font-weight:600;color:oklch(45% 0 0);margin:0 0 28px;">대상: 초등학교 3~4학년</p>
-      <p style="font-size:16px;color:oklch(35% 0 0);line-height:1.9;max-width:760px;margin:0 0 40px;">하브루타 토론이 본격적으로 시작되는 단계입니다. 짝과 질문을 교환하고 서로의 생각을 부딪히는 경험이 논리적 사고력의 기초를 만듭니다. 사고기술(Thinking Skills) 기반 철학 수업으로 논리적 사고의 뼈대를 세웁니다.</p>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid oklch(90% 0 0);border-left:1px solid oklch(90% 0 0);margin-bottom:36px;">
-        <div style="padding:26px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <div style="font-size:22px;margin-bottom:12px;">🧠</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">철학 토론</div>
-          <div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.7;">사고기술(Thinking Skills) 기반의 철학 수업으로 논리적 사고의 뼈대를 세웁니다.</div>
-        </div>
-        <div style="padding:26px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <div style="font-size:22px;margin-bottom:12px;">📗</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">단편소설</div>
-          <div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.7;">국내외 단편소설을 읽으며 인물·배경·주제를 하브루타 방식으로 깊이 탐구합니다.</div>
-        </div>
-        <div style="padding:26px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <div style="font-size:22px;margin-bottom:12px;">🏛️</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">역사 위인</div>
-          <div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.7;">위인의 선택과 삶을 통해 역사적 맥락을 이해하고 나만의 가치관을 형성합니다.</div>
+      <div style="margin-bottom:40px;">
+        <p style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 14px;">레벨 기준과 글쓰기 분량</p>
+        <div class="level-grid">
+          <div class="level-row header">
+            <div class="level-cell label">레벨</div>
+            <div class="level-cell label">이런 모습을 보입니다</div>
+            <div class="level-cell label">참고 학년</div>
+            <div class="level-cell label">글쓰기 분량</div>
+          </div>
+          <div class="level-row">
+            <div class="level-cell sl">SL3</div>
+            <div class="level-cell">짧은 문장의 뜻을 이해하고, 그림책을 함께 읽을 수 있습니다.</div>
+            <div class="level-cell">유아 7세–초1</div>
+            <div class="level-cell">그림으로 표현하고 낱말이나 한 문장으로 말하기</div>
+          </div>
+          <div class="level-row">
+            <div class="level-cell sl">SL4</div>
+            <div class="level-cell">그림책을 혼자 읽고, 질문을 하나 만들 수 있습니다.</div>
+            <div class="level-cell">초1</div>
+            <div class="level-cell">그림과 함께 한두 문장 쓰기 (원고지 48칸 안팎)</div>
+          </div>
+          <div class="level-row">
+            <div class="level-cell sl">SL5</div>
+            <div class="level-cell">그림책을 혼자 읽고, 이유를 들어 말하며 한두 문장으로 쓸 수 있습니다.</div>
+            <div class="level-cell">초2</div>
+            <div class="level-cell">이유를 넣어 3–5문장 쓰기 (200자 안팎)</div>
+          </div>
         </div>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:36px;">
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">인문 독서</span>
-        <span style="color:oklch(70% 0 0);font-size:14px;">→</span>
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">창의 질문</span>
-        <span style="color:oklch(70% 0 0);font-size:14px;">→</span>
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">하브루타</span>
-        <span style="color:oklch(70% 0 0);font-size:14px;">→</span>
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">논리 글쓰기</span>
-      </div>
-      <div style="border:1px solid oklch(88% 0 0);padding:28px 32px;max-width:680px;">
-        <p style="font-size:12px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 14px;">이 단계를 마치면</p>
-        <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;">
-          <li style="font-size:14px;color:oklch(30% 0 0);line-height:1.7;">내 의견을 이유와 근거를 들어 말하고 쓰는 능력</li>
-          <li style="font-size:14px;color:oklch(30% 0 0);line-height:1.7;">짝의 주장에 질문하고 자기 생각을 다듬는 토론 기술</li>
-          <li style="font-size:14px;color:oklch(30% 0 0);line-height:1.7;">논리적 구조를 갖춘 짧은 논술문 작성</li>
-        </ul>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:40px;">
+        <div>
+          <p style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 14px;">이런 책을 읽습니다</p>
+          <ul class="book-list">
+            <li>『프레드릭』(레오 리오니)</li>
+            <li>『슈퍼 영웅이 되는 방법』 · 『책을 너무 사랑한 테오필』(다비드 칼리)</li>
+            <li>『자유의 여신상의 오른발』(데이브 에거스)</li>
+            <li>『나는 너를 너무나 사랑해』 · 『선인장 호텔』 · 『착한 달걀』 등</li>
+            <li>역사 그림책 — 곰곰역사(초저)</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 14px;">수업은 이렇게 진행됩니다</p>
+          <div style="border-top:1px solid oklch(90% 0 0);">
+            <table class="flow-table">
+              <tr><td class="flow-label">SEE 보다</td><td>장면을 충분히 관찰합니다.</td></tr>
+              <tr><td class="flow-label">ASK 묻다</td><td>질문에 답하고 스스로 질문합니다.</td></tr>
+              <tr><td class="flow-label">TALK 말하다</td><td>생각과 이유를 말합니다.</td></tr>
+              <tr><td class="flow-label">LISTEN 듣다</td><td>친구의 다른 생각을 듣습니다.</td></tr>
+              <tr><td class="flow-label">THINK AGAIN</td><td>새로운 관점에서 다시 봅니다.</td></tr>
+              <tr><td class="flow-label">EXPRESS 표현</td><td>말·그림·글로 생각을 남깁니다.</td></tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- LEVEL 4 -->
-  <section id="level4" style="padding:90px 0;border-bottom:1px solid oklch(92% 0 0);">
+  <!-- ODYSSEY -->
+  <section id="odyssey" style="padding:90px 0;border-bottom:1px solid oklch(92% 0 0);">
     <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
-      <span style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);">Level 4 — 초5·6</span>
-      <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.02em;margin:8px 0 8px;">초등 5~6학년반</h2>
-      <p style="font-size:15px;font-weight:600;color:oklch(45% 0 0);margin:0 0 28px;">대상: 초등학교 5~6학년</p>
-      <p style="font-size:16px;color:oklch(35% 0 0);line-height:1.9;max-width:760px;margin:0 0 40px;">장편소설을 완독하며 서사 구조와 인물 심리를 깊이 분석하는 단계입니다. 윤리·정의·자유 같은 철학적 주제로 심층 토론하고, 비문학 독해와 한국사를 연계하여 중학교 교과 학습의 기초를 단단히 다집니다.</p>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid oklch(90% 0 0);border-left:1px solid oklch(90% 0 0);margin-bottom:36px;">
-        <div style="padding:26px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <div style="font-size:22px;margin-bottom:12px;">🔍</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">철학 심화</div>
-          <div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.7;">윤리·정의·자유 같은 철학적 주제로 심층 토론하며 논리적 사고를 완성합니다.</div>
-        </div>
-        <div style="padding:26px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <div style="font-size:22px;margin-bottom:12px;">📖</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">장편소설</div>
-          <div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.7;">국내외 장편소설 완독을 통해 서사 구조 이해와 심층 독해 능력을 키웁니다.</div>
-        </div>
-        <div style="padding:26px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <div style="font-size:22px;margin-bottom:12px;">🗺️</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">한국사 · 비문학</div>
-          <div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.7;">한국사 흐름 이해와 비문학 독해 훈련으로 중등 국어·사회 기초를 다집니다.</div>
+      <span class="section-label">ODYSSEY · SL 6–8 · 탐험</span>
+      <h2 style="font-size:32px;font-weight:800;letter-spacing:-0.02em;margin:8px 0 16px;">오디세이 <span style="font-size:20px;font-weight:500;color:oklch(45% 0 0);">이야기 철학 과정</span></h2>
+      <p class="origin-quote">호메로스의 서사시 《오디세이아》. 트로이 전쟁 뒤 오디세우스가 고향으로 돌아가는 긴 여정에서 이름을 가져왔습니다.</p>
+      <p style="font-size:16px;color:oklch(35% 0 0);line-height:1.9;max-width:760px;margin:0 0 40px;">그림책을 넘어 글 중심의 이야기를 읽는 과정입니다. 세계 단편소설, 인물 이야기, 한국 수필과 동시를 읽으며 한 사람의 감정과 선택을 따라갑니다. 짧은 글을 깊이 읽고, 자기 질문에 근거를 들어 답하는 글쓰기를 본격적으로 시작합니다.</p>
+
+      <div style="margin-bottom:40px;">
+        <p style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 14px;">레벨 기준과 글쓰기 분량</p>
+        <div class="level-grid">
+          <div class="level-row header">
+            <div class="level-cell label">레벨</div>
+            <div class="level-cell label">이런 모습을 보입니다</div>
+            <div class="level-cell label">참고 학년</div>
+            <div class="level-cell label">글쓰기 분량</div>
+          </div>
+          <div class="level-row">
+            <div class="level-cell sl">SL6</div>
+            <div class="level-cell">글 중심의 짧은 이야기를 도움을 받아 끝까지 읽고, 인물의 마음을 말할 수 있습니다.</div>
+            <div class="level-cell">초3</div>
+            <div class="level-cell">600–1,000자 · 생각 정리 틀에 따라 쓰기</div>
+          </div>
+          <div class="level-row">
+            <div class="level-cell sl">SL7</div>
+            <div class="level-cell">단편 한 편을 혼자 읽고, 질문 세 개를 만들어 하나를 골라 답할 수 있습니다.</div>
+            <div class="level-cell">초3–4</div>
+            <div class="level-cell">800–1,200자 · 자기 질문에 근거를 들어 답하기</div>
+          </div>
+          <div class="level-row">
+            <div class="level-cell sl">SL8</div>
+            <div class="level-cell">중편 분량을 혼자 읽고, 근거를 들어 한 편의 글을 완성할 수 있습니다.</div>
+            <div class="level-cell">초4</div>
+            <div class="level-cell">1,000–1,600자 · 다른 관점까지 담은 완결된 글</div>
+          </div>
         </div>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:36px;">
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">철학 독서</span>
-        <span style="color:oklch(70% 0 0);font-size:14px;">→</span>
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">주제 탐구</span>
-        <span style="color:oklch(70% 0 0);font-size:14px;">→</span>
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">심층 토론</span>
-        <span style="color:oklch(70% 0 0);font-size:14px;">→</span>
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">심화 논술</span>
-      </div>
-      <div style="border:1px solid oklch(88% 0 0);padding:28px 32px;max-width:680px;">
-        <p style="font-size:12px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 14px;">이 단계를 마치면</p>
-        <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;">
-          <li style="font-size:14px;color:oklch(30% 0 0);line-height:1.7;">장편소설 구조 분석과 인물·주제에 대한 비평문 쓰기</li>
-          <li style="font-size:14px;color:oklch(30% 0 0);line-height:1.7;">비문학 지문 독해와 핵심 요약 능력</li>
-          <li style="font-size:14px;color:oklch(30% 0 0);line-height:1.7;">중학교 수행평가·논술형 답안 즉시 대응 가능</li>
-        </ul>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:40px;">
+        <div>
+          <p style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 14px;">이런 책을 읽습니다</p>
+          <ul class="book-list">
+            <li>「마지막 잎새」 · 「20년 후」(오 헨리) · 「목걸이」(모파상)</li>
+            <li>「행복한 왕자」(오스카 와일드) · 「큰 바위 얼굴」(호손) · 「별」(도데)</li>
+            <li>『어린 왕자』(생텍쥐페리) · 『사람은 무엇으로 사는가』(톨스토이)</li>
+            <li>「외투」(고골) · 「내기」(체호프) · 「이해의 선물」(폴 빌라드)</li>
+            <li>인물 이야기(위인전) · 한국 수필과 동시</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 14px;">수업은 이렇게 진행됩니다</p>
+          <div style="border-top:1px solid oklch(90% 0 0);">
+            <table class="flow-table">
+              <tr><td class="flow-label">READ 읽기</td><td>작가와 시대 배경, 작품의 특징을 만납니다.</td></tr>
+              <tr><td class="flow-label">QUESTION 질문</td><td>인물의 변화를 표로 정리하고 질문을 만듭니다.</td></tr>
+              <tr><td class="flow-label">THINK 사유</td><td>핵심 장면 세 개를 다시 읽고 철학 질문에 답합니다.</td></tr>
+              <tr><td class="flow-label">VERIFY 검증</td><td>짝과 하브루타로 생각을 확인하고 고칩니다.</td></tr>
+              <tr><td class="flow-label">EXPRESS 표현</td><td>주제를 골라 원고지에 한 편의 글을 씁니다.</td></tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- LEVEL 5 -->
-  <section id="level5" style="padding:90px 0;border-bottom:1px solid oklch(92% 0 0);">
+  <!-- AGORA -->
+  <section id="agora" style="padding:90px 0;border-bottom:1px solid oklch(92% 0 0);">
     <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
-      <span style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);">Level 5 — 중등</span>
-      <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.02em;margin:8px 0 8px;">중등부</h2>
-      <p style="font-size:15px;font-weight:600;color:oklch(45% 0 0);margin:0 0 28px;">대상: 중학교 1~3학년</p>
-      <p style="font-size:16px;color:oklch(35% 0 0);line-height:1.9;max-width:760px;margin:0 0 40px;">동서양 고전과 세계사, 현재의 시사이슈를 연결하며 수능 국어의 기초를 완성하는 단계입니다. 내신 수행평가·논술에 바로 활용할 수 있는 통합적 사고력을 완성합니다. 수능 국어 심화 과정은 소포스에듀(이대건T)와 연계합니다.</p>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid oklch(90% 0 0);border-left:1px solid oklch(90% 0 0);margin-bottom:36px;">
-        <div style="padding:26px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <div style="font-size:22px;margin-bottom:12px;">📜</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">동서양 고전</div>
-          <div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.7;">동양·서양 고전 텍스트를 철학적 관점으로 읽고 현대적 의미를 탐구합니다.</div>
-        </div>
-        <div style="padding:26px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <div style="font-size:22px;margin-bottom:12px;">🌍</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">세계사</div>
-          <div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.7;">세계사의 흐름 속에서 인물·사건·사상을 연결하며 역사적 사고력을 기릅니다.</div>
-        </div>
-        <div style="padding:26px 24px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <div style="font-size:22px;margin-bottom:12px;">📰</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:8px;">시사 이슈 논술</div>
-          <div style="font-size:13.5px;color:oklch(45% 0 0);line-height:1.7;">현재 시사 이슈를 고전·역사와 연결하여 논리적 논술문으로 완성합니다.</div>
+      <span class="section-label">AGORA · SL 9–11 · 대화</span>
+      <h2 style="font-size:32px;font-weight:800;letter-spacing:-0.02em;margin:8px 0 16px;">아고라 <span style="font-size:20px;font-weight:500;color:oklch(45% 0 0);">인문 철학 과정</span></h2>
+      <p class="origin-quote">고대 그리스 도시국가의 광장. 시민들이 모여 공동의 일을 논의하던 공간에서 이름을 가져왔습니다.</p>
+      <p style="font-size:16px;color:oklch(35% 0 0);line-height:1.9;max-width:760px;margin:0 0 40px;">시대와 사회가 사람을 어떻게 움직이는지 읽는 과정입니다. 세계 장편소설, 한국사와 세계사, 한국 소설과 근대시를 함께 읽으며 문학과 역사를 잇습니다. 서로 다른 관점을 질문과 논증으로 검토하고, 긴 글을 몇 주에 걸쳐 끝까지 읽어 내는 힘을 기릅니다.</p>
+
+      <div style="margin-bottom:40px;">
+        <p style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 14px;">레벨 기준과 글쓰기 분량</p>
+        <div class="level-grid">
+          <div class="level-row header">
+            <div class="level-cell label">레벨</div>
+            <div class="level-cell label">이런 모습을 보입니다</div>
+            <div class="level-cell label">참고 학년</div>
+            <div class="level-cell label">글쓰기 분량</div>
+          </div>
+          <div class="level-row">
+            <div class="level-cell sl">SL9</div>
+            <div class="level-cell">시대 배경이 있는 글을 도움을 받아 읽고, 줄거리를 다섯 칸으로 요약할 수 있습니다.</div>
+            <div class="level-cell">초5</div>
+            <div class="level-cell">1,200–1,600자 · 요약과 감상이 함께 있는 글</div>
+          </div>
+          <div class="level-row">
+            <div class="level-cell sl">SL10</div>
+            <div class="level-cell">장편을 몇 주에 걸쳐 혼자 읽고, 인물과 시대를 연결해 말할 수 있습니다.</div>
+            <div class="level-cell">초5–6</div>
+            <div class="level-cell">장편 2주차 요약 글 + 4주차 완결 독서록</div>
+          </div>
+          <div class="level-row">
+            <div class="level-cell sl">SL11</div>
+            <div class="level-cell">서로 다른 관점을 비교하고, 반론을 고려한 글을 쓸 수 있습니다.</div>
+            <div class="level-cell">초6</div>
+            <div class="level-cell">1,600–2,000자 · 반론을 고려한 논증하는 글</div>
+          </div>
         </div>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:36px;">
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">독서·문법</span>
-        <span style="color:oklch(70% 0 0);font-size:14px;">→</span>
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">내신 분석</span>
-        <span style="color:oklch(70% 0 0);font-size:14px;">→</span>
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">생기부 전략</span>
-        <span style="color:oklch(70% 0 0);font-size:14px;">→</span>
-        <span style="font-size:13.5px;font-weight:700;color:oklch(20% 0 0);">수능 대비</span>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:40px;">
+        <div>
+          <p style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 14px;">이런 책을 읽습니다</p>
+          <ul class="book-list">
+            <li>시대를 읽는 단편 — 「마지막 수업」(도데) · 「고향」 · 「아Q정전」(루쉰)</li>
+            <li>세계 장편 — 『모모』 · 『기억 전달자』 · 『작은 아씨들』 · 『레미제라블』 등</li>
+            <li>한국 문학 — 「소나기」(황순원) · 윤동주의 시 · 『몽실언니』 · 『초정리 편지』 등</li>
+            <li>한국사와 세계사 — 곰곰역사(초고) · 『식탁 위의 세계사』 등</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 14px;">수업은 이렇게 진행됩니다</p>
+          <div style="border-top:1px solid oklch(90% 0 0);">
+            <table class="flow-table">
+              <tr><td class="flow-label">1주차</td><td>작가와 시대 배경을 공부하고 앞부분 장면을 읽습니다.</td></tr>
+              <tr><td class="flow-label">2주차</td><td>줄거리 파악을 마치고 요약하는 글을 씁니다.</td></tr>
+              <tr><td class="flow-label">3주차</td><td>핵심 장면을 두고 토론합니다.</td></tr>
+              <tr><td class="flow-label">4주차</td><td>질문 하나를 골라 완결된 독서록을 씁니다.</td></tr>
+            </table>
+          </div>
+        </div>
       </div>
-      <div style="border:1px solid oklch(88% 0 0);padding:28px 32px;max-width:680px;">
-        <p style="font-size:12px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 14px;">이 단계를 마치면</p>
-        <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;">
-          <li style="font-size:14px;color:oklch(30% 0 0);line-height:1.7;">고전·역사·시사를 연결하는 통합적 사고력 완성</li>
-          <li style="font-size:14px;color:oklch(30% 0 0);line-height:1.7;">내신 수행평가 및 학생부 종합 대비 논술 작성</li>
-          <li style="font-size:14px;color:oklch(30% 0 0);line-height:1.7;">수능 국어 독해 기초 확립 (소포스에듀 연계 심화 가능)</li>
-        </ul>
+    </div>
+  </section>
+
+  <!-- ACADEMIA -->
+  <section id="academia" style="padding:90px 0;border-bottom:1px solid oklch(92% 0 0);">
+    <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
+      <span class="section-label">ACADEMIA · SL 12–14 · 사유</span>
+      <h2 style="font-size:32px;font-weight:800;letter-spacing:-0.02em;margin:8px 0 16px;">아카데미아 <span style="font-size:20px;font-weight:500;color:oklch(45% 0 0);">고전 철학 과정</span></h2>
+      <p class="origin-quote">플라톤이 기원전 4세기 초 아테네에 세운 학당 아카데메이아에서 이름을 가져왔습니다.</p>
+      <p style="font-size:16px;color:oklch(35% 0 0);line-height:1.9;max-width:760px;margin:0 0 40px;">동서양 고전을 읽는 과정입니다. 인간과 국가, 정의와 자유, 사랑과 권력에 관해 인류가 오래 물어 온 질문을 원전에 가까운 텍스트로 만납니다. 저자의 주장과 근거를 분석하고, 자기 주장을 논술로 세우는 힘을 기릅니다.</p>
+
+      <div style="margin-bottom:40px;">
+        <p style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 14px;">레벨 기준과 글쓰기 분량</p>
+        <div class="level-grid">
+          <div class="level-row header">
+            <div class="level-cell label">레벨</div>
+            <div class="level-cell label">이런 모습을 보입니다</div>
+            <div class="level-cell label">참고 학년</div>
+            <div class="level-cell label">글쓰기 분량</div>
+          </div>
+          <div class="level-row">
+            <div class="level-cell sl">SL12</div>
+            <div class="level-cell">고전을 도움을 받아 읽고, 핵심 개념을 자기 말로 풀 수 있습니다.</div>
+            <div class="level-cell">중1</div>
+            <div class="level-cell">1,600자 안팎 · 개념을 풀어 쓰는 글</div>
+          </div>
+          <div class="level-row">
+            <div class="level-cell sl">SL13</div>
+            <div class="level-cell">번역 원전을 혼자 읽고, 저자의 주장과 근거를 분석할 수 있습니다.</div>
+            <div class="level-cell">중2</div>
+            <div class="level-cell">2,000자 안팎 · 주장과 근거를 분석하는 글</div>
+          </div>
+          <div class="level-row">
+            <div class="level-cell sl">SL14</div>
+            <div class="level-cell">서로 다른 고전을 비교하고, 자기 주장을 논술로 세울 수 있습니다.</div>
+            <div class="level-cell">중3 이상</div>
+            <div class="level-cell">2,000–2,400자 · 서론·본론·결론을 갖춘 논술</div>
+          </div>
+        </div>
       </div>
-      <p style="font-size:13px;color:oklch(52% 0 0);margin-top:22px;">수능 국어 심화는 소포스에듀 (이대건T)와 연계합니다.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:40px;">
+        <div>
+          <p style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 14px;">이런 책을 읽습니다</p>
+          <ul class="book-list">
+            <li>입문 — 『동물농장』(오웰) · 『소크라테스의 변론』(플라톤) · 셰익스피어 희극</li>
+            <li>사상 — 『군주론』(마키아벨리) · 『향연』(플라톤) · 『자유론』(밀)</li>
+            <li>대작 — 『1984』(오웰) · 『실낙원』(밀턴) · 셰익스피어 비극 · 『신곡』(단테)</li>
+            <li>동양 고전 — 『논어』 · 박지원 「일야구도하기」 · 정약용 「수오재기」 등</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0 0);margin:0 0 14px;">수업은 이렇게 진행됩니다</p>
+          <div style="border-top:1px solid oklch(90% 0 0);">
+            <table class="flow-table">
+              <tr><td class="flow-label">읽기 전에</td><td>작가와 시대, 작품이 던지는 물음을 살핍니다.</td></tr>
+              <tr><td class="flow-label">본문 읽기</td><td>핵심 대목을 정독합니다.</td></tr>
+              <tr><td class="flow-label">상징·개념 읽기</td><td>작품의 상징과 핵심 개념을 정리합니다.</td></tr>
+              <tr><td class="flow-label">하브루타</td><td>짝과 질문을 주고받으며 해석을 다듬습니다.</td></tr>
+              <tr><td class="flow-label">쟁점 토론</td><td>주요 장면을 깊이 읽고 찬반 쟁점을 토론합니다.</td></tr>
+              <tr><td class="flow-label">마무리 글쓰기</td><td>토론한 쟁점에 대해 자기 주장을 글로 씁니다.</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:oklch(52% 0 0);">수능 국어 심화는 소포스에듀 (이대건T)와 연계합니다.</p>
+    </div>
+  </section>
+
+  <!-- COMMON METHOD -->
+  <section style="padding:90px 0;background:oklch(97.5% 0.003 55);border-bottom:1px solid oklch(90% 0 0);">
+    <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
+      <p style="font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 8px;">모든 과정에 공통인 수업 방식</p>
+      <h2 style="font-size:26px;font-weight:800;letter-spacing:-0.02em;margin:0 0 40px;">질문에서 시작해 글로 완성합니다</h2>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;">
+        <div style="background:#fff;padding:28px 28px;border:1px solid oklch(90% 0 0);">
+          <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0.14 50);margin-bottom:12px;">질문 만들기</div>
+          <p style="font-size:14px;color:oklch(38% 0 0);line-height:1.75;margin:0;">책을 읽고 스스로 질문 세 개를 만든 뒤, 가장 묻고 싶은 질문 하나를 고릅니다. 수업은 선생님의 질문이 아니라 학생의 질문에서 시작합니다.</p>
+        </div>
+        <div style="background:#fff;padding:28px 28px;border:1px solid oklch(90% 0 0);">
+          <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0.14 50);margin-bottom:12px;">하브루타 대화</div>
+          <p style="font-size:14px;color:oklch(38% 0 0);line-height:1.75;margin:0;">짝과 마주 앉아 질문을 주고받습니다. 근거를 들어 말하고, 다른 관점을 듣고, 필요하면 생각을 고칩니다.</p>
+        </div>
+        <div style="background:#fff;padding:28px 28px;border:1px solid oklch(90% 0 0);">
+          <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0.14 50);margin-bottom:12px;">글쓰기</div>
+          <p style="font-size:14px;color:oklch(38% 0 0);line-height:1.75;margin:0;">대화로 다듬은 생각을 자신의 언어로 정리해 한 편의 글로 완성합니다. 줄거리 요약에서 출발해 근거를 갖춘 글, 반론을 고려한 논증, 논술로 나아갑니다.</p>
+        </div>
+        <div style="background:#fff;padding:28px 28px;border:1px solid oklch(90% 0 0);">
+          <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(56% 0.14 50);margin-bottom:12px;">사실과 해석 구분</div>
+          <p style="font-size:14px;color:oklch(38% 0 0);line-height:1.75;margin:0;">작품에 쓰인 사실과 그에 대한 나의 해석을 구분해 말하고 쓰도록 지도합니다.</p>
+        </div>
+      </div>
+      <div style="margin-top:32px;padding:20px 24px;border:1px solid oklch(88% 0 0);background:#fff;">
+        <p style="font-size:13.5px;color:oklch(38% 0 0);line-height:1.8;margin:0;">모든 학생 교재의 마지막 쪽에는 교사 코멘트와 학부모 확인란이 있습니다. 수업에서 무엇을 읽고 어떤 생각을 했는지 가정에서도 함께 보실 수 있습니다.</p>
+      </div>
     </div>
   </section>
 
   <!-- SOPHOS -->
   <section id="sophos" style="padding:90px 0;border-bottom:1px solid oklch(92% 0 0);">
     <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
-      <span style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);">소포스에듀</span>
+      <span class="section-label">소포스에듀</span>
       <h2 style="font-size:28px;font-weight:800;letter-spacing:-0.02em;margin:14px 0 12px;">현재 개설 강좌 (이대건T)</h2>
       <p style="font-size:16px;color:oklch(35% 0 0);line-height:1.85;max-width:600px;margin:0 0 26px;">서울대 출신 이대건 선생님의 수능 국어 전문 강좌. 문학·문법·내신을 전략적으로 완성합니다.</p>
       <ul style="margin:0 0 28px;padding-left:18px;display:flex;flex-direction:column;gap:10px;">
@@ -343,34 +591,11 @@
     </div>
   </section>
 
-  <!-- REVIEWS -->
-  <section style="padding:90px 0;">
-    <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
-      <div style="text-align:center;margin-bottom:44px;">
-        <p style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:oklch(56% 0.14 50);margin:0 0 12px;">수강생 후기</p>
-        <h2 style="font-size:24px;font-weight:800;letter-spacing:-0.02em;margin:0;">실제 학부모님이 전해주신 이야기</h2>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid oklch(90% 0 0);border-left:1px solid oklch(90% 0 0);">
-        <blockquote style="margin:0;padding:28px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <p style="font-size:14.5px;color:oklch(30% 0 0);line-height:1.8;margin:0 0 18px;">"아이가 책을 읽는 방식이 완전히 바뀌었어요. 단순히 줄거리가 아니라 스스로 질문을 만들고 토론하는 모습을 보며 정말 놀랐습니다."</p>
-          <footer style="font-size:12.5px;font-weight:700;color:oklch(56% 0.14 50);">이○○ 학부모 <span style="font-weight:400;color:oklch(55% 0 0);">· 초5 자녀, 수강 2년차</span></footer>
-        </blockquote>
-        <blockquote style="margin:0;padding:28px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <p style="font-size:14.5px;color:oklch(30% 0 0);line-height:1.8;margin:0 0 18px;">"처음엔 글쓰기를 너무 싫어했는데 이제는 스스로 쓰고 싶다고 합니다. 소수 정예라 집중해서 가르쳐 주시는 게 느껴집니다."</p>
-          <footer style="font-size:12.5px;font-weight:700;color:oklch(56% 0.14 50);">김○○ 학부모 <span style="font-weight:400;color:oklch(55% 0 0);">· 초3 자녀, 수강 1년차</span></footer>
-        </blockquote>
-        <blockquote style="margin:0;padding:28px;border-right:1px solid oklch(90% 0 0);border-bottom:1px solid oklch(90% 0 0);">
-          <p style="font-size:14.5px;color:oklch(30% 0 0);line-height:1.8;margin:0 0 18px;">"하브루타 방식이 처음엔 낯설었는데, 아이가 토론을 즐기기 시작하면서 확신이 생겼어요. 학교 수업 시간에도 손을 잘 든다고 칭찬해주셨어요."</p>
-          <footer style="font-size:12.5px;font-weight:700;color:oklch(56% 0.14 50);">정○○ 학부모 <span style="font-weight:400;color:oklch(55% 0 0);">· 초4 자녀, 수강 1년차</span></footer>
-        </blockquote>
-      </div>
-    </div>
-  </section>
-
   <section style="padding:90px 0;text-align:center;border-top:1px solid oklch(90% 0 0);">
     <div style="max-width:640px;margin:0 auto;padding:0 32px;">
-      <h2 style="font-size:28px;font-weight:800;letter-spacing:-0.02em;margin:0;">우리 아이에게 맞는 반이 궁금하다면</h2>
-      <p style="font-size:15.5px;color:oklch(40% 0 0);margin-top:16px;">레벨 배정 상담은 네이버 톡톡이나 카카오톡으로 편하게 문의해주세요.</p>
+      <p style="font-size:14px;font-weight:600;color:oklch(40% 0 0);line-height:1.85;margin:0 0 24px;">책을 얼마나 많이 읽었는가보다,<br>한 권의 책 앞에서 얼마나 깊이 생각했는가.</p>
+      <h2 style="font-size:28px;font-weight:800;letter-spacing:-0.02em;margin:0;">우리 아이에게 맞는 과정이 궁금하다면</h2>
+      <p style="font-size:15.5px;color:oklch(40% 0 0);margin-top:16px;">리터러시 진단과 배정 상담은 네이버 톡톡이나 카카오톡으로 편하게 문의해주세요.</p>
       <div style="display:flex;gap:14px;justify-content:center;margin-top:36px;">
         <a href="https://talk.naver.com/ct/wcal0q?frm=pnmb" target="_blank" rel="noopener noreferrer" style="border:1px solid oklch(18% 0 0);color:oklch(18% 0 0);padding:14px 30px;font-size:14.5px;font-weight:700;">네이버 톡톡 상담</a>
         <a href="http://pf.kakao.com/_xadGxnxb" target="_blank" rel="noopener noreferrer" style="background:oklch(18% 0 0);color:#fff;padding:14px 30px;font-size:14.5px;font-weight:700;">카카오톡 채널</a>
