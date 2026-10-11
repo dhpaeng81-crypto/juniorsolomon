@@ -14,6 +14,11 @@
       { text: '커리큘럼',    href: 'curriculum.html' },
       { text: '수업운영 안내', href: 'fee.html' },
     ],
+    '커뮤니티': [
+      { text: '공지사항', href: 'board-notice.html' },
+      { text: '갤러리',   href: 'board-gallery.html' },
+      { text: '수강후기', href: 'board-review.html' },
+    ],
   };
 
   // 텍스트 노드만 추출 (active 표시용 <span> 제외)
