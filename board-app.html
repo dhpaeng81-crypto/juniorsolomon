@@ -351,6 +351,24 @@
     .dt-gitem-inner { position: relative; }
     .dt-zoom { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; font-size: 2rem; background: oklch(0 0 0 / 0); transition: opacity var(--dur) var(--ease), background var(--dur) var(--ease); }
     .dt-gitem:hover .dt-zoom { opacity: 1; background: oklch(0 0 0 / .28); }
+    /* 상세보기 이미지 캐러셀 */
+    .dt-carousel { position: relative; width: 100%; background: var(--surface); overflow: hidden; border-radius: var(--r-lg); border: 1px solid var(--border); }
+    .dt-car-track { display: flex; transition: transform .32s cubic-bezier(.4,0,.2,1); will-change: transform; }
+    .dt-car-track img { width: 100%; flex-shrink: 0; object-fit: contain; max-height: 68vh; background: var(--surface); display: block; cursor: pointer; }
+    .dt-car-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: oklch(0.1 0 0 / .50); color: #fff;
+      border: none; cursor: pointer; width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; z-index: 3; transition: background .2s;
+    }
+    .dt-car-btn:hover { background: oklch(0.1 0 0 / .80); }
+    .dt-car-prev { left: 0; }
+    .dt-car-next { right: 0; }
+    .dt-car-counter { position: absolute; top: 8px; right: 10px; background: oklch(0.1 0 0 / .55); color: #fff; font-size: .75rem; font-weight: 700; padding: 3px 9px; border-radius: 20px; }
+    .dt-car-dots { display: flex; gap: 6px; justify-content: center; padding: 10px 0 4px; flex-wrap: wrap; }
+    .dt-car-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); cursor: pointer; transition: background .2s, transform .2s; border: none; padding: 0; }
+    .dt-car-dot.on { background: var(--primary); transform: scale(1.3); }
     .vid-play-ico { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: oklch(0 0 0 / .30); font-size: 2.4rem; pointer-events: none; }
     .dt-actions { display: flex; gap: 8px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
 
@@ -1050,6 +1068,32 @@ function gcarMove(e, pid, dir) {
   if (dotsEl) dotsEl.querySelectorAll('.gcar-dot').forEach((d, i) => d.classList.toggle('on', i === idx));
 }
 
+// ── 상세보기 캐러셀 ─────────────────────────────────────────────
+var _dtCarIdx = 0;
+function dtCarGo(idx) {
+  var track = document.getElementById('dt-car-track');
+  var counter = document.getElementById('dt-car-counter');
+  var dotsEl = document.getElementById('dt-car-dots');
+  if (!track) return;
+  var total = track.querySelectorAll('img').length;
+  _dtCarIdx = (idx + total) % total;
+  track.style.transform = 'translateX(-' + (_dtCarIdx * 100) + '%)';
+  if (counter) counter.textContent = (_dtCarIdx + 1) + ' / ' + total;
+  if (dotsEl) dotsEl.querySelectorAll('.dt-car-dot').forEach(function(d, i) { d.classList.toggle('on', i === _dtCarIdx); });
+}
+function dtCarMove(dir) { dtCarGo(_dtCarIdx + dir); }
+function initDtCarTouch() {
+  var track = document.getElementById('dt-car-track');
+  if (!track) return;
+  var sx = 0, sy = 0;
+  track.addEventListener('touchstart', function(e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+  track.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - sx;
+    var dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) dtCarMove(dx < 0 ? 1 : -1);
+  });
+}
+
 function initGcarTouch() {
   document.querySelectorAll('.gcard[data-total]').forEach(card => {
     const total = parseInt(card.dataset.total) || 1;
@@ -1101,14 +1145,28 @@ async function renderDetail(postId) {
 
   let imgHtml = '';
   const urls = post.image_urls || [];
-  if (urls.length) {
-    const items = urls.map(url =>
-      `<div class="dt-gitem" onclick="openLbx('image','${esc(url)}')">
-        <div class="dt-gitem-inner"><img src="${esc(url)}" loading="lazy"><div class="dt-zoom">🔍</div></div>
-      </div>`
+  if (urls.length === 1) {
+    imgHtml = `<div class="media-section-title">📸 이미지</div>
+      <div class="dt-gallery solo">
+        <div class="dt-gitem" onclick="openLbx('image','${esc(urls[0])}')">
+          <div class="dt-gitem-inner"><img src="${esc(urls[0])}" loading="lazy"><div class="dt-zoom">🔍</div></div>
+        </div>
+      </div>`;
+  } else if (urls.length > 1) {
+    const trackImgs = urls.map((u, i) =>
+      `<img src="${esc(u)}" loading="${i === 0 ? 'eager' : 'lazy'}" onclick="openLbx('image','${esc(u)}')">`
+    ).join('');
+    const dots = urls.map((_, i) =>
+      `<button class="dt-car-dot${i === 0 ? ' on' : ''}" onclick="dtCarGo(${i})"></button>`
     ).join('');
     imgHtml = `<div class="media-section-title">📸 이미지 <span>(${urls.length})</span></div>
-      <div class="dt-gallery${urls.length === 1 ? ' solo' : ''}">${items}</div>`;
+      <div class="dt-carousel" id="dt-carousel">
+        <div class="dt-car-track" id="dt-car-track">${trackImgs}</div>
+        <button class="dt-car-btn dt-car-prev" onclick="dtCarMove(-1)">&#8249;</button>
+        <button class="dt-car-btn dt-car-next" onclick="dtCarMove(1)">&#8250;</button>
+        <div class="dt-car-counter" id="dt-car-counter">1 / ${urls.length}</div>
+      </div>
+      <div class="dt-car-dots" id="dt-car-dots">${dots}</div>`;
   }
 
   const editBtns = canEdit ? `<div class="dt-actions">
@@ -1137,6 +1195,10 @@ async function renderDetail(postId) {
       </button>
     </div>
     <div id="comments-section" class="comments-section"></div>`;
+
+  // 상세보기 캐러셀 초기화
+  _dtCarIdx = 0;
+  initDtCarTouch();
 
   // 좋아요·댓글 비동기 로드
   const [likeData, comments] = await Promise.all([
