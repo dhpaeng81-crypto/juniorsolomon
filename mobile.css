@@ -2,6 +2,11 @@
    주니어솔로몬 — Mobile Responsive
    ════════════════════════════════════ */
 
+/* ── PC root 폰트 기준 (20px) ── */
+@media (min-width: 901px) {
+  :root { font-size: 20px; }
+}
+
 /* ── 전체 너비 제한 해제 ── */
 * { box-sizing: border-box; }
 img { max-width: 100%; }
