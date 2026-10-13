@@ -256,15 +256,7 @@
           loginBtn.className = 'mob-auth-login';
           loginBtn.textContent = '로그인';
           loginBtn.addEventListener('click', function () {
-            var dd = document.getElementById('ah-login-dd');
-            if (dd) { dd.classList.toggle('open'); }
-            var mobPanel = document.getElementById('mobile-nav-panel');
-            if (mobPanel) {
-              mobPanel.classList.remove('open');
-              document.getElementById('nav-hamburger') && document.getElementById('nav-hamburger').classList.remove('open');
-              document.getElementById('nav-backdrop') && document.getElementById('nav-backdrop').classList.remove('open');
-              document.body.style.overflow = '';
-            }
+            window.location.href = 'board-app.html';
           });
           panel.appendChild(loginBtn);
 
