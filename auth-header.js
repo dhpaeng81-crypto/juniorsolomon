@@ -269,11 +269,11 @@
       }
 
       // ── 외부 클릭 시 드롭다운 닫기 ──────────────────────────────
-      document.addEventListener('click', function () {
+      document.addEventListener('click', function (e) {
         var dd1 = document.getElementById('ah-login-dd');
         var dd2 = document.getElementById('ah-user-dd');
-        if (dd1) dd1.classList.remove('open');
-        if (dd2) dd2.classList.remove('open');
+        if (dd1 && !dd1.contains(e.target) && e.target.id !== 'ah-login-btn') dd1.classList.remove('open');
+        if (dd2 && !dd2.contains(e.target) && e.target.id !== 'ah-user-btn')  dd2.classList.remove('open');
       });
 
       // ── Auth 상태 감지 ───────────────────────────────────────────
