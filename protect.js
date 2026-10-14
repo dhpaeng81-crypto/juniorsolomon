@@ -70,11 +70,13 @@
     });
   });
 
-  /* ── 개발자도구 열림 감지 (경고창) ── */
+  /* ── 개발자도구 열림 감지 (데스크탑 전용) ── */
   (function devtoolsWarn() {
+    if (window.innerWidth < 901) return; // 모바일에서는 비활성화
     var warned = false;
     var threshold = 160;
     setInterval(function () {
+      if (window.innerWidth < 901) return; // 리사이즈로 모바일 전환 시에도 비활성화
       if (
         window.outerWidth - window.innerWidth > threshold ||
         window.outerHeight - window.innerHeight > threshold
