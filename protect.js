@@ -70,15 +70,21 @@
     });
   });
 
-  /* ── 개발자도구 열림 감지 (콘솔 경고) ── */
-  (function devtoolsBlock() {
+  /* ── 개발자도구 열림 감지 (경고창) ── */
+  (function devtoolsWarn() {
+    var warned = false;
     var threshold = 160;
     setInterval(function () {
       if (
         window.outerWidth - window.innerWidth > threshold ||
         window.outerHeight - window.innerHeight > threshold
       ) {
-        document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;font-size:18px;color:#333;">이 페이지는 보안 정책에 의해 차단되었습니다.</div>';
+        if (!warned) {
+          warned = true;
+          alert('이 페이지의 콘텐츠는 저작권법에 의해 보호됩니다.\n무단 복제 및 배포를 금합니다.');
+        }
+      } else {
+        warned = false;
       }
     }, 1000);
   })();
