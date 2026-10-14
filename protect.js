@@ -44,7 +44,7 @@
     e.preventDefault();
   });
 
-  /* ── CSS: 텍스트 선택 비활성화 ── */
+  /* ── CSS: 텍스트 선택 + iOS 콜아웃 메뉴 차단 ── */
   var style = document.createElement('style');
   style.textContent = [
     'body, body * {',
@@ -52,23 +52,42 @@
     '  -moz-user-select: none !important;',
     '  -ms-user-select: none !important;',
     '  user-select: none !important;',
+    '  -webkit-touch-callout: none !important;',  /* iOS 길게 누르기 메뉴 차단 */
     '}',
     'input, textarea, [contenteditable] {',
     '  -webkit-user-select: text !important;',
     '  -moz-user-select: text !important;',
     '  -ms-user-select: text !important;',
     '  user-select: text !important;',
+    '  -webkit-touch-callout: default !important;',
+    '}',
+    'img {',
+    '  -webkit-touch-callout: none !important;',  /* iOS 이미지 저장 차단 */
+    '  pointer-events: none !important;',
+    '  draggable: false;',
     '}'
   ].join('\n');
   document.head.appendChild(style);
 
-  /* ── 이미지 드래그/저장 차단 ── */
+  /* ── 이미지 드래그/저장 차단 (동적 이미지 포함) ── */
+  function protectImg(img) {
+    img.setAttribute('draggable', 'false');
+    img.style.pointerEvents = 'none';
+  }
   document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('img').forEach(function (img) {
-      img.setAttribute('draggable', 'false');
-      img.style.pointerEvents = 'none';
+    document.querySelectorAll('img').forEach(protectImg);
+  });
+  // 동적으로 추가되는 이미지도 보호
+  var imgObserver = new MutationObserver(function (mutations) {
+    mutations.forEach(function (m) {
+      m.addedNodes.forEach(function (node) {
+        if (node.nodeType !== 1) return;
+        if (node.tagName === 'IMG') protectImg(node);
+        node.querySelectorAll && node.querySelectorAll('img').forEach(protectImg);
+      });
     });
   });
+  imgObserver.observe(document.body || document.documentElement, { childList: true, subtree: true });
 
   /* ── 개발자도구 열림 감지 (데스크탑 전용) ── */
   (function devtoolsWarn() {
