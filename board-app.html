@@ -244,6 +244,8 @@
       transition: background var(--dur) var(--ease);
     }
     .post-card:hover { background: oklch(97.5% 0 0); }
+    .post-card.opacity-60 { opacity: 0.55; }
+    .post-card.opacity-60:hover { opacity: 0.75; }
     .pc-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
     .pc-title { font-size: .97rem; font-weight: 700; flex: 1; line-height: 1.45; color: var(--ink); letter-spacing: -0.02em; }
     .pc-badges { display: flex; gap: 4px; flex-wrap: wrap; flex-shrink: 0; }
@@ -670,6 +672,11 @@
       <input type="hidden" id="edit-id">
       <div class="fg"><label class="fl">제목</label><input id="w-title" class="fi" placeholder="제목을 입력하세요"></div>
       <div class="fg"><label class="fl">내용</label><textarea id="w-body" class="fi" placeholder="내용을 입력하세요…"></textarea></div>
+      <div class="fg" id="fg-expires" style="display:none">
+        <label class="fl">게재 기한 <span style="font-weight:400;color:var(--muted)">(선택)</span></label>
+        <input id="w-expires" class="fi" type="date" style="max-width:200px">
+        <div style="font-size:.82rem;color:var(--muted);margin-top:5px">설정한 날짜가 지나면 글이 자동으로 숨겨집니다. 비워두면 기한 없음.</div>
+      </div>
       <div class="fg">
         <label class="fl">이미지 / 동영상 첨부</label>
         <div class="upload-zone" id="dropzone"
@@ -911,6 +918,11 @@ async function renderList() {
   if (error) { con.innerHTML = `<div class="empty"><div class="empty-title">불러오기 실패</div></div>`; return; }
 
   let filtered = posts || [];
+  // 게재기한 만료 글 필터링 (비관리자에게만)
+  const now_ts = new Date();
+  if (!isAdmin()) {
+    filtered = filtered.filter(p => !p.expires_at || new Date(p.expires_at) >= now_ts);
+  }
   if (q) filtered = filtered.filter(p => (p.title||'').toLowerCase().includes(q) || (p.content||'').toLowerCase().includes(q));
 
   const total = Math.ceil(filtered.length / PER_PG);
@@ -944,10 +956,20 @@ async function renderList() {
     const authorName = p.author_name || (p.profiles?.display_name) || '관리자';
     const isPinned = p.is_pinned ? `<span class="badge b-pend">📌 고정</span>` : '';
     const lc = lMap[p.id]||0, cc = cMap[p.id]||0;
-    return `<div class="post-card" onclick="openPost('${tbl}','${p.id}')">
+    // 게재기한 배지 (관리자에게만 표시)
+    let expBadge = '';
+    if (isAdmin() && p.expires_at) {
+      const exp = new Date(p.expires_at);
+      const expired = exp < now_ts;
+      const expStr = exp.toLocaleDateString('ko-KR', { month: 'numeric', day: 'numeric' });
+      expBadge = expired
+        ? `<span class="badge" style="background:oklch(95% 0.02 25);color:oklch(45% 0.12 25);font-size:.72rem">⏰ 만료 ${expStr}</span>`
+        : `<span class="badge" style="background:oklch(96% 0.015 55);color:oklch(45% 0.10 55);font-size:.72rem">⏳ ~${expStr}</span>`;
+    }
+    return `<div class="post-card${isAdmin() && p.expires_at && new Date(p.expires_at) < now_ts ? ' opacity-60' : ''}" onclick="openPost('${tbl}','${p.id}')">
       <div class="pc-top">
         <div class="pc-title">${esc(p.title)}</div>
-        <div class="pc-badges">${isPinned}${bs}</div>
+        <div class="pc-badges">${isPinned}${expBadge}${bs}</div>
       </div>
       <div class="pc-preview">${esc(p.content)}</div>
       <div class="pc-meta">
@@ -1350,7 +1372,10 @@ async function setupWrite(postId=null) {
   editId = postId; pendFiles = []; $('prev-grid').innerHTML = '';
   $('edit-id').value = postId || '';
 
-  const showUpload = (curBoard === 'gallery' || (postId && editId));
+  // 게재기한 필드: 공지사항만 표시
+  const fgExpires = $('fg-expires');
+  if (fgExpires) fgExpires.style.display = curBoard === 'notice' ? '' : 'none';
+  if ($('w-expires')) $('w-expires').value = '';
 
   if (postId) {
     $('write-hdr').textContent = '게시글 수정';
@@ -1361,6 +1386,10 @@ async function setupWrite(postId=null) {
       $('write-board-tag').innerHTML = `${b.icon} ${b.label}`;
       $('w-title').value = p.title || '';
       $('w-body').value = p.content || p.description || '';
+      // 기존 게재기한 불러오기
+      if (p.expires_at && $('w-expires')) {
+        $('w-expires').value = p.expires_at.slice(0, 10);
+      }
       if (p.image_urls?.length) {
         p.image_urls.forEach(url => {
           pendFiles.push({ existing: true, url, file: null });
@@ -1374,8 +1403,6 @@ async function setupWrite(postId=null) {
     $('write-board-tag').innerHTML = `${b.icon} ${b.label}`;
     $('w-title').value = ''; $('w-body').value = '';
   }
-
-  // upload zone shown for all boards
 }
 
 function ondov(e) { e.preventDefault(); $('dropzone').classList.add('drag'); }
@@ -1434,10 +1461,15 @@ async function submitPost() {
       imageUrls.push(publicUrl);
     }
 
+    // 게재기한 처리 (공지사항만)
+    const expiresRaw = $v('w-expires');
+    const expiresAt = (curBoard === 'notice' && expiresRaw) ? expiresRaw : null;
+
     if (editId) {
       const patch = { title, image_urls: imageUrls };
       if (tbl === 'gallery') { patch.description = content; }
       else { patch.content = content; }
+      if (curBoard === 'notice') patch.expires_at = expiresAt;
       const { error } = await sb.from(tbl).update(patch).eq('id', editId);
       if (error) throw error;
     } else {
@@ -1445,6 +1477,7 @@ async function submitPost() {
       if (tbl === 'gallery')  { row.description = content; }
       else if (tbl === 'reviews') { row.content = content; row.author_name = currentProfile.display_name; row.user_id = currentUser.id; }
       else { row.content = content; }
+      if (curBoard === 'notice') row.expires_at = expiresAt;
       const { error } = await sb.from(tbl).insert(row);
       if (error) throw error;
     }
