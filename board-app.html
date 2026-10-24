@@ -246,6 +246,10 @@
     .post-card:hover { background: oklch(97.5% 0 0); }
     .post-card.opacity-60 { opacity: 0.55; }
     .post-card.opacity-60:hover { opacity: 0.75; }
+    .post-card.pc-has-thumb { display: flex; align-items: flex-start; gap: 14px; }
+    .pc-thumb { flex-shrink: 0; width: 64px; height: 64px; border-radius: var(--r-md); overflow: hidden; border: 1px solid var(--border); }
+    .pc-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .pc-main { flex: 1; min-width: 0; }
     .pc-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
     .pc-title { font-size: .97rem; font-weight: 700; flex: 1; line-height: 1.45; color: var(--ink); letter-spacing: -0.02em; }
     .pc-badges { display: flex; gap: 4px; flex-wrap: wrap; flex-shrink: 0; }
@@ -389,6 +393,20 @@
     .like-ico { font-size:1.1rem; display:inline-block; }
     .like-btn.liked .like-ico { animation:heartpop .22s cubic-bezier(.16,1,.3,1); }
     @keyframes heartpop { 0%{transform:scale(1)} 55%{transform:scale(1.45)} 100%{transform:scale(1)} }
+    .share-btn {
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      padding:10px 28px; border-radius:var(--r-pill);
+      border:2px solid var(--border); background:var(--bg);
+      color:var(--muted); cursor:pointer;
+      font-size:.9rem; font-weight:700; font-family:inherit;
+      min-width:120px; transition:all var(--dur) var(--ease);
+    }
+    .share-btn:hover { border-color:var(--primary); color:var(--primary); background:var(--primary-sub); }
+    /* ── 상세보기 상단 이미지 ── */
+    .dt-img-top { width:100%; margin-bottom:20px; }
+    .dt-img-top > img { width:100%; max-height:480px; object-fit:contain; border-radius:var(--r-lg); background:var(--surface); display:block; }
+    .dt-img-top .dt-carousel { border-radius:var(--r-lg); }
+    .dt-img-top .dt-car-track img { width:100%; max-height:480px; object-fit:contain; background:var(--surface); }
 
     /* ══ COMMENTS ══ */
     .comments-section { margin-top:28px; padding-top:24px; border-top:1px solid var(--border); }
@@ -966,7 +984,10 @@ async function renderList() {
         ? `<span class="badge" style="background:oklch(95% 0.02 25);color:oklch(45% 0.12 25);font-size:.72rem">⏰ 만료 ${expStr}</span>`
         : `<span class="badge" style="background:oklch(96% 0.015 55);color:oklch(45% 0.10 55);font-size:.72rem">⏳ ~${expStr}</span>`;
     }
-    return `<div class="post-card${isAdmin() && p.expires_at && new Date(p.expires_at) < now_ts ? ' opacity-60' : ''}" onclick="openPost('${tbl}','${p.id}')">
+    const thumbUrl = (curBoard === 'notice' && (p.image_urls||[]).length) ? p.image_urls[0] : null;
+    return `<div class="post-card${thumbUrl ? ' pc-has-thumb' : ''}${isAdmin() && p.expires_at && new Date(p.expires_at) < now_ts ? ' opacity-60' : ''}" onclick="openPost('${tbl}','${p.id}')">
+      ${thumbUrl ? `<div class="pc-thumb"><img src="${esc(thumbUrl)}" alt="" loading="lazy"></div>` : ''}
+      <div class="pc-main">
       <div class="pc-top">
         <div class="pc-title">${esc(p.title)}</div>
         <div class="pc-badges">${isPinned}${expBadge}${bs}</div>
@@ -978,6 +999,7 @@ async function renderList() {
         <span>👁 ${p.views || 0}</span>
         ${lc ? `<span class="pc-stat">❤️ ${lc}</span>` : ''}
         ${cc ? `<span class="pc-stat">💬 ${cc}</span>` : ''}
+      </div>
       </div>
     </div>`;
   }).join('')}</div>`;
@@ -1165,30 +1187,30 @@ async function renderDetail(postId) {
   const authorName = post.author_name || post.display_name || '관리자';
   const canEdit = currentUser && (post.author_id === currentUser.id || isAdmin());
 
-  let imgHtml = '';
   const urls = post.image_urls || [];
+
+  // ── 3. 이미지: 상단 배치, 크게 ──
+  let imgHtml = '';
   if (urls.length === 1) {
-    imgHtml = `<div class="media-section-title">📸 이미지</div>
-      <div class="dt-gallery solo">
-        <div class="dt-gitem" onclick="openLbx('image','${esc(urls[0])}')">
-          <div class="dt-gitem-inner"><img src="${esc(urls[0])}" loading="lazy"><div class="dt-zoom">🔍</div></div>
-        </div>
-      </div>`;
+    imgHtml = `<div class="dt-img-top">
+      <img src="${esc(urls[0])}" loading="eager" onclick="openLbx('image','${esc(urls[0])}')" style="cursor:zoom-in">
+    </div>`;
   } else if (urls.length > 1) {
     const trackImgs = urls.map((u, i) =>
-      `<img src="${esc(u)}" loading="${i === 0 ? 'eager' : 'lazy'}" onclick="openLbx('image','${esc(u)}')">`
+      `<img src="${esc(u)}" loading="${i === 0 ? 'eager' : 'lazy'}" onclick="openLbx('image','${esc(u)}')" style="cursor:zoom-in">`
     ).join('');
     const dots = urls.map((_, i) =>
       `<button class="dt-car-dot${i === 0 ? ' on' : ''}" onclick="dtCarGo(${i})"></button>`
     ).join('');
-    imgHtml = `<div class="media-section-title">📸 이미지 <span>(${urls.length})</span></div>
+    imgHtml = `<div class="dt-img-top">
       <div class="dt-carousel" id="dt-carousel">
         <div class="dt-car-track" id="dt-car-track">${trackImgs}</div>
         <button class="dt-car-btn dt-car-prev" onclick="dtCarMove(-1)">&#8249;</button>
         <button class="dt-car-btn dt-car-next" onclick="dtCarMove(1)">&#8250;</button>
         <div class="dt-car-counter" id="dt-car-counter">1 / ${urls.length}</div>
       </div>
-      <div class="dt-car-dots" id="dt-car-dots">${dots}</div>`;
+      <div class="dt-car-dots" id="dt-car-dots">${dots}</div>
+    </div>`;
   }
 
   const editBtns = canEdit ? `<div class="dt-actions">
@@ -1209,11 +1231,15 @@ async function renderDetail(postId) {
       ${post.updated_at && post.updated_at !== post.created_at ? `<span style="color:var(--accent-fg)">✏️ 수정됨 ${fmtDate(post.updated_at)}</span>` : ''}
       <span>👁 ${(post.views || 0) + 1}</span>
     </div>
+    ${imgHtml}
     <div class="dt-body">${esc(post.content || post.description || '')}</div>
-    ${imgHtml}${reviewStatus}${editBtns}
+    ${reviewStatus}${editBtns}
     <div class="like-section">
       <button class="like-btn" id="like-btn" onclick="toggleLike('${tbl}','${postId}')">
         <span class="like-ico">🤍</span> <span id="like-label">좋아요</span>
+      </button>
+      <button class="share-btn" onclick="sharePost('${esc(post.title)}','${postId}')">
+        <span>🔗</span> 공유
       </button>
     </div>
     <div id="comments-section" class="comments-section"></div>`;
@@ -1273,6 +1299,18 @@ function renderLikeBtn(count, userLiked) {
   btn.className = 'like-btn' + (userLiked ? ' liked' : '');
   btn.querySelector('.like-ico').textContent = userLiked ? '❤️' : '🤍';
   lbl.textContent = count > 0 ? `좋아요 ${count}` : '좋아요';
+}
+
+function sharePost(title, postId) {
+  const url = `${location.origin}${location.pathname}?board=${curBoard}&post=${postId}`;
+  if (navigator.share) {
+    navigator.share({ title, url }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(url).then(
+      () => toast('링크가 복사되었습니다 🔗', 'ok'),
+      () => { prompt('링크를 복사하세요:', url); }
+    );
+  }
 }
 
 async function toggleLike(tbl, postId) {
