@@ -649,12 +649,6 @@
 <!-- ══ 모바일 인증 바 ══ -->
 <div class="mobile-auth-bar" id="mobile-auth-bar"></div>
 
-<!-- ══ 카카오 채널 배너 ══ -->
-<div style="background:#FEE500;padding:10px 20px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:.85rem;font-weight:700;color:#191919;">
-  <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M9 1.5C4.86 1.5 1.5 4.19 1.5 7.5c0 2.07 1.22 3.89 3.06 5.03l-.78 2.88 3.36-2.22c.61.1 1.23.16 1.86.16 4.14 0 7.5-2.69 7.5-6s-3.36-6-7.5-6z" fill="#191919"/></svg>
-  카카오 채널에서 공지사항과 소식을 받아보세요
-  <button onclick="kakaoChannelFollow()" style="background:#191919;color:#FEE500;border:none;border-radius:20px;padding:4px 14px;font-size:.78rem;font-weight:800;cursor:pointer;font-family:inherit;">채널 추가</button>
-</div>
 
 <!-- ══ LOGIN ══ -->
 <div id="page-login" class="page">
@@ -1773,5 +1767,13 @@ function kakaoChannelFollow() {
 }
 </script>
 <script src="protect.js"></script>
+
+<!-- ══ 카카오 채널 하단 고정 배너 ══ -->
+<div style="position:fixed;bottom:0;left:0;right:0;z-index:200;background:#FEE500;padding:10px 20px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:.85rem;font-weight:700;color:#191919;box-shadow:0 -2px 8px rgba(0,0,0,0.12);">
+  <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M9 1.5C4.86 1.5 1.5 4.19 1.5 7.5c0 2.07 1.22 3.89 3.06 5.03l-.78 2.88 3.36-2.22c.61.1 1.23.16 1.86.16 4.14 0 7.5-2.69 7.5-6s-3.36-6-7.5-6z" fill="#191919"/></svg>
+  카카오 채널에서 공지사항과 소식을 받아보세요
+  <button onclick="kakaoChannelFollow()" style="background:#191919;color:#FEE500;border:none;border-radius:20px;padding:4px 14px;font-size:.78rem;font-weight:800;cursor:pointer;font-family:inherit;">채널 추가</button>
+  <button onclick="this.parentElement.style.display='none'" style="background:none;border:none;color:#191919;opacity:0.5;cursor:pointer;font-size:1.1rem;padding:0 0 0 4px;line-height:1;">✕</button>
+</div>
 </body>
 </html>
