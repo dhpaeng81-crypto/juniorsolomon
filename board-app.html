@@ -868,8 +868,8 @@ function go(page, postId=null) {
   document.getElementById('page-' + page).classList.add('on');
   curPage = page; window.scrollTo(0, 0);
   updateNav();
-  if      (page === 'board')            renderBoard();
-  else if (page === 'detail' && postId) { curPostId = postId; renderDetail(postId); }
+  if      (page === 'board')            { history.replaceState(null,'',`?board=${curBoard}`); renderBoard(); }
+  else if (page === 'detail' && postId) { curPostId = postId; history.replaceState(null,'',`?board=${curBoard}&post=${postId}`); renderDetail(postId); }
   else if (page === 'write')            setupWrite(postId);
   else if (page === 'admin')            renderAdmin();
 }
@@ -1712,10 +1712,20 @@ window.addEventListener('beforeunload', () => objURLs.forEach(u => URL.revokeObj
     if (curPage === 'board') renderBoard();
   });
 
+  const params = new URLSearchParams(location.search);
+  const paramBoard = params.get('board');
+  const paramPost  = params.get('post');
   const hash = location.hash.replace('#', '');
-  const initial = (hash && BOARDS[hash] && hash !== 'qna') ? hash : 'notice';
-  go('board');
-  selectBoard(initial);
+  const initial = (paramBoard && BOARDS[paramBoard] && paramBoard !== 'qna') ? paramBoard
+                : (hash && BOARDS[hash] && hash !== 'qna') ? hash : 'notice';
+  curBoard = initial;
+  if (paramPost) {
+    selectBoard(initial);
+    openPost(BOARDS[initial].table, paramPost);
+  } else {
+    go('board');
+    selectBoard(initial);
+  }
 })();
 </script>
 <script src="protect.js"></script>
