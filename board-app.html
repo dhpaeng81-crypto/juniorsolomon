@@ -1227,10 +1227,9 @@ async function renderDetail(postId) {
     </div>`;
   }
 
-  const editBtns = canEdit ? `<div class="dt-actions">
-    <button class="btn btn-outline btn-sm" onclick="go('write','${postId}')">✏️ 수정</button>
-    <button class="btn btn-danger btn-sm" onclick="delPost('${tbl}','${postId}')">🗑️ 삭제</button>
-  </div>` : '';
+  const editBtns = canEdit ? `
+    <button class="btn btn-outline btn-xs" onclick="go('write','${postId}')" style="padding:4px 10px">✏️ 수정</button>
+    <button class="btn btn-danger btn-xs" onclick="delPost('${tbl}','${postId}')" style="padding:4px 10px">🗑️ 삭제</button>` : '';
 
   const reviewStatus = (curBoard === 'review' && isAdmin() && !post.is_approved)
     ? `<div class="alert alert-warn" style="margin-top:16px">⏳ 승인 대기 중 — <button class="btn btn-success btn-xs" onclick="approveReview('${postId}')">승인하기</button></div>`
@@ -1238,7 +1237,10 @@ async function renderDetail(postId) {
 
   $('detail-body').innerHTML = `
     <div class="board-crumb">${b.icon} ${b.label}</div>
-    <h1 class="dt-title">${esc(post.title)}</h1>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:6px">
+      <h1 class="dt-title" style="margin-bottom:0;flex:1">${esc(post.title)}</h1>
+      ${canEdit ? `<div style="display:flex;gap:6px;flex-shrink:0;padding-top:2px">${editBtns}</div>` : ''}
+    </div>
     <div class="dt-meta">
       <span>✍️ ${esc(authorName)}</span>
       <span>📅 ${fmtDate(post.created_at)}</span>
@@ -1247,7 +1249,7 @@ async function renderDetail(postId) {
     </div>
     ${imgHtml}
     <div class="dt-body">${esc(post.content || post.description || '')}</div>
-    ${reviewStatus}${editBtns}
+    ${reviewStatus}
     <div class="like-section">
       <button class="like-btn" id="like-btn" onclick="toggleLike('${tbl}','${postId}')">
         <span class="like-ico">🤍</span> <span id="like-label">좋아요</span>
