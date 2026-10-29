@@ -12,6 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap">
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous"></script>
   <style>
     @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
     /* ══ DESIGN TOKENS — 주니어솔로몬 CI (인디고 + 옐로) ══ */
@@ -190,6 +191,15 @@
     .auth-footer { text-align: center; margin-top: 18px; font-size: .875rem; color: var(--muted); }
     .link { color: var(--primary); cursor: pointer; font-weight: 600; }
     .link:hover { text-decoration: underline; }
+    .auth-divider { display: flex; align-items: center; gap: 10px; margin: 16px 0; color: var(--muted); font-size: .8rem; }
+    .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .btn-kakao {
+      width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 11px 0; border-radius: var(--r-md); border: none; cursor: pointer;
+      background: #FEE500; color: #191919; font-size: .92rem; font-weight: 700;
+      font-family: inherit; transition: background 0.15s;
+    }
+    .btn-kakao:hover { background: #f5dc00; }
 
     /* ══ FORM ══ */
     .fg { margin-bottom: 16px; }
@@ -639,6 +649,13 @@
 <!-- ══ 모바일 인증 바 ══ -->
 <div class="mobile-auth-bar" id="mobile-auth-bar"></div>
 
+<!-- ══ 카카오 채널 배너 ══ -->
+<div style="background:#FEE500;padding:10px 20px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:.85rem;font-weight:700;color:#191919;">
+  <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M9 1.5C4.86 1.5 1.5 4.19 1.5 7.5c0 2.07 1.22 3.89 3.06 5.03l-.78 2.88 3.36-2.22c.61.1 1.23.16 1.86.16 4.14 0 7.5-2.69 7.5-6s-3.36-6-7.5-6z" fill="#191919"/></svg>
+  카카오 채널에서 공지사항과 소식을 받아보세요
+  <button onclick="kakaoChannelFollow()" style="background:#191919;color:#FEE500;border:none;border-radius:20px;padding:4px 14px;font-size:.78rem;font-weight:800;cursor:pointer;font-family:inherit;">채널 추가</button>
+</div>
+
 <!-- ══ LOGIN ══ -->
 <div id="page-login" class="page">
   <div class="auth-shell">
@@ -648,6 +665,11 @@
       <div class="fg"><label class="fl">이메일</label><input id="lin-email" class="fi" type="email" placeholder="이메일 입력" autocomplete="email"></div>
       <div class="fg"><label class="fl">비밀번호</label><input id="lin-pw" class="fi" type="password" placeholder="비밀번호 입력" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"></div>
       <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="login()">로그인</button>
+      <div class="auth-divider"><span>또는</span></div>
+      <button class="btn-kakao" onclick="loginKakao()">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5C4.86 1.5 1.5 4.19 1.5 7.5c0 2.07 1.22 3.89 3.06 5.03l-.78 2.88 3.36-2.22c.61.1 1.23.16 1.86.16 4.14 0 7.5-2.69 7.5-6s-3.36-6-7.5-6z" fill="#000"/></svg>
+        카카오 로그인
+      </button>
       <div class="auth-footer">계정이 없으신가요? <span class="link" onclick="go('register')">회원가입</span></div>
     </div>
   </div>
@@ -831,6 +853,14 @@ async function login() {
   if (error) { toast('이메일 또는 비밀번호가 올바르지 않습니다', 'err'); return; }
   toast(`환영합니다!`, 'ok');
   go('board');
+}
+
+async function loginKakao() {
+  const { error } = await sb.auth.signInWithOAuth({
+    provider: 'kakao',
+    options: { redirectTo: location.href }
+  });
+  if (error) toast('카카오 로그인 오류: ' + error.message, 'err');
 }
 
 async function register() {
@@ -1729,6 +1759,18 @@ window.addEventListener('beforeunload', () => objURLs.forEach(u => URL.revokeObj
     selectBoard(initial);
   }
 })();
+
+// ── Kakao SDK 초기화 ──
+if (window.Kakao && !Kakao.isInitialized()) {
+  Kakao.init('70db9b271e8599f37740f7e98e310db6');
+}
+function kakaoChannelFollow() {
+  if (!window.Kakao || !Kakao.isInitialized()) {
+    window.open('https://pf.kakao.com/_xadGxnxb', '_blank', 'noopener');
+    return;
+  }
+  Kakao.Channel.followChannel({ channelPublicId: '_xadGxnxb' });
+}
 </script>
 <script src="protect.js"></script>
 </body>
