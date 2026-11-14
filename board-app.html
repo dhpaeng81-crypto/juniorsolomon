@@ -1677,10 +1677,11 @@ function $(id)  { return document.getElementById(id); }
 function $v(id) { return ($(id)?.value || '').trim(); }
 function esc(s) { if (!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function linkify(s) {
-  return esc(s).replace(/(https?:\/\/(?:(?!&quot;|&lt;|&gt;)[^\s<])+)/g, m => {
+  return esc(s).replace(/((?:https?:\/\/|www\.)(?:(?!&quot;|&lt;|&gt;)[^\s<])+)/g, m => {
     const t = m.match(/[.,;:!?)\]'”’]+$/); const tail = t ? t[0] : '';
     const url = tail ? m.slice(0, -tail.length) : m;
-    return '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="dt-link">' + url + '</a>' + tail;
+    const href = /^https?:\/\//.test(url) ? url : 'https://' + url;
+    return '<a href="' + href + '" target="_blank" rel="noopener noreferrer" class="dt-link">' + url + '</a>' + tail;
   });
 }
 function fmtDate(iso) {
