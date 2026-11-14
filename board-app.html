@@ -352,6 +352,7 @@
     .dt-title { font-size: 1.35rem; font-weight: 800; margin-bottom: 10px; line-height: 1.38; letter-spacing: -0.03em; }
     .dt-meta { display: flex; gap: 14px; flex-wrap: wrap; font-size: .8rem; color: var(--muted); padding-bottom: 20px; border-bottom: 1px solid oklch(92% 0 0); margin-bottom: 24px; }
     .dt-meta span { display: flex; align-items: center; gap: 4px; }
+    .dt-link { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; word-break: break-all; }
     .dt-body { font-family: 'Noto Serif KR', 'Noto Serif', Georgia, serif; font-size: .95rem; line-height: 2.0; white-space: pre-wrap; word-break: break-word; color: var(--ink-2); }
     .media-section-title { font-size: .88rem; font-weight: 700; margin: 26px 0 10px; color: var(--ink); display: flex; align-items: center; gap: 6px; }
     .media-section-title span { color: var(--muted); font-weight: 500; }
@@ -1272,7 +1273,7 @@ async function renderDetail(postId) {
       <span>👁 ${(post.views || 0) + 1}</span>
     </div>
     ${imgHtml}
-    <div class="dt-body">${esc(post.content || post.description || '')}</div>
+    <div class="dt-body">${linkify(post.content || post.description || '')}</div>
     ${reviewStatus}
     <div class="like-section">
       <button class="like-btn" id="like-btn" onclick="toggleLike('${tbl}','${postId}')">
@@ -1675,6 +1676,13 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLbx(); 
 function $(id)  { return document.getElementById(id); }
 function $v(id) { return ($(id)?.value || '').trim(); }
 function esc(s) { if (!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function linkify(s) {
+  return esc(s).replace(/(https?:\/\/(?:(?!&quot;|&lt;|&gt;)[^\s<])+)/g, m => {
+    const t = m.match(/[.,;:!?)\]'”’]+$/); const tail = t ? t[0] : '';
+    const url = tail ? m.slice(0, -tail.length) : m;
+    return '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="dt-link">' + url + '</a>' + tail;
+  });
+}
 function fmtDate(iso) {
   if (!iso) return '';
   const d = new Date(iso);
