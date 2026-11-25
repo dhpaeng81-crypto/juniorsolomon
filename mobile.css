@@ -9,11 +9,13 @@
 
 /* ── 전체 너비 제한 해제 ── */
 * { box-sizing: border-box; }
+h1, h2, h3, p, li, blockquote { word-break: keep-all; }
+h1, h2, h3, blockquote { text-wrap: balance; }
 img { max-width: 100%; }
 
 /* ── 헤더 ── */
 @media (max-width: 900px) {
-  header > div { padding: 12px 16px !important; gap: 12px !important; }
+  header > div { padding: 12px 20px !important; gap: 12px !important; }
   header > div > a:first-child > img { height: 52px !important; }
   header nav { display: none !important; }
   header > div > a:last-child {
@@ -31,14 +33,15 @@ img { max-width: 100%; }
   section[style*="padding:56px"]  { padding: 40px 0 !important; }
 
   /* 내부 컨테이너 좌우 패딩 */
-  div[style*="max-width:1000px"][style*="padding:0 32px"] { padding: 0 16px !important; }
-  div[style*="max-width:1200px"][style*="padding:0 32px"] { padding: 0 16px !important; }
-  div[style*="max-width:760px"][style*="padding:0 32px"]  { padding: 0 16px !important; }
-  div[style*="max-width:640px"][style*="padding:0 32px"]  { padding: 0 16px !important; }
-  div[style*="max-width:480px"][style*="padding:0 32px"]  { padding: 0 16px !important; }
+  div[style*="max-width:1000px"][style*="padding:0 32px"] { padding: 0 20px !important; }
+  div[style*="max-width:1200px"][style*="padding:0 32px"] { padding: 0 20px !important; }
+  div[style*="max-width:760px"][style*="padding:0 32px"]  { padding: 0 20px !important; }
+  div[style*="max-width:640px"][style*="padding:0 32px"]  { padding: 0 20px !important; }
+  div[style*="max-width:480px"][style*="padding:0 32px"]  { padding: 0 20px !important; }
 
   /* 제목 크기 */
   h1[style*="font-size:40px"] { font-size: 26px !important; }
+  h2[style*="font-size:34px"] { font-size: 26px !important; }
   h2[style*="font-size:32px"] { font-size: 24px !important; }
   h2[style*="font-size:28px"] { font-size: 22px !important; }
   h2[style*="font-size:26px"] { font-size: 20px !important; }
@@ -49,6 +52,7 @@ img { max-width: 100%; }
   div[style*="grid-template-columns:repeat(4,1fr)"]  { grid-template-columns: 1fr 1fr !important; }
   div[style*="grid-template-columns:repeat(2,1fr)"]  { grid-template-columns: 1fr !important; }
   div[style*="grid-template-columns:1fr 1fr"]        { grid-template-columns: 1fr !important; }
+  div[style*="grid-template-columns:1.1fr 1fr"]      { grid-template-columns: 1fr !important; gap: 24px !important; }
   div[style*="grid-template-columns:2fr 1fr 1fr 1fr"]{ grid-template-columns: 1fr 1fr !important; }
   div[style*="grid-template-columns:2fr 1fr 1fr"]    { grid-template-columns: 1fr !important; }
   div[style*="grid-template-columns:300px 1fr"]      { grid-template-columns: 1fr !important; }
